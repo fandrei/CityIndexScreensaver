@@ -31,17 +31,18 @@ namespace CityIndexScreensaver
 				_streamingClient.Connect();
 
 				_streamListener = _streamingClient.BuildListener<PriceDTO>("PRICES.PRICE.71442");
+				_streamListener.MessageRecieved += OnMessageRecieved;
 				_streamListener.Start();
-				_streamListener.MessageRecieved +=
-					(s, val) =>
-					{
-						Debug.WriteLine(val.ToString());
-					};
 			}
 			catch (Exception exc)
 			{
 				onError(exc);
 			}
+		}
+
+		private void OnMessageRecieved(object s, MessageEventArgs<PriceDTO> val)
+		{
+			Debug.WriteLine("\r\n\r\n\r\n\r\n\r\n\r\n" + val.Data.Price);
 		}
 
 		public void Dispose()
