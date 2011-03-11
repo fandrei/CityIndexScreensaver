@@ -30,12 +30,12 @@ namespace CityIndexScreensaver
 					STREAMING_URI, USERNAME, _client.SessionId);
 				_streamingClient.Connect();
 
-				_streamListener = _streamingClient.BuildListener<PriceDTO>("PRICES.PRICE.400481147");
+				_streamListener = _streamingClient.BuildListener<PriceDTO>("PRICES.PRICE.71442");
 				_streamListener.Start();
 				_streamListener.MessageRecieved +=
-					(s, e) =>
+					(s, val) =>
 					{
-						Debug.WriteLine(e.ToString());
+						Debug.WriteLine(val.ToString());
 					};
 			}
 			catch (Exception exc)
