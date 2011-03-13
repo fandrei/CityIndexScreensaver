@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 using CIAPI.DTO;
 
@@ -24,6 +25,7 @@ namespace CityIndexScreensaver
 		public ChartControl()
 		{
 			InitializeComponent();
+			InitTimer();
 		}
 
 		public void AddItem(PriceTickDTO item)
@@ -38,7 +40,7 @@ namespace CityIndexScreensaver
 			if (_items.Count == 0)
 				return;
 
-			var minPrice = (double)_items.Min(x => x.Price);
+			//var minPrice = (double)_items.Min(x => x.Price);
 			var maxPrice = (double)_items.Max(x => x.Price);
 			if (maxPrice * _heightScale > Chart.ActualHeight)
 			{
@@ -48,23 +50,11 @@ namespace CityIndexScreensaver
 					_heightScale /= 2;
 			}
 
-			double maxTimeDistance = 0;
-			PriceTickDTO prevItem = null;
-			foreach (var item in _items)
-			{
-				if (prevItem != null)
-				{
-					var distance = GetDistance(prevItem, item);
-					maxTimeDistance = Math.Max(maxTimeDistance, distance);
-				}
-				prevItem = item;
-			}
-
-			double offset = 0;
+			double offset = _startOffset;
 			double prevOffset = offset;
 			double prevPrice = 0;
 
-			prevItem = null;
+			PriceTickDTO prevItem = null;
 			foreach (var item in _items)
 			{
 				var price = (double)item.Price;
@@ -80,22 +70,6 @@ namespace CityIndexScreensaver
 				prevOffset = offset;
 				prevPrice = price;
 				prevItem = item;
-			}
-
-			var offsetExceeded = offset - Chart.ActualWidth;
-			if (offsetExceeded > 0)
-			{
-				offset = 0;
-				prevItem = null;
-				var i = 0;
-				while (offset < offsetExceeded)
-				{
-					var item = _items[i++];
-					if (prevItem != null)
-						offset += GetDistance(prevItem, item);
-					prevItem = item;
-				}
-				_items.RemoveRange(0, i);
 			}
 		}
 
@@ -116,9 +90,45 @@ namespace CityIndexScreensaver
 			};
 		}
 
-		private double _heightScale = 1;
-		private double _timeScale = 100;
+		private void InitTimer()
+		{
+			_timer.Interval = TimeSpan.FromMilliseconds(TimerPeriodMsecs);
+			_timer.Tick += TimerTick;
+			_timer.Start();
+		}
+
+		public void TimerTick(object o, EventArgs sender)
+		{
+			if (Chart.Children.Count == 0)
+				return;
+
+			double maxOffset = 0;
+			foreach (Line line in Chart.Children)
+			{
+				maxOffset = Math.Max(maxOffset, line.X2);
+			}
+
+			var offsetExceeded = maxOffset - (Chart.ActualWidth - _timeGap * _timeScale);
+			var shiftSpeed = offsetExceeded > 0 ? offsetExceeded * 2 : 0;
+
+			var shiftSize = shiftSpeed * TimerPeriodMsecs / 1000;
+			_startOffset -= shiftSize;
+
+			foreach (Line line in Chart.Children)
+			{
+				line.X1 -= shiftSize;
+				line.X2 -= shiftSize;
+			}
+		}
 
 		readonly List<PriceTickDTO> _items = new List<PriceTickDTO>();
+
+		private double _heightScale = 1;
+		private double _timeScale = 100;
+		private double _startOffset;
+		private double _timeGap = 1;
+
+		readonly DispatcherTimer _timer = new DispatcherTimer();
+		private const int TimerPeriodMsecs = 50;
 	}
 }
