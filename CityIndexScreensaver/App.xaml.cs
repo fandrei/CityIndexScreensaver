@@ -23,6 +23,8 @@ namespace CityIndexScreensaver
 			}
 
 			var firstArg = args[0].ToLower();
+
+			// config
 			if (firstArg == "/c")
 			{
 				Application.Current.Shutdown();
@@ -38,8 +40,12 @@ namespace CityIndexScreensaver
 
 			// show in debug mode
 			if (firstArg == "/d")
+			{
+				State.IsDebug = true;
 				return;
+			}
 
+			// windowed preview
 			if (firstArg == "/p")
 			{
 				Application.Current.Shutdown();

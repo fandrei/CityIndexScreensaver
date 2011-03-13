@@ -8,5 +8,6 @@ namespace CityIndexScreensaver
 	static class State
 	{
 		public static bool IsFullScreen { get; set; }
+		public static bool IsDebug { get; set; }
 	}
 }

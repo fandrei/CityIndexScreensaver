@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using CIAPI.DTO;
+
 namespace CityIndexScreensaver
 {
 	/// <summary>
@@ -31,7 +33,11 @@ namespace CityIndexScreensaver
 
 		private void Grid_MouseMove(object sender, MouseEventArgs e)
 		{
-			//CloseApp();
+			if (!State.IsDebug)
+			{
+				if (_startTime != DateTime.MinValue && (DateTime.Now - _startTime).TotalSeconds > IgnoreMouseDelaySecs)
+					CloseApp();
+			}
 		}
 
 		void CloseApp()
@@ -41,9 +47,21 @@ namespace CityIndexScreensaver
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			_startTime = DateTime.Now;
+
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
-			_data.GetData(() => { }, ReportException);
+
+			_data.GetData(OnPriceTickUpdate, ReportException);
+		}
+
+		private void OnPriceTickUpdate(PriceTickDTO val)
+		{
+			DispatcherBeginInvoke(
+				() =>
+				{
+					Chart.AddItem(val);
+				});
 		}
 
 		private void Window_Unloaded(object sender, RoutedEventArgs e)
@@ -64,22 +82,22 @@ namespace CityIndexScreensaver
 
 		private void ReportException(Exception exc)
 		{
-			var d = new Action(
-				() => ReportExceptionDirectly(exc));
-			Dispatcher.BeginInvoke(d, null);
+			DispatcherBeginInvoke(() => ReportExceptionDirectly(exc));
+		}
+
+		void DispatcherBeginInvoke(Action action)
+		{
+			Dispatcher.BeginInvoke(action, null);
 		}
 
 		private void ReportExceptionDirectly(Exception exc)
 		{
-			string msg;
-#if DEBUG
-			msg = exc.ToString();
-#else
-			msg = exc.Message;
-#endif
+			var msg = State.IsDebug ? exc.ToString() : exc.Message;
 			MessageBox.Show(msg);
 		}
 
 		readonly Data _data = new Data();
+		private DateTime _startTime;
+		private const int IgnoreMouseDelaySecs = 3;
 	}
 }

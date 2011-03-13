@@ -13,12 +13,14 @@ namespace CityIndexScreensaver
 {
 	class Data : IDisposable
 	{
-		public void GetData(Action onSuccess, Action<Exception> onError)
+		public void GetData(Action<PriceTickDTO> onUpdate, Action<Exception> onError)
 		{
-			ThreadPool.QueueUserWorkItem(x => GetDataThreadEntry(onSuccess, onError));
+			const string topic = "PRICES.PRICE.154297";
+			//ThreadPool.QueueUserWorkItem(x => GetDataThreadEntry(topic, onUpdate, onError));
+			ThreadPool.QueueUserWorkItem(x => GetDummyDataThreadEntry(topic, onUpdate, onError));
 		}
 
-		void GetDataThreadEntry(Action onSuccess, Action<Exception> onError)
+		void GetDataThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)
 		{
 			try
 			{
@@ -26,13 +28,23 @@ namespace CityIndexScreensaver
 
 				_client.LogIn(USERNAME, PASSWORD);
 
+				//var bars = _client.GetPriceBars("71442", "MINUTE", 1, "15");
+
 				_streamingClient = StreamingClientFactory.CreateStreamingClient(
 					STREAMING_URI, USERNAME, _client.SessionId);
 				_streamingClient.Connect();
 
-				_streamListener = _streamingClient.BuildListener<PriceDTO>("PRICES.PRICE.71442");
-				_streamListener.MessageRecieved += OnMessageRecieved;
-				_streamListener.Start();
+				//_priceListener = _streamingClient.BuildListener<PriceDTO>(topic);
+				//_priceListener.MessageRecieved += priceListener_MessageRecieved;
+				//_priceListener.Start();
+
+				//_priceBarListener = _streamingClient.BuildListener<PriceBarDTO>(topic);
+				//_priceBarListener.MessageRecieved += priceBarListener_MessageRecieved;
+				//_priceBarListener.Start();
+
+				_priceTicksListener = _streamingClient.BuildListener<PriceTickDTO>(topic);
+				_priceTicksListener.MessageRecieved += priceTicksListener_MessageRecieved;
+				_priceTicksListener.Start();
 			}
 			catch (Exception exc)
 			{
@@ -40,17 +52,61 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		private void OnMessageRecieved(object s, MessageEventArgs<PriceDTO> val)
+		static void GetDummyDataThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)
 		{
-			Debug.WriteLine("\r\n\r\n\r\n\r\n\r\n\r\n" + val.Data.Price);
+			try
+			{
+				var random = new Random();
+				var price = Convert.ToDecimal(random.NextDouble()*10000);
+				while (true)
+				{
+					var data = new PriceTickDTO { Price = price, TickDate = DateTime.Now };
+					var delta = Convert.ToDecimal(random.NextDouble() * 1000 - 500);
+					price += delta;
+					if (price <= 0)
+						price = Math.Abs(price + delta);
+					onUpdate(data);
+					Thread.Sleep(random.Next(300));
+				}
+			}
+			catch (Exception exc)
+			{
+				onError(exc);
+			}
+		}
+
+		private void priceListener_MessageRecieved(object s, MessageEventArgs<PriceDTO> val)
+		{
+			Debug.WriteLine("\r\n\r\n\r\n\r\n\r\n\r\n--------------------------------------\r\nPrice: " + val.Data.TickDate + "\r\n--------------------------------------\r\n");
+		}
+
+		void priceBarListener_MessageRecieved(object sender, MessageEventArgs<PriceBarDTO> val)
+		{
+			Debug.WriteLine("\r\n\r\n\r\n\r\n\r\n\r\n--------------------------------------\r\nPriceBar: " + val.Data.BarDate + "\r\n--------------------------------------\r\n");
+		}
+
+		void priceTicksListener_MessageRecieved(object sender, MessageEventArgs<PriceTickDTO> val)
+		{
+			Debug.WriteLine("\r\n--------------------------------------\r\n");
+			Debug.WriteLine("PriceTick: {0} {1}\r\n", val.Data.Price, val.Data.TickDate);
 		}
 
 		public void Dispose()
 		{
-			if (_streamListener != null)
+			if (_priceTicksListener != null)
 			{
-				_streamListener.Stop();
-				_streamListener = null;
+				_priceTicksListener.Stop();
+				_priceTicksListener = null;
+			}
+			if (_priceBarListener != null)
+			{
+				_priceBarListener.Stop();
+				_priceBarListener = null;
+			}
+			if (_priceListener != null)
+			{
+				_priceListener.Stop();
+				_priceListener = null;
 			}
 			if (_streamingClient != null)
 			{
@@ -72,6 +128,8 @@ namespace CityIndexScreensaver
 
 		private Client _client;
 		private IStreamingClient _streamingClient;
-		private IStreamingListener<PriceDTO> _streamListener;
+		private IStreamingListener<PriceDTO> _priceListener;
+		private IStreamingListener<PriceBarDTO> _priceBarListener;
+		private IStreamingListener<PriceTickDTO> _priceTicksListener;
 	}
 }
