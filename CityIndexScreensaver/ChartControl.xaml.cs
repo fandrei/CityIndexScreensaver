@@ -42,10 +42,11 @@ namespace CityIndexScreensaver
 
 			var minPrice = (double)_items.Min(x => x.Price);
 			var maxPrice = (double)_items.Max(x => x.Price);
-			if (maxPrice * _heightScale > Chart.ActualHeight)
+			var diffPrice = maxPrice - minPrice;
+			if (diffPrice * _heightScale > Chart.ActualHeight)
 			{
 				var initialScale = (_heightScale == 1);
-				_heightScale = Chart.ActualHeight / maxPrice;
+				_heightScale = Chart.ActualHeight / diffPrice;
 				if (initialScale)
 					_heightScale /= 2;
 			}
@@ -112,7 +113,7 @@ namespace CityIndexScreensaver
 			}
 
 			var offsetExceeded = maxOffset - (Chart.ActualWidth - _timeGap * _timeScale);
-			var shiftSpeed = offsetExceeded > 0 ? offsetExceeded * 2 : 0;
+			var shiftSpeed = offsetExceeded > 0 ? offsetExceeded * 2 / _timeGap : 0;
 
 			var shiftSize = shiftSpeed * TimerPeriodMsecs / 1000;
 			_startOffset -= shiftSize;
