@@ -40,7 +40,7 @@ namespace CityIndexScreensaver
 			if (_items.Count == 0)
 				return;
 
-			//var minPrice = (double)_items.Min(x => x.Price);
+			var minPrice = (double)_items.Min(x => x.Price);
 			var maxPrice = (double)_items.Max(x => x.Price);
 			if (maxPrice * _heightScale > Chart.ActualHeight)
 			{
@@ -50,6 +50,9 @@ namespace CityIndexScreensaver
 					_heightScale /= 2;
 			}
 
+			MinLabel.Content = minPrice.ToString();
+			MaxLabel.Content = maxPrice.ToString();
+
 			double offset = _startOffset;
 			double prevOffset = offset;
 			double prevPrice = 0;
@@ -57,7 +60,7 @@ namespace CityIndexScreensaver
 			PriceTickDTO prevItem = null;
 			foreach (var item in _items)
 			{
-				var price = (double)item.Price;
+				var price = (double)item.Price - minPrice + 1;
 				if (prevPrice == 0)
 					prevPrice = price;
 
