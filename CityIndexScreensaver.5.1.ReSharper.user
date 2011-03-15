@@ -1,0 +1,40 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="new" priority="0" />
+      <Item value="List`0" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="2357" fromTop="33" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="7543" fromTop="211" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="969" fromTop="7" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="2569" fromTop="23" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="6193" fromTop="23" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="1944" fromTop="15" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="1456" fromTop="6" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:PriceFixture.cs" caret="2391" fromTop="25" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir IsNull="False">
+    </NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+</Configuration>
