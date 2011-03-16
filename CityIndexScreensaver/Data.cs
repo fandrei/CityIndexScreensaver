@@ -22,8 +22,8 @@ namespace CityIndexScreensaver
 		{
 			const string topic = "PRICES.PRICE.154297";
 			//const string topic = "PRICES.PRICE.71442";
-			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate, onError));
-			//ThreadPool.QueueUserWorkItem(x => GetDummyDataThreadEntry(onUpdate, onError));
+			//ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate, onError));
+			ThreadPool.QueueUserWorkItem(x => GetDummyDataThreadEntry(onUpdate, onError));
 		}
 
 		void SubscribePricesThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)

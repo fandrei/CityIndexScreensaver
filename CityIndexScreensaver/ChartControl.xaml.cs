@@ -32,6 +32,9 @@ namespace CityIndexScreensaver
 		public void AddItem(PriceTickDTO item)
 		{
 			_items.Add(item);
+			if (_items.Count == 1) // need at least two points to make a line
+				_items.Add(item);
+
 			RebuildLines();
 		}
 
@@ -60,6 +63,7 @@ namespace CityIndexScreensaver
 			double prevPrice = 0;
 
 			PriceTickDTO prevItem = null;
+			int i = 0;
 			foreach (var item in _items)
 			{
 				var price = (double)item.Price - minPrice + 1;
@@ -67,14 +71,19 @@ namespace CityIndexScreensaver
 					prevPrice = price;
 
 				if (prevItem != null)
+				{
 					offset += GetDistance(prevItem, item);
 
-				var line = CreateLine(prevPrice, price, prevOffset, offset);
-				Chart.Children.Add(line);
+					var line = CreateLine(prevPrice, price, prevOffset, offset);
+					line.Tag = i - 1;
+					Chart.Children.Add(line);
 
-				prevOffset = offset;
+					prevOffset = offset;
+				}
+
 				prevPrice = price;
 				prevItem = item;
+				i++;
 			}
 		}
 
@@ -128,14 +137,15 @@ namespace CityIndexScreensaver
 					lastInvisible = line;
 			}
 
-			//if (lastInvisible != null)
-			//{
-			//    _startOffset = lastInvisible.X2;
-			//    //Chart.Children.RemoveRange(0, lastInvisibleIndex + 1);
-			//    //_items.RemoveRange(0, lastInvisibleIndex + 1);
+			if (lastInvisible != null)
+			{
+				_startOffset = lastInvisible.X2;
+				Debug.Assert(_startOffset <= 0);
+				var lastInvisibleIndex = (int)lastInvisible.Tag;
+				_items.RemoveRange(0, lastInvisibleIndex + 1);
 
-			//    //RebuildLines();
-			//}
+				RebuildLines();
+			}
 		}
 
 		readonly List<PriceTickDTO> _items = new List<PriceTickDTO>();
