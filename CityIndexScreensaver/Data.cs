@@ -13,64 +13,82 @@ namespace CityIndexScreensaver
 {
 	class Data : IDisposable
 	{
-		public void GetNews(Action<NewsDTO[]> onUpdate, Action<Exception> onError)
+		public Data(Action<Exception> onError)
 		{
-			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry(onUpdate, onError));
+			_onError = onError;
 		}
 
-		public void SubscribePrices(Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		private readonly Action<Exception> _onError;
+
+		public void SubscribeNews(Action<NewsDTO[]> onUpdate)
+		{
+			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry(onUpdate));
+		}
+
+		public void SubscribePriceTicks(Action<PriceTickDTO> onUpdate)
 		{
 			const string topic = "PRICES.PRICE.154297";
 			//const string topic = "PRICES.PRICE.71442";
-			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate, onError));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate, onError));
+			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
-		void SubscribePriceTicksThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		void EnsureConnection()
 		{
 			try
 			{
-				_client = new Client(RPC_URI);
+				if (_client == null)
+				{
+					_client = new Client(RPC_URI);
+					_client.LogIn(USERNAME, PASSWORD);
+				}
 
-				_client.LogIn(USERNAME, PASSWORD);
+				if (_streamingClient == null)
+				{
+					_streamingClient = StreamingClientFactory.CreateStreamingClient(
+						STREAMING_URI, USERNAME, _client.SessionId);
+					_streamingClient.Connect();
+				}
+			}
+			catch (Exception exc)
+			{
+				_onError(exc);
+			}
+		}
 
-				_streamingClient = StreamingClientFactory.CreateStreamingClient(
-					STREAMING_URI, USERNAME, _client.SessionId);
-				_streamingClient.Connect();
+		void SubscribePriceTicksThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
+		{
+			EnsureConnection();
 
+			try
+			{
 				_priceTicksListener = _streamingClient.BuildListener<PriceTickDTO>(topic);
 				_priceTicksListener.MessageRecieved += priceTicksListener_MessageRecieved;
 				_priceTicksListener.Start();
 			}
 			catch (Exception exc)
 			{
-				onError(exc);
+				_onError(exc);
 			}
 		}
 
-		void SubscribePricesThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		void SubscribePricesThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
 		{
+			EnsureConnection();
+
 			try
 			{
-				_client = new Client(RPC_URI);
-
-				_client.LogIn(USERNAME, PASSWORD);
-
-				_streamingClient = StreamingClientFactory.CreateStreamingClient(
-					STREAMING_URI, USERNAME, _client.SessionId);
-				_streamingClient.Connect();
-
 				_priceListener = _streamingClient.BuildListener<PriceDTO>(topic);
 				_priceListener.MessageRecieved += priceListener_MessageRecieved;
 				_priceListener.Start();
 			}
 			catch (Exception exc)
 			{
-				onError(exc);
+				_onError(exc);
 			}
 		}
 
-		static void GenerateDummyPriceTicksThreadEntry(Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		void GenerateDummyPriceTicksThreadEntry(Action<PriceTickDTO> onUpdate)
 		{
 			try
 			{
@@ -89,7 +107,7 @@ namespace CityIndexScreensaver
 			}
 			catch (Exception exc)
 			{
-				onError(exc);
+				_onError(exc);
 			}
 		}
 
@@ -111,7 +129,7 @@ namespace CityIndexScreensaver
 			Debug.WriteLine("PriceTick: {0} {1}\r\n", val.Data.Price, val.Data.TickDate);
 		}
 
-		void SubscribeNewsThreadEntry(Action<NewsDTO[]> onSuccess, Action<Exception> onError)
+		void SubscribeNewsThreadEntry(Action<NewsDTO[]> onSuccess)
 		{
 			try
 			{
@@ -125,7 +143,7 @@ namespace CityIndexScreensaver
 			}
 			catch (Exception exc)
 			{
-				onError(exc);
+				_onError(exc);
 			}
 		}
 

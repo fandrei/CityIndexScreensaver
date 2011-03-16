@@ -26,6 +26,23 @@ namespace CityIndexScreensaver
 			InitializeComponent();
 		}
 
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			_data = new Data(ReportException);
+			_startTime = DateTime.Now;
+
+			if (State.IsFullScreen)
+				SetWindowFullScreen();
+
+			_data.SubscribePriceTicks(OnPriceTickUpdate);
+
+			_data.SubscribeNews(
+				news => DispatcherBeginInvoke(() =>
+				{
+					NewsTicker.DataContext = news;
+				}));
+		}
+
 		private void Grid_KeyDown(object sender, KeyEventArgs e)
 		{
 			CloseApp();
@@ -43,22 +60,6 @@ namespace CityIndexScreensaver
 		void CloseApp()
 		{
 			Application.Current.Shutdown();
-		}
-
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			_startTime = DateTime.Now;
-
-			if (State.IsFullScreen)
-				SetWindowFullScreen();
-
-			_data.SubscribePrices(OnPriceTickUpdate, ReportException);
-			_data.GetNews(
-				news => DispatcherBeginInvoke(() =>
-				{
-					NewsTicker.DataContext = news;
-				}),
-				ReportException);
 		}
 
 		private void OnPriceTickUpdate(PriceTickDTO val)
@@ -102,7 +103,7 @@ namespace CityIndexScreensaver
 			MessageBox.Show(msg);
 		}
 
-		readonly Data _data = new Data();
+		Data _data;
 		private DateTime _startTime;
 		private const int IgnoreMouseDelaySecs = 3;
 	}
