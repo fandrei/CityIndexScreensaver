@@ -13,14 +13,20 @@ namespace CityIndexScreensaver
 {
 	class Data : IDisposable
 	{
-		public void GetData(Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		public void GetNews(Action<NewsDTO[]> onUpdate, Action<Exception> onError)
 		{
-			const string topic = "PRICES.PRICE.154297";
-			//ThreadPool.QueueUserWorkItem(x => GetDataThreadEntry(topic, onUpdate, onError));
-			ThreadPool.QueueUserWorkItem(x => GetDummyDataThreadEntry(topic, onUpdate, onError));
+			ThreadPool.QueueUserWorkItem(x => GetNewsSyncThreadEntry(onUpdate, onError));
 		}
 
-		void GetDataThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		public void SubscribePrices(Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		{
+			const string topic = "PRICES.PRICE.154297";
+			//const string topic = "PRICES.PRICE.71442";
+			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate, onError));
+			//ThreadPool.QueueUserWorkItem(x => GetDummyDataThreadEntry(onUpdate, onError));
+		}
+
+		void SubscribePricesThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)
 		{
 			try
 			{
@@ -52,7 +58,7 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		static void GetDummyDataThreadEntry(string topic, Action<PriceTickDTO> onUpdate, Action<Exception> onError)
+		static void GetDummyDataThreadEntry(Action<PriceTickDTO> onUpdate, Action<Exception> onError)
 		{
 			try
 			{
@@ -66,7 +72,7 @@ namespace CityIndexScreensaver
 					if (price <= 0)
 						price = Math.Abs(price + delta);
 					onUpdate(data);
-					Thread.Sleep(random.Next(300));
+					Thread.Sleep(random.Next(1000));
 				}
 			}
 			catch (Exception exc)
@@ -77,18 +83,58 @@ namespace CityIndexScreensaver
 
 		private void priceListener_MessageRecieved(object s, MessageEventArgs<PriceDTO> val)
 		{
-			Debug.WriteLine("\r\n\r\n\r\n\r\n\r\n\r\n--------------------------------------\r\nPrice: " + val.Data.TickDate + "\r\n--------------------------------------\r\n");
+			Debug.WriteLine("\r\n--------------------------------------\r\n");
+			Debug.WriteLine("Price: {0} {1}\r\n", val.Data.Price, val.Data.TickDate);
 		}
 
 		void priceBarListener_MessageRecieved(object sender, MessageEventArgs<PriceBarDTO> val)
 		{
-			Debug.WriteLine("\r\n\r\n\r\n\r\n\r\n\r\n--------------------------------------\r\nPriceBar: " + val.Data.BarDate + "\r\n--------------------------------------\r\n");
+			Debug.WriteLine("\r\n--------------------------------------\r\n");
+			Debug.WriteLine("PriceBar: {0} {1}\r\n", val.Data.Close, val.Data.BarDate);
 		}
 
 		void priceTicksListener_MessageRecieved(object sender, MessageEventArgs<PriceTickDTO> val)
 		{
 			Debug.WriteLine("\r\n--------------------------------------\r\n");
 			Debug.WriteLine("PriceTick: {0} {1}\r\n", val.Data.Price, val.Data.TickDate);
+		}
+
+		public NewsDTO[] GetNewsDummy()
+		{
+			var dummyList = new List<NewsDTO>();
+			for (int i = 0; i < 10; i++)
+			{
+				var text = "news " + i;
+				for (int t = 0; t < 5; t++)
+					text += text;
+				dummyList.Add(
+					new NewsDTO
+					{
+						Headline = text,
+						PublishDate = DateTime.Now,
+						StoryId = i
+					});
+			}
+
+			return dummyList.ToArray();
+		}
+
+		void GetNewsSyncThreadEntry(Action<NewsDTO[]> onSuccess, Action<Exception> onError)
+		{
+			try
+			{
+				var client = new Client(RPC_URI);
+				client.LogIn(USERNAME, PASSWORD);
+				var resp = client.ListNewsHeadlines("UK", 20);
+				client.LogOut();
+
+				onSuccess(resp.Headlines);
+
+			}
+			catch (Exception exc)
+			{
+				onError(exc);
+			}
 		}
 
 		public void Dispose()

@@ -7,7 +7,7 @@
              d:DesignHeight="100" d:DesignWidth="300">
     <Grid>
         <Canvas HorizontalAlignment="Stretch" Name="Chart" VerticalAlignment="Stretch" Background="DimGray" ClipToBounds="True" />
-        <Label Content="Label" Name="MaxLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="LightPink"/>
-        <Label Content="Label" Name="MinLabel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="LightPink"/>
+        <Label Content="Max" Name="MaxLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="LightPink"/>
+        <Label Content="Min" Name="MinLabel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="LightPink"/>
     </Grid>
 </UserControl>

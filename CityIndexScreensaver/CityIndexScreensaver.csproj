@@ -77,7 +77,16 @@
     <Compile Include="ChartControl.xaml.cs">
       <DependentUpon>ChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PriceItemControl.xaml.cs">
+      <DependentUpon>PriceItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PricesViewControl.xaml.cs">
+      <DependentUpon>PricesViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="State.cs" />
+    <Compile Include="TickerControl.xaml.cs">
+      <DependentUpon>TickerControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="ChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -95,6 +104,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PriceItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PricesViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TickerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

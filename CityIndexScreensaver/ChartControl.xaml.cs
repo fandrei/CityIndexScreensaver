@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -31,10 +32,10 @@ namespace CityIndexScreensaver
 		public void AddItem(PriceTickDTO item)
 		{
 			_items.Add(item);
-			DrawItems();
+			RebuildLines();
 		}
 
-		void DrawItems()
+		void RebuildLines()
 		{
 			Chart.Children.Clear();
 			if (_items.Count == 0)
@@ -113,16 +114,28 @@ namespace CityIndexScreensaver
 			}
 
 			var offsetExceeded = maxOffset - (Chart.ActualWidth - _timeGap * _timeScale);
-			var shiftSpeed = offsetExceeded > 0 ? offsetExceeded * 2 / _timeGap : 0;
+			var shiftSpeed = (offsetExceeded > 0) ? (offsetExceeded * 2 / _timeGap) : 0;
 
 			var shiftSize = shiftSpeed * TimerPeriodMsecs / 1000;
 			_startOffset -= shiftSize;
 
+			Line lastInvisible = null;
 			foreach (Line line in Chart.Children)
 			{
 				line.X1 -= shiftSize;
 				line.X2 -= shiftSize;
+				if (line.X2 < 0)
+					lastInvisible = line;
 			}
+
+			//if (lastInvisible != null)
+			//{
+			//    _startOffset = lastInvisible.X2;
+			//    //Chart.Children.RemoveRange(0, lastInvisibleIndex + 1);
+			//    //_items.RemoveRange(0, lastInvisibleIndex + 1);
+
+			//    //RebuildLines();
+			//}
 		}
 
 		readonly List<PriceTickDTO> _items = new List<PriceTickDTO>();

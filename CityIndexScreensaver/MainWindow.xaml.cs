@@ -52,7 +52,13 @@ namespace CityIndexScreensaver
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
-			_data.GetData(OnPriceTickUpdate, ReportException);
+			_data.SubscribePrices(OnPriceTickUpdate, ReportException);
+			_data.GetNews(
+				news => DispatcherBeginInvoke(() =>
+				{
+					NewsTicker.DataContext = news;
+				}),
+				ReportException);
 		}
 
 		private void OnPriceTickUpdate(PriceTickDTO val)
