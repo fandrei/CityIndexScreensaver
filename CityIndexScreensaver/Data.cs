@@ -29,8 +29,8 @@ namespace CityIndexScreensaver
 		{
 			const string topic = "PRICES.PRICE.154297";
 			//const string topic = "PRICES.PRICE.71442";
-			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(Action<PriceDTO> onUpdate)
@@ -45,17 +45,20 @@ namespace CityIndexScreensaver
 		{
 			try
 			{
-				if (_client == null)
+				lock (_sync)
 				{
-					_client = new Client(RPC_URI);
-					_client.LogIn(USERNAME, PASSWORD);
-				}
+					if (_client == null)
+					{
+						_client = new Client(RPC_URI);
+						_client.LogIn(USERNAME, PASSWORD);
+					}
 
-				if (_streamingClient == null)
-				{
-					_streamingClient = StreamingClientFactory.CreateStreamingClient(
-						STREAMING_URI, USERNAME, _client.SessionId);
-					_streamingClient.Connect();
+					if (_streamingClient == null)
+					{
+						_streamingClient = StreamingClientFactory.CreateStreamingClient(
+							STREAMING_URI, USERNAME, _client.SessionId);
+						_streamingClient.Connect();
+					}
 				}
 			}
 			catch (Exception exc)
@@ -191,8 +194,10 @@ namespace CityIndexScreensaver
 		private const string USERNAME = "xx189949";
 		private const string PASSWORD = "password";
 
+		object _sync = new object();
 		private Client _client;
 		private IStreamingClient _streamingClient;
+
 		private IStreamingListener<PriceDTO> _priceListener;
 		private IStreamingListener<PriceBarDTO> _priceBarListener;
 		private IStreamingListener<PriceTickDTO> _priceTicksListener;
