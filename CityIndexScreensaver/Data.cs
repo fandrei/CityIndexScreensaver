@@ -29,14 +29,14 @@ namespace CityIndexScreensaver
 		{
 			const string topic = "PRICES.PRICE.154297";
 			//const string topic = "PRICES.PRICE.71442";
-			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(Action<PriceDTO> onUpdate)
 		{
-			const string topic = "PRICES.PRICE.154297";
-			//const string topic = "PRICES.PRICE.71442";
+			//const string topic = "PRICES.PRICE.154297";
+			const string topic = "PRICES.PRICE.71442";
 			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
 			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
@@ -90,7 +90,14 @@ namespace CityIndexScreensaver
 			try
 			{
 				_priceListener = _streamingClient.BuildListener<PriceDTO>(topic);
-				_priceListener.MessageRecieved += (s, args) => onUpdate(args.Data);
+				_priceListener.MessageRecieved +=
+					(s, args) =>
+					{
+						var val = args.Data;
+						Debug.WriteLine("\r\n--------------------------------------\r\n");
+						Debug.WriteLine("Price: {0} {1}\r\n", val.Price, val.TickDate);
+						onUpdate(val);
+					};
 				_priceListener.Start();
 			}
 			catch (Exception exc)
@@ -104,7 +111,7 @@ namespace CityIndexScreensaver
 			try
 			{
 				var random = new Random();
-				var price = Convert.ToDecimal(random.NextDouble()*10000);
+				var price = Convert.ToDecimal(random.NextDouble() * 10000);
 				while (true)
 				{
 					var data = new PriceTickDTO { Price = price, TickDate = DateTime.Now };
@@ -120,12 +127,6 @@ namespace CityIndexScreensaver
 			{
 				_onError(exc);
 			}
-		}
-
-		private void priceListener_MessageRecieved(object s, MessageEventArgs<PriceDTO> val)
-		{
-			Debug.WriteLine("\r\n--------------------------------------\r\n");
-			Debug.WriteLine("Price: {0} {1}\r\n", val.Data.Price, val.Data.TickDate);
 		}
 
 		void priceBarListener_MessageRecieved(object sender, MessageEventArgs<PriceBarDTO> val)
@@ -176,15 +177,18 @@ namespace CityIndexScreensaver
 				_priceListener = null;
 			}
 
-			if (_streamingClient != null)
+			lock (_sync)
 			{
-				_streamingClient.Disconnect();
-				_streamingClient = null;
-			}
-			if (_client != null)
-			{
-				_client.BeginLogOut(ar => _client.EndLogOut(ar), null);
-				_client = null;
+				if (_streamingClient != null)
+				{
+					_streamingClient.Disconnect();
+					_streamingClient = null;
+				}
+				if (_client != null)
+				{
+					_client.BeginLogOut(ar => _client.EndLogOut(ar), null);
+					_client = null;
+				}
 			}
 		}
 

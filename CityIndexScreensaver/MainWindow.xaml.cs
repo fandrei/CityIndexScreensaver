@@ -41,6 +41,8 @@ namespace CityIndexScreensaver
 				{
 					NewsTicker.DataContext = news;
 				}));
+
+			_data.SubscribePrices(x => { });
 		}
 
 		private void Grid_KeyDown(object sender, KeyEventArgs e)
