@@ -5,7 +5,7 @@
         Title="CityIndex Screensaver" 
         Height="761" Width="733" WindowStyle="None" Background="Black" 
         KeyDown="Grid_KeyDown" MouseMove="Grid_MouseMove" 
-        Loaded="Window_Loaded" Unloaded="Window_Unloaded" 
+        Loaded="Window_Loaded"
         SnapsToDevicePixels="True" 
         WindowStartupLocation="Manual" Left="0" Top="0">
     <Grid >

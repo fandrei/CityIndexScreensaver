@@ -27,16 +27,18 @@ namespace CityIndexScreensaver
 
 		public void SubscribePriceTicks(Action<PriceTickDTO> onUpdate)
 		{
-			const string topic = "PRICES.PRICE.154297";
+			//const string topic = "PRICES.PRICE.154297";
 			//const string topic = "PRICES.PRICE.71442";
-			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			const string topic = "PRICES.PRICE.99498";
+			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(Action<PriceDTO> onUpdate)
 		{
 			//const string topic = "PRICES.PRICE.154297";
-			const string topic = "PRICES.PRICE.71442";
+			//const string topic = "PRICES.PRICE.71442";
+			const string topic = "PRICES.PRICE.99500";
 			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
 			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
@@ -74,7 +76,14 @@ namespace CityIndexScreensaver
 			try
 			{
 				_priceTicksListener = _streamingClient.BuildListener<PriceTickDTO>(topic);
-				_priceTicksListener.MessageRecieved += priceTicksListener_MessageRecieved;
+				_priceTicksListener.MessageRecieved += 
+					(s, args) =>
+						{
+							var val = args.Data;
+							Debug.WriteLine("\r\n--------------------------------------\r\n");
+							Debug.WriteLine("PriceTick: {0} {1}\r\n", val.Price, val.TickDate);
+							onUpdate(val);
+						};
 				_priceTicksListener.Start();
 			}
 			catch (Exception exc)
@@ -133,12 +142,6 @@ namespace CityIndexScreensaver
 		{
 			Debug.WriteLine("\r\n--------------------------------------\r\n");
 			Debug.WriteLine("PriceBar: {0} {1}\r\n", val.Data.Close, val.Data.BarDate);
-		}
-
-		void priceTicksListener_MessageRecieved(object sender, MessageEventArgs<PriceTickDTO> val)
-		{
-			Debug.WriteLine("\r\n--------------------------------------\r\n");
-			Debug.WriteLine("PriceTick: {0} {1}\r\n", val.Data.Price, val.Data.TickDate);
 		}
 
 		void SubscribeNewsThreadEntry(Action<NewsDTO[]> onSuccess)

@@ -31,6 +31,8 @@ namespace CityIndexScreensaver
 			_data = new Data(ReportException);
 			_startTime = DateTime.Now;
 
+			Application.Current.Exit += App_Unloaded;
+
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
@@ -43,6 +45,11 @@ namespace CityIndexScreensaver
 				}));
 
 			_data.SubscribePrices(x => { });
+		}
+
+		private void App_Unloaded(object sender, ExitEventArgs e)
+		{
+			_data.Dispose();
 		}
 
 		private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -81,11 +88,6 @@ namespace CityIndexScreensaver
 				{
 					Chart.AddItem(val);
 				});
-		}
-
-		private void Window_Unloaded(object sender, RoutedEventArgs e)
-		{
-			_data.Dispose();
 		}
 
 		private void SetWindowFullScreen()
