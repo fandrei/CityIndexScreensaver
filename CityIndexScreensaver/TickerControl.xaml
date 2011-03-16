@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="CityIndexScreensaver.TickerControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid Name="LayoutRoot" Background="White" ClipToBounds="True">
+        <StackPanel Orientation="Vertical">
+            <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="NewsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SelectionMode="Single" SizeChanged="NewsGrid_SizeChanged" MouseEnter="NewsGrid_MouseEnter" MouseLeave="NewsGrid_MouseLeave" GridLinesVisibility="None" BorderThickness="0" MouseLeftButtonUp="NewsGrid_MouseLeftButtonUp" Loaded="NewsGrid_Loaded">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Published" Binding="{Binding PublishDate}"/>
+                    <DataGridTemplateColumn Header="Headline" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Headline}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.RenderTransform>
+                    <TranslateTransform x:Name="GridTranslateTransform" />
+                </DataGrid.RenderTransform>
+                <DataGrid.Resources>
+                    <Storyboard RepeatBehavior="Forever" x:Key="NewsStoryBoard">
+                        <DoubleAnimation Storyboard.TargetName="GridTranslateTransform" Storyboard.TargetProperty="Y" />
+                    </Storyboard>
+                </DataGrid.Resources>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</UserControl>
