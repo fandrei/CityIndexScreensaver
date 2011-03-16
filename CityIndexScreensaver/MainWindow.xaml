@@ -1,13 +1,17 @@
 ﻿<Window x:Class="CityIndexScreensaver.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:CityIndexScreensaver" 
         Title="CityIndex Screensaver" 
-        Height="400" Width="733" WindowStyle="None" Background="Black" 
+        Height="761" Width="733" WindowStyle="None" Background="Black" 
         KeyDown="Grid_KeyDown" MouseMove="Grid_MouseMove" 
-        Loaded="Window_Loaded" Unloaded="Window_Unloaded" SnapsToDevicePixels="True" xmlns:my="clr-namespace:CityIndexScreensaver">
+        Loaded="Window_Loaded" Unloaded="Window_Unloaded" 
+        SnapsToDevicePixels="True" 
+        WindowStartupLocation="Manual" Left="0" Top="0">
     <Grid >
         <Image HorizontalAlignment="Left" Margin="30,30,0,0" Name="Logo" Stretch="None" VerticalAlignment="Top" Source="file:///D:/projects/CityIndexScreensaver/CityIndexScreensaver/Resources/Logo.png" />
         <my:ChartControl Height="100" HorizontalAlignment="Stretch" Margin="30,146,30,0" x:Name="Chart" VerticalAlignment="Top" />
-        <my:TickerControl HorizontalAlignment="Stretch" Margin="30,260,30,10" x:Name="NewsTicker" VerticalAlignment="Top" Height="300"/>
+        <my:TickerControl HorizontalAlignment="Stretch" Margin="30,260,30,10" x:Name="NewsTicker" VerticalAlignment="Top" Height="200"/>
+        <my:PricesViewControl HorizontalAlignment="Stretch" Margin="30,497,30,0" x:Name="pricesViewControl1" VerticalAlignment="Top" Height="200"/>
     </Grid>
 </Window>

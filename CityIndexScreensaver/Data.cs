@@ -33,6 +33,14 @@ namespace CityIndexScreensaver
 			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
+		public void SubscribePrices(Action<PriceDTO> onUpdate)
+		{
+			const string topic = "PRICES.PRICE.154297";
+			//const string topic = "PRICES.PRICE.71442";
+			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+		}
+
 		void EnsureConnection()
 		{
 			try
@@ -72,14 +80,14 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		void SubscribePricesThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
+		void SubscribePricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
 		{
 			EnsureConnection();
 
 			try
 			{
 				_priceListener = _streamingClient.BuildListener<PriceDTO>(topic);
-				_priceListener.MessageRecieved += priceListener_MessageRecieved;
+				_priceListener.MessageRecieved += (s, args) => onUpdate(args.Data);
 				_priceListener.Start();
 			}
 			catch (Exception exc)
@@ -164,6 +172,7 @@ namespace CityIndexScreensaver
 				_priceListener.Stop();
 				_priceListener = null;
 			}
+
 			if (_streamingClient != null)
 			{
 				_streamingClient.Disconnect();

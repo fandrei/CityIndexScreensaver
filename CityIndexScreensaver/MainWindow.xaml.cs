@@ -52,8 +52,18 @@ namespace CityIndexScreensaver
 		{
 			if (!State.IsDebug)
 			{
+				var position = e.GetPosition(this);
 				if (_startTime != DateTime.MinValue && (DateTime.Now - _startTime).TotalSeconds > IgnoreMouseDelaySecs)
-					CloseApp();
+				{
+					// avoid false-positive triggering
+					if (_prevMousePosition != null && 
+						(Math.Abs(_prevMousePosition.Value.X - position.X) > MouseMovementThreshold ||
+						Math.Abs(_prevMousePosition.Value.Y - position.Y) > MouseMovementThreshold))
+					{
+						CloseApp();
+					}
+				}
+				_prevMousePosition = position;
 			}
 		}
 
@@ -104,7 +114,11 @@ namespace CityIndexScreensaver
 		}
 
 		Data _data;
+
+		// mouse movement detection
 		private DateTime _startTime;
+		private Point? _prevMousePosition;
+		private const double MouseMovementThreshold = 10;
 		private const int IgnoreMouseDelaySecs = 3;
 	}
 }

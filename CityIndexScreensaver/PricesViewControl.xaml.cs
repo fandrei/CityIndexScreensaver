@@ -15,13 +15,18 @@ using System.Windows.Shapes;
 namespace CityIndexScreensaver
 {
 	/// <summary>
-	/// Interaction logic for PriceViewControl.xaml
+	/// Interaction logic for PricesViewControl.xaml
 	/// </summary>
-	public partial class PriceViewControl : UserControl
+	public partial class PricesViewControl : UserControl
 	{
-		public PriceViewControl()
+		public PricesViewControl()
 		{
 			InitializeComponent();
+		}
+
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 }

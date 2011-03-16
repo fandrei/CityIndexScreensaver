@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="Transparent">
-        <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="20">
+        <Border BorderThickness="1" BorderBrush="LightGray" CornerRadius="20">
             
         </Border>
     </Grid>
