@@ -25,13 +25,10 @@ namespace CityIndexScreensaver
 			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry(onUpdate));
 		}
 
-		public void SubscribePriceTicks(Action<PriceTickDTO> onUpdate)
+		public void SubscribePriceTicks(string topic, Action<PriceTickDTO> onUpdate)
 		{
-			//const string topic = "PRICES.PRICE.154297";
-			//const string topic = "PRICES.PRICE.71442";
-			const string topic = "PRICES.PRICE.99498";
-			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)
@@ -78,8 +75,8 @@ namespace CityIndexScreensaver
 						try
 						{
 							var val = args.Data;
-							Debug.WriteLine("\r\n--------------------------------------\r\n");
-							Debug.WriteLine("Price: {0} {1} {2}\r\n", val.MarketId, val.Price, val.TickDate);
+							//Debug.WriteLine("\r\n--------------------------------------\r\n");
+							//Debug.WriteLine("Price: {0} {1} {2}\r\n", val.MarketId, val.Price, val.TickDate);
 							onUpdate(val);
 						}
 						catch (Exception exc)
@@ -92,6 +89,41 @@ namespace CityIndexScreensaver
 				lock (_sync)
 				{
 					_priceListeners.Add(listener);
+				}
+			}
+			catch (Exception exc)
+			{
+				_onError(exc);
+			}
+		}
+
+		private void SubscribePriceTicksThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
+		{
+			EnsureConnection();
+
+			try
+			{
+				var listener = _streamingClient.BuildListener<PriceTickDTO>(topic);
+				listener.MessageRecieved +=
+					(s, args) =>
+					{
+						try
+						{
+							var val = args.Data;
+							Debug.WriteLine("\r\n--------------------------------------\r\n");
+							Debug.WriteLine("PriceTick: {0} {1} {2}\r\n", topic, val.Price, val.TickDate);
+							onUpdate(val);
+						}
+						catch (Exception exc)
+						{
+							_onError(exc);
+						}
+					};
+				listener.Start();
+
+				lock (_sync)
+				{
+					_priceTicksListeners.Add(listener);
 				}
 			}
 			catch (Exception exc)
@@ -161,6 +193,18 @@ namespace CityIndexScreensaver
 
 				lock (_sync)
 				{
+					foreach (var listener in _priceTicksListeners)
+					{
+						if (listener != null)
+						{
+							listener.Stop();
+						}
+					}
+					_priceTicksListeners.Clear();
+				}
+
+				lock (_sync)
+				{
 					if (_streamingClient != null)
 					{
 						_streamingClient.Disconnect();
@@ -190,5 +234,7 @@ namespace CityIndexScreensaver
 		private IStreamingClient _streamingClient;
 
 		private readonly List<IStreamingListener<PriceDTO>> _priceListeners = new List<IStreamingListener<PriceDTO>>();
+		private readonly List<IStreamingListener<PriceTickDTO>> _priceTicksListeners = 
+			new List<IStreamingListener<PriceTickDTO>>();
 	}
 }

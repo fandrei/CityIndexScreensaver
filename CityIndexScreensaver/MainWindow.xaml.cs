@@ -36,7 +36,7 @@ namespace CityIndexScreensaver
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
-			State.Data.SubscribePriceTicks(OnPriceTickUpdate);
+			State.Data.SubscribePriceTicks("PRICES.PRICE.99498", OnChartUpdate);
 
 			State.Data.SubscribeNews(
 				news => DispatcherBeginInvoke(() =>
@@ -79,13 +79,9 @@ namespace CityIndexScreensaver
 			Application.Current.Shutdown();
 		}
 
-		private void OnPriceTickUpdate(PriceTickDTO val)
+		private void OnChartUpdate(PriceTickDTO val)
 		{
-			DispatcherBeginInvoke(
-				() =>
-				{
-					Chart.AddItem(val);
-				});
+			DispatcherBeginInvoke(() => Chart.AddItem(val));
 		}
 
 		private void SetWindowFullScreen()
