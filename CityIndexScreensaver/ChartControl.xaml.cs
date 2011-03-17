@@ -47,13 +47,9 @@ namespace CityIndexScreensaver
 			var minPrice = (double)_items.Min(x => x.Price);
 			var maxPrice = (double)_items.Max(x => x.Price);
 			var diffPrice = maxPrice - minPrice;
-			if (diffPrice * _heightScale > Chart.ActualHeight)
-			{
-				var initialScale = (_heightScale == 1);
-				_heightScale = Chart.ActualHeight / diffPrice;
-				if (initialScale)
-					_heightScale /= 2;
-			}
+
+			if (diffPrice != 0)
+				_heightScale = (Chart.ActualHeight - 1) / diffPrice;
 
 			MinLabel.Content = minPrice.ToString();
 			MaxLabel.Content = maxPrice.ToString();
@@ -66,9 +62,7 @@ namespace CityIndexScreensaver
 			int i = 0;
 			foreach (var item in _items)
 			{
-				var price = (double)item.Price - minPrice + 1;
-				if (prevPrice == 0)
-					prevPrice = price;
+				var price = (double)item.Price - minPrice;
 
 				if (prevItem != null)
 				{
