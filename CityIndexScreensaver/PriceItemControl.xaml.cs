@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using CIAPI.DTO;
+
 namespace CityIndexScreensaver
 {
 	/// <summary>
@@ -22,6 +24,27 @@ namespace CityIndexScreensaver
 		public PriceItemControl()
 		{
 			InitializeComponent();
+		}
+
+		public void SetNewPrice(PriceDTO val)
+		{
+			DispatcherBeginInvoke(
+				() =>
+				{
+					var prevVal = (PriceDTO)DataContext;
+					if (prevVal != null)
+					{
+						var color = (prevVal.Price < val.Price) ? Colors.Red : Colors.Blue;
+						BidPanel.Background = new SolidColorBrush(color);
+						OfferPanel.Background = new SolidColorBrush(color);
+					}
+					DataContext = val;
+				});
+		}
+
+		void DispatcherBeginInvoke(Action action)
+		{
+			Dispatcher.BeginInvoke(action, null);
 		}
 	}
 }

@@ -185,10 +185,10 @@ namespace CityIndexScreensaver
 		private const string USERNAME = "xx189949";
 		private const string PASSWORD = "password";
 
-		object _sync = new object();
+		readonly object _sync = new object();
 		private Client _client;
 		private IStreamingClient _streamingClient;
 
-		private List<IStreamingListener<PriceDTO>> _priceListeners = new List<IStreamingListener<PriceDTO>>();
+		private readonly List<IStreamingListener<PriceDTO>> _priceListeners = new List<IStreamingListener<PriceDTO>>();
 	}
 }

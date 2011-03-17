@@ -27,26 +27,18 @@ namespace CityIndexScreensaver
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			var topics = new[] { "PRICES.PRICE.99498", "PRICES.PRICE.99500", "PRICES.PRICE.99502", 
-				"PRICES.PRICE.154297" };
+				"PRICES.PRICE.99504", };
 
 			foreach (var topic in topics)
 			{
 				var control = new PriceItemControl();
 				control.CaptionLabel.Content = topic;
 
-				State.Data.SubscribePrices(topic,
-					val => DispatcherBeginInvoke(() =>
-					{
-						control.DataContext = val;
-					}));
+				State.Data.SubscribePrices(topic, control.SetNewPrice);
 
 				PricesPanel.Children.Add(control);
 			}
 		}
 
-		void DispatcherBeginInvoke(Action action)
-		{
-			Dispatcher.BeginInvoke(action, null);
-		}
 	}
 }

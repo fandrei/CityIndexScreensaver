@@ -13,16 +13,15 @@
             <Setter Property="FontSize" Value="40" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="MinWidth" Value="100" />
-            <Setter Property="MinHeight" Value="50" />
         </Style>
         <Style x:Key="BorderStyle" TargetType="Border">
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="LightGray" />
             <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Margin" Value="2, 2, 2, 2" />
         </Style>
     </UserControl.Resources>
-    <Border BorderThickness="1" BorderBrush="LightGray">
+    <Border BorderThickness="1" BorderBrush="LightGray" Margin="5, 5, 5, 5" Width="300" Height="120">
         <Grid Background="Black">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -30,15 +29,15 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Content="Caption" HorizontalAlignment="Left" Name="CaptionLabel" VerticalAlignment="Top" Grid.Row="0" />
-            <Grid Name="MainArea" Grid.Row="1" Grid.IsSharedSizeScope="True">
+            <Grid Name="MainArea" Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Columns" />
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="Columns" />
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Style="{StaticResource BorderStyle}" Grid.Column="0">
+                <Border Style="{StaticResource BorderStyle}" Name="BidPanel" Grid.Column="0">
                     <Label Content="{Binding Bid}" Name="BidLabel" Style="{StaticResource BigLabelStyle}" />
                 </Border>
-                <Border Style="{StaticResource BorderStyle}" Grid.Column="1">
+                <Border Style="{StaticResource BorderStyle}" Name="OfferPanel" Grid.Column="1">
                     <Label Content="{Binding Offer}" Name="OfferLabel" Style="{StaticResource BigLabelStyle}" />
                 </Border>
             </Grid>
