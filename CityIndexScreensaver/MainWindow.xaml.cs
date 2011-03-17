@@ -28,7 +28,7 @@ namespace CityIndexScreensaver
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			_data = new Data(ReportException);
+			State.Data = new Data(ReportException);
 			_startTime = DateTime.Now;
 
 			Application.Current.Exit += App_Unloaded;
@@ -36,20 +36,18 @@ namespace CityIndexScreensaver
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
-			_data.SubscribePriceTicks(OnPriceTickUpdate);
+			State.Data.SubscribePriceTicks(OnPriceTickUpdate);
 
-			_data.SubscribeNews(
+			State.Data.SubscribeNews(
 				news => DispatcherBeginInvoke(() =>
 				{
 					NewsTicker.DataContext = news;
 				}));
-
-			_data.SubscribePrices(x => { });
 		}
 
 		private void App_Unloaded(object sender, ExitEventArgs e)
 		{
-			_data.Dispose();
+			State.Data.Dispose();
 		}
 
 		private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -116,8 +114,6 @@ namespace CityIndexScreensaver
 			var msg = State.IsDebug ? exc.ToString() : exc.Message;
 			MessageBox.Show(msg);
 		}
-
-		Data _data;
 
 		// mouse movement detection
 		private DateTime? _startTime;

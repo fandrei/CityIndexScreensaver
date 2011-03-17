@@ -30,17 +30,13 @@ namespace CityIndexScreensaver
 			//const string topic = "PRICES.PRICE.154297";
 			//const string topic = "PRICES.PRICE.71442";
 			const string topic = "PRICES.PRICE.99498";
-			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
-		public void SubscribePrices(Action<PriceDTO> onUpdate)
+		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)
 		{
-			//const string topic = "PRICES.PRICE.154297";
-			//const string topic = "PRICES.PRICE.71442";
-			const string topic = "PRICES.PRICE.99500";
 			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
-			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		void EnsureConnection()
@@ -69,45 +65,34 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		void SubscribePriceTicksThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
-		{
-			EnsureConnection();
-
-			try
-			{
-				_priceTicksListener = _streamingClient.BuildListener<PriceTickDTO>(topic);
-				_priceTicksListener.MessageRecieved += 
-					(s, args) =>
-						{
-							var val = args.Data;
-							Debug.WriteLine("\r\n--------------------------------------\r\n");
-							Debug.WriteLine("PriceTick: {0} {1}\r\n", val.Price, val.TickDate);
-							onUpdate(val);
-						};
-				_priceTicksListener.Start();
-			}
-			catch (Exception exc)
-			{
-				_onError(exc);
-			}
-		}
-
 		void SubscribePricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
 		{
 			EnsureConnection();
 
 			try
 			{
-				_priceListener = _streamingClient.BuildListener<PriceDTO>(topic);
-				_priceListener.MessageRecieved +=
+				var listener = _streamingClient.BuildListener<PriceDTO>(topic);
+				listener.MessageRecieved +=
 					(s, args) =>
 					{
-						var val = args.Data;
-						Debug.WriteLine("\r\n--------------------------------------\r\n");
-						Debug.WriteLine("Price: {0} {1}\r\n", val.Price, val.TickDate);
-						onUpdate(val);
+						try
+						{
+							var val = args.Data;
+							Debug.WriteLine("\r\n--------------------------------------\r\n");
+							Debug.WriteLine("Price: {0} {1} {2}\r\n", val.MarketId, val.Price, val.TickDate);
+							onUpdate(val);
+						}
+						catch (Exception exc)
+						{
+							_onError(exc);
+						}
 					};
-				_priceListener.Start();
+				listener.Start();
+
+				lock (_sync)
+				{
+					_priceListeners.Add(listener);
+				}
 			}
 			catch (Exception exc)
 			{
@@ -138,12 +123,6 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		void priceBarListener_MessageRecieved(object sender, MessageEventArgs<PriceBarDTO> val)
-		{
-			Debug.WriteLine("\r\n--------------------------------------\r\n");
-			Debug.WriteLine("PriceBar: {0} {1}\r\n", val.Data.Close, val.Data.BarDate);
-		}
-
 		void SubscribeNewsThreadEntry(Action<NewsDTO[]> onSuccess)
 		{
 			try
@@ -164,34 +143,39 @@ namespace CityIndexScreensaver
 
 		public void Dispose()
 		{
-			if (_priceTicksListener != null)
-			{
-				_priceTicksListener.Stop();
-				_priceTicksListener = null;
-			}
-			if (_priceBarListener != null)
-			{
-				_priceBarListener.Stop();
-				_priceBarListener = null;
-			}
-			if (_priceListener != null)
-			{
-				_priceListener.Stop();
-				_priceListener = null;
-			}
+			Debug.WriteLine("Data.Dispose()\r\n");
 
-			lock (_sync)
+			try
 			{
-				if (_streamingClient != null)
+				lock (_sync)
 				{
-					_streamingClient.Disconnect();
-					_streamingClient = null;
+					foreach (var listener in _priceListeners)
+					{
+						if (listener != null)
+						{
+							listener.Stop();
+						}
+					}
+					_priceListeners.Clear();
 				}
-				if (_client != null)
+
+				lock (_sync)
 				{
-					_client.BeginLogOut(ar => _client.EndLogOut(ar), null);
-					_client = null;
+					if (_streamingClient != null)
+					{
+						_streamingClient.Disconnect();
+						_streamingClient = null;
+					}
+					if (_client != null)
+					{
+						_client.BeginLogOut(ar => _client.EndLogOut(ar), null);
+						_client = null;
+					}
 				}
+			}
+			catch (Exception exc)
+			{
+				Debug.WriteLine(exc.ToString());
 			}
 		}
 
@@ -205,8 +189,6 @@ namespace CityIndexScreensaver
 		private Client _client;
 		private IStreamingClient _streamingClient;
 
-		private IStreamingListener<PriceDTO> _priceListener;
-		private IStreamingListener<PriceBarDTO> _priceBarListener;
-		private IStreamingListener<PriceTickDTO> _priceTicksListener;
+		private List<IStreamingListener<PriceDTO>> _priceListeners = new List<IStreamingListener<PriceDTO>>();
 	}
 }

@@ -3,11 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="Transparent">
-        <Border BorderThickness="1" BorderBrush="LightGray" CornerRadius="20">
-            
-        </Border>
-    </Grid>
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style x:Key="BigLabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="100" />
+            <Setter Property="MinHeight" Value="50" />
+        </Style>
+        <Style x:Key="BorderStyle" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="CornerRadius" Value="10" />
+        </Style>
+    </UserControl.Resources>
+    <Border BorderThickness="1" BorderBrush="LightGray">
+        <Grid Background="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Caption" HorizontalAlignment="Left" Name="CaptionLabel" VerticalAlignment="Top" Grid.Row="0" />
+            <Grid Name="MainArea" Grid.Row="1" Grid.IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Columns" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Columns" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource BorderStyle}" Grid.Column="0">
+                    <Label Content="{Binding Bid}" Name="BidLabel" Style="{StaticResource BigLabelStyle}" />
+                </Border>
+                <Border Style="{StaticResource BorderStyle}" Grid.Column="1">
+                    <Label Content="{Binding Offer}" Name="OfferLabel" Style="{StaticResource BigLabelStyle}" />
+                </Border>
+            </Grid>
+            <Label Content="{Binding Low}" HorizontalAlignment="Left" Name="LowLabel" VerticalAlignment="Top" Grid.Row="2" />
+            <Label Content="{Binding High}" HorizontalAlignment="Right" Name="HighLabel" VerticalAlignment="Top" Grid.Row="2" />
+        </Grid>
+    </Border>
 </UserControl>

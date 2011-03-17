@@ -9,5 +9,6 @@ namespace CityIndexScreensaver
 	{
 		public static bool IsFullScreen { get; set; }
 		public static bool IsDebug { get; set; }
+		public static Data Data { get; set; }
 	}
 }

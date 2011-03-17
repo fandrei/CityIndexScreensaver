@@ -12,6 +12,6 @@
         <Image HorizontalAlignment="Left" Margin="30,30,0,0" Name="Logo" Stretch="None" VerticalAlignment="Top" Source="file:///D:/projects/CityIndexScreensaver/CityIndexScreensaver/Resources/Logo.png" />
         <my:ChartControl Height="100" HorizontalAlignment="Stretch" Margin="30,146,30,0" x:Name="Chart" VerticalAlignment="Top" />
         <my:TickerControl HorizontalAlignment="Stretch" Margin="30,260,30,10" x:Name="NewsTicker" VerticalAlignment="Top" Height="200"/>
-        <my:PricesViewControl HorizontalAlignment="Stretch" Margin="30,497,30,0" x:Name="pricesViewControl1" VerticalAlignment="Top" Height="200"/>
+        <my:PricesViewControl HorizontalAlignment="Stretch" Margin="30,477,30,0" x:Name="pricesViewControl1" VerticalAlignment="Top" />
     </Grid>
 </Window>
