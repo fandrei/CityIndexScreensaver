@@ -6,7 +6,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
 
-    <Grid Name="LayoutRoot" Background="White" ClipToBounds="True">
+    <Grid Name="LayoutRoot" ClipToBounds="True" Background="Transparent">
         <StackPanel Orientation="Vertical">
             <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="NewsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SelectionMode="Single" SizeChanged="NewsGrid_SizeChanged" MouseEnter="NewsGrid_MouseEnter" MouseLeave="NewsGrid_MouseLeave" GridLinesVisibility="None" BorderThickness="0" MouseLeftButtonUp="NewsGrid_MouseLeftButtonUp" Loaded="NewsGrid_Loaded" TextOptions.TextHintingMode="Animated">
                 <DataGrid.Columns>
@@ -14,7 +14,7 @@
                     <DataGridTemplateColumn Header="Headline" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock TextWrapping="Wrap" Text="{Binding Headline}" />
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Headline}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

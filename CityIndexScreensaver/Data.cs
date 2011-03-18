@@ -181,25 +181,11 @@ namespace CityIndexScreensaver
 			{
 				lock (_sync)
 				{
-					foreach (var listener in _priceListeners)
-					{
-						if (listener != null)
-						{
-							listener.Stop();
-						}
-					}
-					_priceListeners.Clear();
+					DisconnectListeners(_priceListeners);
 				}
 
 				lock (_sync)
 				{
-					foreach (var listener in _priceTicksListeners)
-					{
-						if (listener != null)
-						{
-							listener.Stop();
-						}
-					}
 					_priceTicksListeners.Clear();
 				}
 
@@ -221,6 +207,19 @@ namespace CityIndexScreensaver
 			{
 				Debug.WriteLine(exc.ToString());
 			}
+		}
+
+		static void DisconnectListeners<T>(IList<IStreamingListener<T>> listeners)
+			where T: class
+		{
+			foreach (var listener in listeners)
+			{
+				if (listener != null)
+				{
+					listener.Stop();
+				}
+			}
+			listeners.Clear();
 		}
 
 		private static readonly Uri RPC_URI = new Uri("https://ciapipreprod.cityindextest9.co.uk/tradingapi");
