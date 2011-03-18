@@ -26,6 +26,9 @@ namespace CityIndexScreensaver
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
+			if (State.Data == null)
+				return;
+
 			var topics = ApplicationSettings.Instance.PricesToWatch;
 			foreach (var topic in topics)
 			{
