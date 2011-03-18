@@ -2,3 +2,7 @@ bin/
 obj/
 *.Resharper.user
 *.suo
+
+ReSharper.user
+.VisualState.xml
+.ReSharper.user

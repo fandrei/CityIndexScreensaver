@@ -7,6 +7,7 @@ using CIAPI.Streaming;
 using Common.Logging;
 using NUnit.Framework;
 using StreamingClient;
+using IStreamingClient = CIAPI.Streaming.IStreamingClient;
 
 namespace CIAPI.IntegrationTests
 {
@@ -20,6 +21,29 @@ namespace CIAPI.IntegrationTests
         private static Uri RPC_URI = new Uri("https://ciapipreprod.cityindextest9.co.uk/TradingApi/");
         private ILog _logger = LogManager.GetCurrentClassLogger();
 
+
+        [Test]
+        public void CannotSubscribeToIncorrectTopics()
+        {
+            var streamingClient = BuildStreamingClient();
+            streamingClient.Connect();
+
+            try
+            {
+                streamingClient.BuildPriceListener("NEWS.HEADLINES.UK");
+                Assert.Fail("An exception should have been thrown because you cannot listen for prices on the NEWS topic");
+            }
+            catch (InvalidTopicException ex)
+            {
+                _logger.Error(ex);
+
+            }
+            finally
+            {
+                streamingClient.Disconnect();
+            }
+        }
+
         [Test]
         public void DoesNotListenForMessagesOfWrongTypeOnTopic()
         {
@@ -29,23 +53,23 @@ namespace CIAPI.IntegrationTests
             var streamingClient = BuildStreamingClient();
             streamingClient.Connect();
 
-            var priceListener = streamingClient.BuildListener<PriceDTO>("PRICES.PRICE." + MARKET);
-            var priceBarListener = streamingClient.BuildListener<PriceBarDTO>("PRICES.PRICE." + MARKET); //PriceBars are not sent over this topic
-            var priceTickListener = streamingClient.BuildListener<PriceTickDTO>("PRICES.PRICE." + MARKET); //PriceTicks are not sent over this topic
+            var priceListener = streamingClient.BuildPriceListener("PRICES.PRICE." + MARKET);
+            var priceBarListener = streamingClient.BuildPriceListener("PRICES.PRICE." + MARKET); //PriceBars are not sent over this topic
+            var priceTickListener = streamingClient.BuildPriceListener("PRICES.PRICE." + MARKET); //PriceTicks are not sent over this topic
             var prices = new List<PriceDTO>();
-            var priceBars = new List<PriceBarDTO>();
-            var priceTicks = new List<PriceTickDTO>();
+            var prices1 = new List<PriceDTO>();
+            var prices2 = new List<PriceDTO>();
             try
             {
                 BeginCollectingMessages(priceListener, prices);
-                BeginCollectingMessages(priceBarListener,  priceBars);
-                BeginCollectingMessages(priceTickListener, priceTicks);
+                BeginCollectingMessages(priceBarListener,  prices1);
+                BeginCollectingMessages(priceTickListener, prices2);
 
                 Thread.Sleep(maxWaitTime);
 
                 Assert.That(prices.Count, Is.GreaterThanOrEqualTo(1), "Not enough prices");
-                Assert.That(priceBars.Count, Is.EqualTo(0), "Too many pricebars");
-                Assert.That(priceTicks.Count, Is.EqualTo(0), "Too many priceTicks");
+                Assert.That(prices1.Count, Is.EqualTo(prices.Count), "Expect the same number of prices for each listener");
+                Assert.That(prices2.Count, Is.EqualTo(prices2.Count), "Expect the same number of prices for each listener");
             }
             finally
             {
@@ -54,9 +78,9 @@ namespace CIAPI.IntegrationTests
                 priceTickListener.Stop();
                 streamingClient.Disconnect();
 
-                LogMessagesRecieved("Prices", prices);
-                LogMessagesRecieved("Price Bars", priceBars);
-                LogMessagesRecieved("Price Ticks", priceTicks);
+                LogMessagesRecieved("Prices 0", prices);
+                LogMessagesRecieved("Prices 1", prices1);
+                LogMessagesRecieved("Prices 2", prices2);
             }
         }
 
@@ -97,6 +121,10 @@ namespace CIAPI.IntegrationTests
         [Test]
         public void DoesNotGetDuplicatedPrices()
         {
+            Assert.IsTrue(DateTime.UtcNow.DayOfWeek != DayOfWeek.Saturday
+                           && DateTime.UtcNow.DayOfWeek != DayOfWeek.Sunday,
+                           "This test won't work outside market open hours");
+            
             /* 24/5 fast pricing FX markets
 
             {"MarketId":400481115,"Name":"AUD\/JPY"},
@@ -108,13 +136,20 @@ namespace CIAPI.IntegrationTests
             {"MarketId":400481121,"Name":"EUR\/AUD"},
             {"MarketId":400481122,"Name":"EUR\/CAD"},
              */
-            var markets = new[] { 400481115, 400481116, 400481117, 400481118, 400481119, 400481120, 400481121, 400481122 };
+            var markets = new[] { 400481116, 400481117, 400481118, 400481119, 400481120, 400481121, 400481122 };
 
             var streamingClient = BuildStreamingClient();
             streamingClient.Connect();
-            
-            var capturedPrices = ListenToPricesFor(streamingClient, markets, TimeSpan.FromSeconds(30), 10);
-            streamingClient.Disconnect();
+
+            var capturedPrices = new Dictionary<int, List<PriceDTO>>();
+            try
+            {
+                capturedPrices = ListenToPricesFor(streamingClient, markets, TimeSpan.FromSeconds(30), 5);
+            }
+            finally
+            {
+                streamingClient.Disconnect();
+            }
 
             AssertNoDuplicatePrices(capturedPrices);
 
@@ -156,7 +191,7 @@ namespace CIAPI.IntegrationTests
                 var prices = new List<PriceDTO>();
                 collectedPrices.Add(market, prices);
 
-                var priceListener = streamingClient.BuildListener<PriceDTO>("PRICES.PRICE." + market);
+                var priceListener = streamingClient.BuildPriceListener("PRICES.PRICE." + market);
                 priceListener.MessageRecieved += (s, e) =>
                                                      {
                                                          prices.Add(e.Data);
