@@ -27,8 +27,8 @@ namespace CityIndexScreensaver
 
 		public void SubscribePriceTicks(string topic, Action<PriceTickDTO> onUpdate)
 		{
-			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)

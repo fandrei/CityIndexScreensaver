@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -11,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
 using CIAPI.DTO;
 
 namespace CityIndexScreensaver
@@ -31,6 +32,7 @@ namespace CityIndexScreensaver
 			State.Data = new Data(ReportException);
 			_startTime = DateTime.Now;
 
+			Application.Current.DispatcherUnhandledException += OnUnhandledException;
 			Application.Current.Exit += App_Unloaded;
 
 			if (State.IsFullScreen)
@@ -48,6 +50,20 @@ namespace CityIndexScreensaver
 		private void App_Unloaded(object sender, ExitEventArgs e)
 		{
 			State.Data.Dispose();
+		}
+
+		void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
+		{
+			try
+			{
+				ReportExceptionDirectly(args.Exception);
+			}
+			catch (Exception exc)
+			{
+				Debugger.Break();
+			}
+
+			args.Handled = true;
 		}
 
 		private void Grid_KeyDown(object sender, KeyEventArgs e)

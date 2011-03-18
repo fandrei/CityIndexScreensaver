@@ -1,1 +1,3 @@
 Windows screensaver capable to show current market prices. Demonstrates usage of City Index API.
+
+Installation: go to the binary output folder, right click "CityIndex.scr" file, choose "Install" command.

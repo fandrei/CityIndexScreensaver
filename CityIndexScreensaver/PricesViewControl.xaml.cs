@@ -26,9 +26,7 @@ namespace CityIndexScreensaver
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			var topics = new[] { "PRICES.PRICE.99500", "PRICES.PRICE.99502", 
-				"PRICES.PRICE.99504", "PRICES.PRICE.99506", };
-
+			var topics = ApplicationSettings.Instance.PricesToWatch;
 			foreach (var topic in topics)
 			{
 				var control = new PriceItemControl();

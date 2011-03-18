@@ -29,19 +29,19 @@ namespace CityIndexScreensaver
 			if (_items.Count == 1) // need at least two points to make a line
 				_items.Add(item);
 
+			UpdateTimeScale();
 			RebuildLines();
 		}
 
 		void RebuildLines()
 		{
-			Debug.WriteLine("RebuildLines: {0} items", _items.Count);
+			//Debug.WriteLine("RebuildLines: {0} items", _items.Count);
 
-			Chart.Children.Clear();
+			Graph.Children.Clear();
 			if (_items.Count == 0)
 				return;
 
 			UpdateValueScale();
-			//UpdateTimeScale();
 
 			double offset = _startOffset;
 			double prevOffset = offset;
@@ -59,7 +59,7 @@ namespace CityIndexScreensaver
 
 					var line = CreateLine(prevVal, val, prevOffset, offset);
 					line.Tag = i - 1;
-					Chart.Children.Add(line);
+					Graph.Children.Add(line);
 
 					prevOffset = offset;
 				}
@@ -73,30 +73,40 @@ namespace CityIndexScreensaver
 		private void UpdateValueScale()
 		{
 			_minValue = (double)_items.Min(x => x.Price);
-			var maxPrice = (double)_items.Max(x => x.Price);
-			var diffPrice = maxPrice - _minValue;
+			var maxValue = (double)_items.Max(x => x.Price);
+			var diff = maxValue - _minValue;
 
-			if (diffPrice != 0)
-				_valueScale = (Chart.ActualHeight - 1) / diffPrice;
+			if (diff != 0)
+				_valueScale = (Graph.ActualHeight - 1) / diff;
 
 			MinLabel.Content = _minValue.ToString();
-			MaxLabel.Content = maxPrice.ToString();
+			MaxLabel.Content = maxValue.ToString();
 		}
 
-		private bool UpdateTimeScale()
+		// update time scale to show as much items as possible, but not exceeding max items limit
+		private void UpdateTimeScale()
 		{
+			if (_items.Count >= MaxVisibleItemsCount)
+				return;
+
+			var timeRange = GetTimeRange();
+			if (timeRange == 0)
+				return;
+
+			_timeScale = (Graph.ActualWidth * OffsetMinThreshold - _startOffset) / timeRange;
+			_timeScale /= ((double)MaxVisibleItemsCount / _items.Count);
+			return;
+		}
+
+		private double GetTimeRange()
+		{
+			if (_items.Count == 0)
+				return 0;
 			var minTime = _items.First().TickDate;
 			var maxTime = _items.Last().TickDate;
-			var timeDiff = (maxTime - minTime).TotalSeconds;
-			if (timeDiff == 0)
-				return false;
-
-			if (_items.Count >= MaxVisibleItemsCount)
-				return false;
-
-			_timeScale = Chart.ActualWidth / (timeDiff + _timeGap + _startOffset);
-			RebuildLines();
-			return true;
+			var res = (maxTime - minTime).TotalSeconds;
+			Debug.Assert(res >= 0);
+			return res;
 		}
 
 		private double GetDistance(PriceTickDTO val1, PriceTickDTO val2)
@@ -106,14 +116,15 @@ namespace CityIndexScreensaver
 
 		private Line CreateLine(double prevValue, double value, double prevOffset, double offset)
 		{
-			return new Line
+			var res = new Line
 			{
 				X1 = prevOffset,
-				Y1 = Chart.ActualHeight - prevValue * _valueScale,
 				X2 = offset,
-				Y2 = Chart.ActualHeight - value * _valueScale,
+				Y1 = Graph.ActualHeight - prevValue * _valueScale - 1,
+				Y2 = Graph.ActualHeight - value * _valueScale - 1,
 				Stroke = new SolidColorBrush { Color = Colors.LightGreen }
 			};
+			return res;
 		}
 
 		private void InitTimer()
@@ -125,26 +136,30 @@ namespace CityIndexScreensaver
 
 		public void TimerTick(object o, EventArgs sender)
 		{
-			if (Chart.Children.Count == 0)
+			var timeRange = GetTimeRange();
+			if (timeRange == 0)
 				return;
 
-			var maxOffset = Chart.Children.Cast<Line>().Last().X2;
+			var maxOffset = Graph.Children.Cast<Line>().Last().X2;
 
-			var offsetExceeded = maxOffset - (Chart.ActualWidth - _timeGap * _timeScale);
-			if (offsetExceeded <= 0)
-				return;
-			if (offsetExceeded > 0 && UpdateTimeScale())
-				return;
+			var shiftSpeed = (Graph.ActualWidth * OffsetMaxThreshold - _startOffset) / timeRange;
+			var correctionRatio = (maxOffset - Graph.ActualWidth * OffsetMinThreshold) /
+				(Graph.ActualWidth * OffsetMaxThreshold - Graph.ActualWidth * OffsetMinThreshold);
+			if (correctionRatio < 0)
+				correctionRatio = 0;
+			shiftSpeed *= correctionRatio;
+			Debug.Assert(shiftSpeed >= 0);
+			Debug.WriteLine("Shift speed: {0}", shiftSpeed);
 
-			var shiftSpeed = (offsetExceeded > 0) ? (offsetExceeded * 2 / _timeGap) : 0;
-			var shiftSize = shiftSpeed * _timerPeriod.TotalSeconds;
-			_startOffset -= shiftSize;
+			var shiftStep = shiftSpeed * _timerPeriod.TotalSeconds;
+			_startOffset -= shiftStep;
+			Debug.Assert(_startOffset <= 0);
 
 			Line lastInvisible = null;
-			foreach (Line line in Chart.Children)
+			foreach (Line line in Graph.Children)
 			{
-				line.X1 -= shiftSize;
-				line.X2 -= shiftSize;
+				line.X1 -= shiftStep;
+				line.X2 -= shiftStep;
 				if (line.X2 < 0)
 					lastInvisible = line;
 			}
@@ -163,11 +178,15 @@ namespace CityIndexScreensaver
 		readonly List<PriceTickDTO> _items = new List<PriceTickDTO>();
 
 		private double _valueScale = 1;
-		private double _minValue = 0;
+		private double _minValue;
 
-		private double _timeScale = 100;
+		private double _timeScale = 10; // pixels per second
 		private double _startOffset;
-		private double _timeGap = 1;
+
+		// fractions of the total width
+		private const double OffsetMaxThreshold = 0.9;
+		private const double OffsetMinThreshold = 0.8;
+
 		private const int MaxVisibleItemsCount = 30;
 
 		readonly DispatcherTimer _timer = new DispatcherTimer();
