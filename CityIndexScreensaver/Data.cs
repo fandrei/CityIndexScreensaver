@@ -27,8 +27,8 @@ namespace CityIndexScreensaver
 
 		public void SubscribePriceTicks(string topic, Action<PriceTickDTO> onUpdate)
 		{
-			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)
@@ -110,8 +110,8 @@ namespace CityIndexScreensaver
 						try
 						{
 							var val = args.Data;
-							Debug.WriteLine("\r\n--------------------------------------\r\n");
-							Debug.WriteLine("PriceTick: {0} {1} {2}\r\n", topic, val.Price, val.TickDate);
+							//Debug.WriteLine("\r\n--------------------------------------\r\n");
+							//Debug.WriteLine("PriceTick: {0} {1} {2}\r\n", topic, val.Price, val.TickDate);
 							onUpdate(val);
 						}
 						catch (Exception exc)

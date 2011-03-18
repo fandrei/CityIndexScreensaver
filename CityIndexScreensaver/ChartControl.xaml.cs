@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -40,45 +34,69 @@ namespace CityIndexScreensaver
 
 		void RebuildLines()
 		{
+			Debug.WriteLine("RebuildLines: {0} items", _items.Count);
+
 			Chart.Children.Clear();
 			if (_items.Count == 0)
 				return;
 
-			var minPrice = (double)_items.Min(x => x.Price);
-			var maxPrice = (double)_items.Max(x => x.Price);
-			var diffPrice = maxPrice - minPrice;
-
-			if (diffPrice != 0)
-				_heightScale = (Chart.ActualHeight - 1) / diffPrice;
-
-			MinLabel.Content = minPrice.ToString();
-			MaxLabel.Content = maxPrice.ToString();
+			UpdateValueScale();
+			//UpdateTimeScale();
 
 			double offset = _startOffset;
 			double prevOffset = offset;
-			double prevPrice = 0;
+			double prevVal = 0;
 
 			PriceTickDTO prevItem = null;
 			int i = 0;
 			foreach (var item in _items)
 			{
-				var price = (double)item.Price - minPrice;
+				var val = (double)item.Price - _minValue;
 
 				if (prevItem != null)
 				{
 					offset += GetDistance(prevItem, item);
 
-					var line = CreateLine(prevPrice, price, prevOffset, offset);
+					var line = CreateLine(prevVal, val, prevOffset, offset);
 					line.Tag = i - 1;
 					Chart.Children.Add(line);
 
 					prevOffset = offset;
 				}
 
-				prevPrice = price;
+				prevVal = val;
 				prevItem = item;
 				i++;
 			}
+		}
+
+		private void UpdateValueScale()
+		{
+			_minValue = (double)_items.Min(x => x.Price);
+			var maxPrice = (double)_items.Max(x => x.Price);
+			var diffPrice = maxPrice - _minValue;
+
+			if (diffPrice != 0)
+				_valueScale = (Chart.ActualHeight - 1) / diffPrice;
+
+			MinLabel.Content = _minValue.ToString();
+			MaxLabel.Content = maxPrice.ToString();
+		}
+
+		private bool UpdateTimeScale()
+		{
+			var minTime = _items.First().TickDate;
+			var maxTime = _items.Last().TickDate;
+			var timeDiff = (maxTime - minTime).TotalSeconds;
+			if (timeDiff == 0)
+				return false;
+
+			if (_items.Count >= MaxVisibleItemsCount)
+				return false;
+
+			_timeScale = Chart.ActualWidth / (timeDiff + _timeGap + _startOffset);
+			RebuildLines();
+			return true;
 		}
 
 		private double GetDistance(PriceTickDTO val1, PriceTickDTO val2)
@@ -86,21 +104,21 @@ namespace CityIndexScreensaver
 			return (val2.TickDate - val1.TickDate).TotalSeconds * _timeScale;
 		}
 
-		private Line CreateLine(double prevPrice, double price, double prevOffset, double offset)
+		private Line CreateLine(double prevValue, double value, double prevOffset, double offset)
 		{
 			return new Line
 			{
 				X1 = prevOffset,
-				Y1 = Chart.ActualHeight - prevPrice * _heightScale,
+				Y1 = Chart.ActualHeight - prevValue * _valueScale,
 				X2 = offset,
-				Y2 = Chart.ActualHeight - price * _heightScale,
+				Y2 = Chart.ActualHeight - value * _valueScale,
 				Stroke = new SolidColorBrush { Color = Colors.LightGreen }
 			};
 		}
 
 		private void InitTimer()
 		{
-			_timer.Interval = TimeSpan.FromMilliseconds(TimerPeriodMsecs);
+			_timer.Interval = _timerPeriod;
 			_timer.Tick += TimerTick;
 			_timer.Start();
 		}
@@ -110,16 +128,16 @@ namespace CityIndexScreensaver
 			if (Chart.Children.Count == 0)
 				return;
 
-			double maxOffset = 0;
-			foreach (Line line in Chart.Children)
-			{
-				maxOffset = Math.Max(maxOffset, line.X2);
-			}
+			var maxOffset = Chart.Children.Cast<Line>().Last().X2;
 
 			var offsetExceeded = maxOffset - (Chart.ActualWidth - _timeGap * _timeScale);
-			var shiftSpeed = (offsetExceeded > 0) ? (offsetExceeded * 2 / _timeGap) : 0;
+			if (offsetExceeded <= 0)
+				return;
+			if (offsetExceeded > 0 && UpdateTimeScale())
+				return;
 
-			var shiftSize = shiftSpeed * TimerPeriodMsecs / 1000;
+			var shiftSpeed = (offsetExceeded > 0) ? (offsetExceeded * 2 / _timeGap) : 0;
+			var shiftSize = shiftSpeed * _timerPeriod.TotalSeconds;
 			_startOffset -= shiftSize;
 
 			Line lastInvisible = null;
@@ -144,12 +162,15 @@ namespace CityIndexScreensaver
 
 		readonly List<PriceTickDTO> _items = new List<PriceTickDTO>();
 
-		private double _heightScale = 1;
+		private double _valueScale = 1;
+		private double _minValue = 0;
+
 		private double _timeScale = 100;
 		private double _startOffset;
 		private double _timeGap = 1;
+		private const int MaxVisibleItemsCount = 30;
 
 		readonly DispatcherTimer _timer = new DispatcherTimer();
-		private const int TimerPeriodMsecs = 50;
+		private readonly TimeSpan _timerPeriod = TimeSpan.FromMilliseconds(50);
 	}
 }
