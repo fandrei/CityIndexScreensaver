@@ -8,8 +8,7 @@ namespace CityIndexScreensaver
 	{
 		public ApplicationSettings()
 		{
-			var prices = new[] { "PRICES.PRICE.99500", "PRICES.PRICE.99502", 
-				"PRICES.PRICE.99504", "PRICES.PRICE.99506", };
+			var prices = new[] { "99500", "99502", "99504", "99506", };
 			PricesToWatchString = string.Join(",", prices);
 		}
 
@@ -17,7 +16,13 @@ namespace CityIndexScreensaver
 		public string PricesToWatchString { get; set; }
 		public string[] PricesToWatch
 		{
-			get { return PricesToWatchString.Split(','); }
+			get
+			{
+				var res = PricesToWatchString.Split(',');
+				for (int i = 0; i < res.Length; i++)
+					res[i] = "PRICES.PRICE." + res[i];
+				return res;
+			}
 		}
 
 		private static ApplicationSettings _instance;
