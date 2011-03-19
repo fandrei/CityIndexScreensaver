@@ -44,7 +44,7 @@ namespace CityIndexScreensaver
 		// call from background threads only
 		void EnsureConnection()
 		{
-			lock (_sync)
+			lock (_syncIsDisposed)
 			{
 				if (_isDisposed)
 					Thread.CurrentThread.Abort();
@@ -185,12 +185,13 @@ namespace CityIndexScreensaver
 			}
 		}
 
+		readonly object _syncIsDisposed = new object();
 		private bool _isDisposed;
 
 		public void Dispose()
 		{
 			Debug.WriteLine("Data.Dispose()\r\n");
-			lock (_sync)
+			lock (_syncIsDisposed)
 			{
 				_isDisposed = true;
 			}
@@ -235,7 +236,7 @@ namespace CityIndexScreensaver
 
 		void VerifyIfDisposed()
 		{
-			lock (_sync)
+			lock (_syncIsDisposed)
 			{
 				if (_isDisposed)
 					throw new ObjectDisposedException("Data");
