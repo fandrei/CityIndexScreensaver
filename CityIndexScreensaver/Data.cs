@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+
 using CIAPI.DTO;
 using CIAPI.Rpc;
 using CIAPI.Streaming;
@@ -22,22 +24,32 @@ namespace CityIndexScreensaver
 
 		public void SubscribeNews(Action<NewsDTO[]> onUpdate)
 		{
+			VerifyIfDisposed();
 			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry(onUpdate));
 		}
 
 		public void SubscribePriceTicks(string topic, Action<PriceTickDTO> onUpdate)
 		{
+			VerifyIfDisposed();
 			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
 			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)
 		{
+			VerifyIfDisposed();
 			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
 		}
 
+		// call from background threads only
 		void EnsureConnection()
 		{
+			lock (_sync)
+			{
+				if (_isDisposed)
+					Thread.CurrentThread.Abort();
+			}
+
 			try
 			{
 				lock (_sync)
@@ -173,21 +185,33 @@ namespace CityIndexScreensaver
 			}
 		}
 
+		private bool _isDisposed;
+
 		public void Dispose()
 		{
 			Debug.WriteLine("Data.Dispose()\r\n");
+			lock (_sync)
+			{
+				_isDisposed = true;
+			}
 
 			try
 			{
+				var listeners = new List<IStreamingListener>();
+
 				lock (_sync)
 				{
-					DisconnectListeners(_priceListeners);
+					listeners.AddRange(_priceListeners);
+					_priceListeners.Clear();
 				}
 
 				lock (_sync)
 				{
+					listeners.AddRange(_priceTicksListeners);
 					_priceTicksListeners.Clear();
 				}
+
+				Parallel.ForEach(listeners, listener => listener.Stop());
 
 				lock (_sync)
 				{
@@ -209,17 +233,13 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		static void DisconnectListeners<T>(IList<IStreamingListener<T>> listeners)
-			where T: class
+		void VerifyIfDisposed()
 		{
-			foreach (var listener in listeners)
+			lock (_sync)
 			{
-				if (listener != null)
-				{
-					listener.Stop();
-				}
+				if (_isDisposed)
+					throw new ObjectDisposedException("Data");
 			}
-			listeners.Clear();
 		}
 
 		private static readonly Uri RPC_URI = new Uri("https://ciapipreprod.cityindextest9.co.uk/tradingapi");
@@ -233,7 +253,7 @@ namespace CityIndexScreensaver
 		private IStreamingClient _streamingClient;
 
 		private readonly List<IStreamingListener<PriceDTO>> _priceListeners = new List<IStreamingListener<PriceDTO>>();
-		private readonly List<IStreamingListener<PriceTickDTO>> _priceTicksListeners = 
+		private readonly List<IStreamingListener<PriceTickDTO>> _priceTicksListeners =
 			new List<IStreamingListener<PriceTickDTO>>();
 	}
 }
