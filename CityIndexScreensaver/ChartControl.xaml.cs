@@ -149,7 +149,7 @@ namespace CityIndexScreensaver
 				correctionRatio = 0;
 			shiftSpeed *= correctionRatio;
 			Debug.Assert(shiftSpeed >= 0);
-			Debug.WriteLine("Shift speed: {0}", shiftSpeed);
+			//Debug.WriteLine("Shift speed: {0}", shiftSpeed);
 
 			var shiftStep = shiftSpeed * _timerPeriod.TotalSeconds;
 			_startOffset -= shiftStep;

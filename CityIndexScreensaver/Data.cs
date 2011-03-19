@@ -10,6 +10,7 @@ using CIAPI.DTO;
 using CIAPI.Rpc;
 using CIAPI.Streaming;
 using StreamingClient;
+using IStreamingClient = CIAPI.Streaming.IStreamingClient;
 
 namespace CityIndexScreensaver
 {
@@ -31,8 +32,8 @@ namespace CityIndexScreensaver
 		public void SubscribePriceTicks(string topic, Action<PriceTickDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
 		}
 
 		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)
@@ -80,8 +81,8 @@ namespace CityIndexScreensaver
 
 			try
 			{
-				var listener = _streamingClient.BuildListener<PriceDTO>(topic);
-				listener.MessageRecieved +=
+				var listener = _streamingClient.BuildPriceListener(topic);
+				listener.MessageReceived +=
 					(s, args) =>
 					{
 						try
@@ -109,40 +110,40 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		private void SubscribePriceTicksThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
-		{
-			EnsureConnection();
+		//private void SubscribePriceTicksThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
+		//{
+		//    EnsureConnection();
 
-			try
-			{
-				var listener = _streamingClient.BuildListener<PriceTickDTO>(topic);
-				listener.MessageRecieved +=
-					(s, args) =>
-					{
-						try
-						{
-							var val = args.Data;
-							//Debug.WriteLine("\r\n--------------------------------------\r\n");
-							//Debug.WriteLine("PriceTick: {0} {1} {2}\r\n", topic, val.Price, val.TickDate);
-							onUpdate(val);
-						}
-						catch (Exception exc)
-						{
-							_onError(exc);
-						}
-					};
-				listener.Start();
+		//    try
+		//    {
+		//        var listener = _streamingClient.BuildPriceListener(topic);
+		//        listener.MessageReceived +=
+		//            (s, args) =>
+		//            {
+		//                try
+		//                {
+		//                    var val = args.Data;
+		//                    //Debug.WriteLine("\r\n--------------------------------------\r\n");
+		//                    //Debug.WriteLine("PriceTick: {0} {1} {2}\r\n", topic, val.Price, val.TickDate);
+		//                    onUpdate(val);
+		//                }
+		//                catch (Exception exc)
+		//                {
+		//                    _onError(exc);
+		//                }
+		//            };
+		//        listener.Start();
 
-				lock (_sync)
-				{
-					_priceTicksListeners.Add(listener);
-				}
-			}
-			catch (Exception exc)
-			{
-				_onError(exc);
-			}
-		}
+		//        lock (_sync)
+		//        {
+		//            _priceTicksListeners.Add(listener);
+		//        }
+		//    }
+		//    catch (Exception exc)
+		//    {
+		//        _onError(exc);
+		//    }
+		//}
 
 		void GenerateDummyPriceTicksThreadEntry(Action<PriceTickDTO> onUpdate)
 		{
