@@ -24,7 +24,12 @@ namespace CityIndexScreensaver
 		public PriceItemControl()
 		{
 			InitializeComponent();
+			_brushIncreasing = (Brush)FindResource("PanelBrushIncreasing");
+			_brushDecreasing = (Brush)FindResource("PanelBrushDecreasing");
 		}
+
+		private readonly Brush _brushIncreasing;
+		private readonly Brush _brushDecreasing;
 
 		public void SetNewPrice(PriceDTO val)
 		{
@@ -34,9 +39,9 @@ namespace CityIndexScreensaver
 					var prevVal = (PriceDTO)DataContext;
 					if (prevVal != null)
 					{
-						var color = (prevVal.Price < val.Price) ? Colors.Red : Colors.Blue;
-						BidPanel.Background = new SolidColorBrush(color);
-						OfferPanel.Background = new SolidColorBrush(color);
+						var brush = (prevVal.Price < val.Price) ? _brushIncreasing : _brushDecreasing;
+						BidPanel.Background = brush;
+						OfferPanel.Background = brush;
 					}
 					DataContext = val;
 				});

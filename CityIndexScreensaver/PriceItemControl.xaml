@@ -20,6 +20,18 @@
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="Margin" Value="2, 2, 2, 2" />
         </Style>
+        <LinearGradientBrush x:Key="PanelBrushDefault" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="DimGray" Offset="0.0" />
+            <GradientStop Color="Black" Offset="0.25" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="PanelBrushIncreasing" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="Red" Offset="0.0" />
+            <GradientStop Color="DarkRed" Offset="0.25" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="PanelBrushDecreasing" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="Blue" Offset="0.0" />
+            <GradientStop Color="DarkBlue" Offset="0.25" />
+        </LinearGradientBrush>
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="LightGray" Margin="5, 5, 5, 5" Width="300" Height="120">
         <Grid Background="Black">
@@ -35,10 +47,10 @@
             
             <Label Content="Caption" HorizontalAlignment="Left" Name="CaptionLabel" VerticalAlignment="Top" Grid.Row="0" />
 
-            <Border Style="{StaticResource BorderStyle}" Name="BidPanel" Grid.Row="1" Grid.Column="0">
+            <Border Style="{StaticResource BorderStyle}" Name="BidPanel" Grid.Row="1" Grid.Column="0" Background="{StaticResource PanelBrushDefault}">
                 <Label Content="{Binding Bid}" Name="BidLabel" Style="{StaticResource BigLabelStyle}" />
             </Border>
-            <Border Style="{StaticResource BorderStyle}" Name="OfferPanel" Grid.Row="1" Grid.Column="1">
+            <Border Style="{StaticResource BorderStyle}" Name="OfferPanel" Grid.Row="1" Grid.Column="1" Background="{StaticResource PanelBrushDefault}">
                 <Label Content="{Binding Offer}" Name="OfferLabel" Style="{StaticResource BigLabelStyle}" />
             </Border>
 
