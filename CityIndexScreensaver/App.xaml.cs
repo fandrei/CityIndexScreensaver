@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace CityIndexScreensaver
 {
@@ -25,6 +26,7 @@ namespace CityIndexScreensaver
 					return;
 				}
 
+				// args can be represented as /c:1444226 or /c 1444226
 				var firstArg = args[0].ToLower();
 				var secondArg = "";
 				var parts = firstArg.Split(':');
@@ -42,11 +44,15 @@ namespace CityIndexScreensaver
 						secondArg = args[1];
 				}
 
+				firstArg = firstArg.ToLower();
+				secondArg = secondArg.ToLower();
+
 				ProcessArgs(firstArg, secondArg);
 			}
 			catch (Exception exc)
 			{
-				MessageBox.Show(exc.Message);
+				MessageBox.Show(exc.Message, Const.AppName);
+				Shutdown();
 			}
 		}
 
@@ -55,8 +61,8 @@ namespace CityIndexScreensaver
 			// config
 			if (firstArg == "/c")
 			{
-				//var handle = int.Parse(secondArg);
-				ShowSettingsWindow();
+				var hParent = int.Parse(secondArg);
+				ShowSettingsWindow((IntPtr)hParent);
 				Shutdown();
 				return;
 			}
@@ -85,16 +91,16 @@ namespace CityIndexScreensaver
 			Shutdown();
 		}
 
-		private void ShowSettingsWindow()
+		private void ShowSettingsWindow(IntPtr hParent)
 		{
 			var window = new SettingsWindow();
 			window.DataContext = ApplicationSettings.Instance;
+			var helper = new WindowInteropHelper(window) { Owner = hParent };
 			window.ShowDialog();
 		}
 
 		private void Application_Exit(object sender, ExitEventArgs e)
 		{
-
 		}
 	}
 }

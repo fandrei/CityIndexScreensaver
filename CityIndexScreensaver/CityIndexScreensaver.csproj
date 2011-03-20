@@ -82,6 +82,7 @@
     <Compile Include="ChartControl.xaml.cs">
       <DependentUpon>ChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Const.cs" />
     <Compile Include="PriceItemControl.xaml.cs">
       <DependentUpon>PriceItemControl.xaml</DependentUpon>
     </Compile>
