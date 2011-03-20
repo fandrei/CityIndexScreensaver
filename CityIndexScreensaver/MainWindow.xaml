@@ -8,10 +8,12 @@
         Loaded="Window_Loaded"
         SnapsToDevicePixels="True" 
         WindowStartupLocation="Manual" Left="0" Top="0">
-    <Grid >
-        <Image HorizontalAlignment="Left" Margin="30,30,0,0" Name="Logo" Stretch="None" VerticalAlignment="Top" Source="file:///D:/projects/CityIndexScreensaver/CityIndexScreensaver/Resources/Logo.png" />
-        <my:TickerControl HorizontalAlignment="Stretch" Margin="30,122,30,0" x:Name="NewsTicker" VerticalAlignment="Top" Height="200" Background="DimGray" Foreground="LightGray"/>
-        <my:ChartControl Height="100" HorizontalAlignment="Stretch" Margin="30,341,30,0" x:Name="Chart" VerticalAlignment="Top" />
-        <my:PricesViewControl HorizontalAlignment="Stretch" Margin="30,465,30,0" x:Name="pricesViewControl1" VerticalAlignment="Top" HorizontalContentAlignment="Center" />
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="20,20,20,20">
+            <Image HorizontalAlignment="Left" Name="Logo" Stretch="None" VerticalAlignment="Top" Source="file:///D:/projects/CityIndexScreensaver/CityIndexScreensaver/Resources/Logo.png" />
+            <my:TickerControl HorizontalAlignment="Stretch" Margin="0,20,0,0" x:Name="NewsTicker" VerticalAlignment="Top" Height="200" Background="DimGray" Foreground="White"/>
+            <my:ChartControl Height="100" HorizontalAlignment="Stretch" Margin="0,20,0,0" x:Name="Chart" VerticalAlignment="Top" />
+            <my:PricesViewControl HorizontalAlignment="Stretch" Margin="0,20,0,0" x:Name="pricesViewControl1" VerticalAlignment="Top" HorizontalContentAlignment="Center" />
+        </StackPanel>
     </Grid>
 </Window>
