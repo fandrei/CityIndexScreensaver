@@ -27,6 +27,9 @@ namespace CityIndexScreensaver
 			// config
 			if (firstArg == "/c")
 			{
+				var window = new SettingsWindow();
+				window.DataContext = ApplicationSettings.Instance;
+				window.ShowDialog();
 				Application.Current.Shutdown();
 				return;
 			}
