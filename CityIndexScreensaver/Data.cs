@@ -57,14 +57,14 @@ namespace CityIndexScreensaver
 				{
 					if (_client == null)
 					{
-						_client = new Client(RPC_URI);
+						_client = new Client(new Uri(ApplicationSettings.Instance.ServerUrl));
 						_client.LogIn(USERNAME, PASSWORD);
 					}
 
 					if (_streamingClient == null)
 					{
 						_streamingClient = StreamingClientFactory.CreateStreamingClient(
-							STREAMING_URI, USERNAME, _client.SessionId);
+							new Uri(ApplicationSettings.Instance.StreamingServerUrl), USERNAME, _client.SessionId);
 						_streamingClient.Connect();
 					}
 				}
@@ -170,13 +170,11 @@ namespace CityIndexScreensaver
 
 		void SubscribeNewsThreadEntry(Action<NewsDTO[]> onSuccess)
 		{
+			EnsureConnection();
+
 			try
 			{
-				var client = new Client(RPC_URI);
-				client.LogIn(USERNAME, PASSWORD);
-				var resp = client.ListNewsHeadlines("UK", 20);
-				client.LogOut();
-
+				var resp = _client.ListNewsHeadlines("UK", 20);
 				onSuccess(resp.Headlines);
 
 			}
@@ -243,9 +241,6 @@ namespace CityIndexScreensaver
 					throw new ObjectDisposedException("Data");
 			}
 		}
-
-		private static readonly Uri RPC_URI = new Uri("https://ciapipreprod.cityindextest9.co.uk/tradingapi");
-		private static readonly Uri STREAMING_URI = new Uri("https://pushpreprod.cityindextest9.co.uk/CITYINDEXSTREAMING");
 
 		private const string USERNAME = "xx189949";
 		private const string PASSWORD = "password";

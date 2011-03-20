@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Security;
 using System.Xml.Serialization;
 
 namespace CityIndexScreensaver
@@ -9,6 +10,11 @@ namespace CityIndexScreensaver
 	{
 		public ApplicationSettings()
 		{
+			ServerUrl = "https://ciapipreprod.cityindextest9.co.uk/tradingapi";
+			StreamingServerUrl = "https://pushpreprod.cityindextest9.co.uk/CITYINDEXSTREAMING";
+			UserName = "xx189949";
+			//Password = "password";
+
 			var prices = new[] { "99500", "99502", "99504", "99506", };
 			PricesToWatchString = string.Join(",", prices);
 
@@ -17,6 +23,10 @@ namespace CityIndexScreensaver
 		}
 
 		public string ServerUrl { get; set; }
+		public string StreamingServerUrl { get; set; }
+		public string UserName { get; set; }
+		public SecureString Password { get; set; }
+
 		public string PricesToWatchString { get; set; }
 		public string[] PricesToWatch
 		{

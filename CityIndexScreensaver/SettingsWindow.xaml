@@ -9,9 +9,22 @@
         </Grid.RowDefinitions>
 
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <!--<TabItem Name="tabItem1" Header="Connection">
-
-            </TabItem>-->
+            <TabItem Name="tabItem1" Header="Connection">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Server" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ServerUrl, Mode=TwoWay}" MaxLines="3" MinLines="3" TextWrapping="Wrap" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Streaming Server" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StreamingServerUrl, Mode=TwoWay}" MaxLines="3" MinLines="3" TextWrapping="Wrap" />
+                </Grid>
+            </TabItem>
             <TabItem Name="tabItem2" Header="Subscriptions">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Height="Auto">
                     <Label Content="Prices"/>
