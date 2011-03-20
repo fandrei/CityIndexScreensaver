@@ -28,21 +28,28 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
             <Label Content="Caption" HorizontalAlignment="Left" Name="CaptionLabel" VerticalAlignment="Top" Grid.Row="0" />
-            <Grid Name="MainArea" Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Border Style="{StaticResource BorderStyle}" Name="BidPanel" Grid.Column="0">
-                    <Label Content="{Binding Bid}" Name="BidLabel" Style="{StaticResource BigLabelStyle}" />
-                </Border>
-                <Border Style="{StaticResource BorderStyle}" Name="OfferPanel" Grid.Column="1">
-                    <Label Content="{Binding Offer}" Name="OfferLabel" Style="{StaticResource BigLabelStyle}" />
-                </Border>
-            </Grid>
-            <Label Content="{Binding Low}" HorizontalAlignment="Left" Name="LowLabel" VerticalAlignment="Top" Grid.Row="2" />
-            <Label Content="{Binding High}" HorizontalAlignment="Right" Name="HighLabel" VerticalAlignment="Top" Grid.Row="2" />
+
+            <Border Style="{StaticResource BorderStyle}" Name="BidPanel" Grid.Row="1" Grid.Column="0">
+                <Label Content="{Binding Bid}" Name="BidLabel" Style="{StaticResource BigLabelStyle}" />
+            </Border>
+            <Border Style="{StaticResource BorderStyle}" Name="OfferPanel" Grid.Row="1" Grid.Column="1">
+                <Label Content="{Binding Offer}" Name="OfferLabel" Style="{StaticResource BigLabelStyle}" />
+            </Border>
+
+            <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Content="L:" />
+                <Label Content="{Binding Low}" Name="LowLabel" />
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Content="H:" />
+                <Label Content="{Binding High}" Name="HighLabel" />
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>
