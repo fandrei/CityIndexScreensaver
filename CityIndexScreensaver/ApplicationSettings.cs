@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.IsolatedStorage;
 using System.Xml.Serialization;
 
@@ -10,19 +11,30 @@ namespace CityIndexScreensaver
 		{
 			var prices = new[] { "99500", "99502", "99504", "99506", };
 			PricesToWatchString = string.Join(",", prices);
+
+			var priceTicks = new[] { "99498" };
+			PriceTicksToWatchString = string.Join(",", priceTicks);
 		}
 
 		public string ServerUrl { get; set; }
 		public string PricesToWatchString { get; set; }
 		public string[] PricesToWatch
 		{
-			get
-			{
-				var res = PricesToWatchString.Split(',');
-				for (int i = 0; i < res.Length; i++)
-					res[i] = "PRICES.PRICE." + res[i];
-				return res;
-			}
+			get { return IdStringToTopics(PricesToWatchString); }
+		}
+
+		public string PriceTicksToWatchString { get; set; }
+		public string[] PriceTicksToWatch
+		{
+			get { return IdStringToTopics(PriceTicksToWatchString); }
+		}
+
+		static string[] IdStringToTopics(string ids)
+		{
+			var res = ids.Split(',');
+			for (int i = 0; i < res.Length; i++)
+				res[i] = "PRICES.PRICE." + res[i];
+			return res;
 		}
 
 		private static ApplicationSettings _instance;

@@ -4,15 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+
 using CIAPI.DTO;
 
 namespace CityIndexScreensaver
@@ -38,7 +32,7 @@ namespace CityIndexScreensaver
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
-			State.Data.SubscribePriceTicks("PRICES.PRICE.99498", OnChartUpdate);
+			State.Data.SubscribePriceTicks(ApplicationSettings.Instance.PriceTicksToWatch[0], OnChartUpdate);
 
 			State.Data.SubscribeNews(
 				news => DispatcherBeginInvoke(() =>

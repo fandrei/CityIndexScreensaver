@@ -44,7 +44,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <Label Content="Caption" HorizontalAlignment="Left" Name="CaptionLabel" VerticalAlignment="Top" Grid.Row="0" />
 
             <Border Style="{StaticResource BorderStyle}" Name="BidPanel" Grid.Row="1" Grid.Column="0" Background="{StaticResource PanelBrushDefault}">
