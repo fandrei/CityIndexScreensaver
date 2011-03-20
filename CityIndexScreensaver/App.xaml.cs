@@ -61,8 +61,8 @@ namespace CityIndexScreensaver
 			// config
 			if (firstArg == "/c")
 			{
-				var hParent = int.Parse(secondArg);
-				ShowSettingsWindow((IntPtr)hParent);
+				var hParent = !string.IsNullOrEmpty(secondArg) ? (IntPtr)int.Parse(secondArg) : IntPtr.Zero;
+				ShowSettingsWindow(hParent);
 				Shutdown();
 				return;
 			}
