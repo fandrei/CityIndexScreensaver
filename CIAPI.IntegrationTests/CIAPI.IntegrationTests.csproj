@@ -31,30 +31,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CIAPI, Version=1.0.147.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CIAPI.CS.1.0.147.0\lib\Net40\CIAPI.dll</HintPath>
+    <Reference Include="CIAPI">
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Net40\CIAPI.dll</HintPath>
     </Reference>
-    <Reference Include="CityIndex.JsonClient, Version=1.0.147.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CIAPI.CS.1.0.147.0\lib\Net40\CityIndex.JsonClient.dll</HintPath>
+    <Reference Include="CityIndex.JsonClient">
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Net40\CityIndex.JsonClient.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\CIAPI.CS.1.0.147.0\lib\Net40\Common.Logging.dll</HintPath>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Net40\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\CIAPI.CS.1.0.147.0\lib\Net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="StreamingClient, Version=1.0.147.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CIAPI.CS.1.0.147.0\lib\Net40\StreamingClient.dll</HintPath>
+    <Reference Include="StreamingClient">
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Net40\StreamingClient.dll</HintPath>
     </Reference>
-    <Reference Include="StreamingClient.Lightstreamer, Version=1.0.147.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CIAPI.CS.1.0.147.0\lib\Net40\StreamingClient.Lightstreamer.dll</HintPath>
+    <Reference Include="StreamingClient.Lightstreamer">
+      <HintPath>..\packages\CIAPI.CS.1.0.153.0\lib\Net40\StreamingClient.Lightstreamer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Example.FetchNews.cs" />
     <Compile Include="StreamingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
