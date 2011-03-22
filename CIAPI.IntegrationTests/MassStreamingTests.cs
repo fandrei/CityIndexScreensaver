@@ -34,9 +34,10 @@ namespace CIAPI.IntegrationTests
 					marketId =>
 					{
 						var topic = string.Format("PRICES.PRICE.{0}", marketId);
-						var listener = streamingClient.BuildPriceListener(topic);
+						IStreamingListener<PriceDTO> listener;
 						lock (sync)
 						{
+							listener = streamingClient.BuildPriceListener(topic);
 							listeners.Add(listener);
 						}
 						listener.MessageReceived += listener_MessageReceived;
