@@ -141,7 +141,6 @@ namespace CityIndexScreensaver
 			{
 				var resp = _client.ListNewsHeadlines("UK", 20);
 				onSuccess(resp.Headlines);
-
 			}
 			catch (Exception exc)
 			{
