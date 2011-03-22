@@ -28,14 +28,11 @@ namespace CIAPI.IntegrationTests
 			var listeners = new List<IStreamingListener<PriceDTO>>();
 			try
 			{
-				lock (sync)
+				foreach (var marketId in Const.MarketIds)
 				{
-					foreach (var marketId in Const.MarketIds)
-					{
-						var topic = string.Format("PRICES.PRICE.{0}", marketId);
-						var listener = streamingClient.BuildPriceListener(topic);
-						listeners.Add(listener);
-					}
+					var topic = string.Format("PRICES.PRICE.{0}", marketId);
+					var listener = streamingClient.BuildPriceListener(topic);
+					listeners.Add(listener);
 				}
 
 				lock (sync)
