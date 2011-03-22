@@ -110,41 +110,6 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		//private void SubscribePriceTicksThreadEntry(string topic, Action<PriceTickDTO> onUpdate)
-		//{
-		//    EnsureConnection();
-
-		//    try
-		//    {
-		//        var listener = _streamingClient.BuildPriceListener(topic);
-		//        listener.MessageReceived +=
-		//            (s, args) =>
-		//            {
-		//                try
-		//                {
-		//                    var val = args.Data;
-		//                    //Debug.WriteLine("\r\n--------------------------------------\r\n");
-		//                    //Debug.WriteLine("PriceTick: {0} {1} {2}\r\n", topic, val.Price, val.TickDate);
-		//                    onUpdate(val);
-		//                }
-		//                catch (Exception exc)
-		//                {
-		//                    _onError(exc);
-		//                }
-		//            };
-		//        listener.Start();
-
-		//        lock (_sync)
-		//        {
-		//            _priceTicksListeners.Add(listener);
-		//        }
-		//    }
-		//    catch (Exception exc)
-		//    {
-		//        _onError(exc);
-		//    }
-		//}
-
 		void GenerateDummyPriceTicksThreadEntry(Action<PriceTickDTO> onUpdate)
 		{
 			try

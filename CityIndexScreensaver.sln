@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README = README
 	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIAPI.IntegrationTests", "CIAPI.IntegrationTests\CIAPI.IntegrationTests.csproj", "{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}"
 EndProject
 Global
@@ -34,6 +35,7 @@ Global
 		{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}.Debug|x86.Build.0 = Debug|Any CPU
 		{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FE60B19-E575-4AEE-BEC8-6965C7F43CA3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU

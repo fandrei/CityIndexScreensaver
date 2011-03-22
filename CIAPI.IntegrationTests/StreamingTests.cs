@@ -108,7 +108,7 @@ namespace CIAPI.IntegrationTests
 
         private void BeginCollectingMessages<T>(IStreamingListener<T> listener, ICollection<T> messages) where T : class
         {
-            listener.MessageRecieved += (s, e) =>
+            listener.MessageReceived += (s, e) =>
                                             {
                                                 messages.Add(e.Data);
                                                 _logger.Info("++ Recieved message " + e.Data.ToStringWithValues());
@@ -192,7 +192,7 @@ namespace CIAPI.IntegrationTests
                 collectedPrices.Add(market, prices);
 
                 var priceListener = streamingClient.BuildPriceListener("PRICES.PRICE." + market);
-                priceListener.MessageRecieved += (s, e) =>
+                priceListener.MessageReceived += (s, e) =>
                                                      {
                                                          prices.Add(e.Data);
                                                          if (prices.Count >= minPricesToCollect) gate.Set();
