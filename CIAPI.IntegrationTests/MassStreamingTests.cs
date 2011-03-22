@@ -28,23 +28,29 @@ namespace CIAPI.IntegrationTests
 			var listeners = new List<IStreamingListener<PriceDTO>>();
 			try
 			{
-				var i = 0;
-				var options = new ParallelOptions {MaxDegreeOfParallelism = -1};
-				Parallel.ForEach(Const.MarketIds, options,
-					marketId =>
+				lock (sync)
+				{
+					foreach (var marketId in Const.MarketIds)
 					{
 						var topic = string.Format("PRICES.PRICE.{0}", marketId);
-						IStreamingListener<PriceDTO> listener;
-						lock (sync)
+						var listener = streamingClient.BuildPriceListener(topic);
+						listeners.Add(listener);
+					}
+				}
+
+				lock (sync)
+				{
+					var i = 0;
+					var options = new ParallelOptions { MaxDegreeOfParallelism = -1 };
+					Parallel.ForEach(listeners, options,
+						listener =>
 						{
-							listener = streamingClient.BuildPriceListener(topic);
-							listeners.Add(listener);
-						}
-						listener.MessageReceived += listener_MessageReceived;
-						listener.Start();
-						Debug.WriteLine("item: {0}", i++);
-					});
-				Debug.WriteLine("\r\nAll listeners created ok\r\n");
+							listener.MessageReceived += listener_MessageReceived;
+							listener.Start();
+							Debug.WriteLine("item: {0}", i++);
+						});
+					Debug.WriteLine("\r\nAll listeners created ok\r\n");
+				}
 			}
 			finally
 			{
