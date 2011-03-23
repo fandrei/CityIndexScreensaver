@@ -29,13 +29,6 @@ namespace CityIndexScreensaver
 			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry(onUpdate));
 		}
 
-		public void SubscribePriceTicks(string topic, Action<PriceTickDTO> onUpdate)
-		{
-			VerifyIfDisposed();
-			//ThreadPool.QueueUserWorkItem(x => SubscribePriceTicksThreadEntry(topic, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPriceTicksThreadEntry(onUpdate));
-		}
-
 		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)
 		{
 			VerifyIfDisposed();
@@ -110,7 +103,7 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		void GenerateDummyPriceTicksThreadEntry(Action<PriceTickDTO> onUpdate)
+		void GenerateDummyPricesThreadEntry(Action<PriceTickDTO> onUpdate)
 		{
 			try
 			{
