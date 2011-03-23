@@ -81,26 +81,26 @@ namespace CityIndexScreensaver
 
 			try
 			{
-				var listener = _streamingClient.BuildPriceListener(topic);
-				listener.MessageReceived +=
-					(s, args) =>
-					{
-						try
-						{
-							var val = args.Data;
-							//Debug.WriteLine("\r\n--------------------------------------\r\n");
-							//Debug.WriteLine("Price: {0} {1} {2}\r\n", val.MarketId, val.Price, val.TickDate);
-							onUpdate(val);
-						}
-						catch (Exception exc)
-						{
-							_onError(exc);
-						}
-					};
-				listener.Start();
-
-				lock (_sync)
+				lock (_streamingClientSync)
 				{
+					var listener = _streamingClient.BuildPriceListener(topic);
+					listener.MessageReceived +=
+						(s, args) =>
+						{
+							try
+							{
+								var val = args.Data;
+								//Debug.WriteLine("\r\n--------------------------------------\r\n");
+								//Debug.WriteLine("Price: {0} {1} {2}\r\n", val.MarketId, val.Price, val.TickDate);
+								onUpdate(val);
+							}
+							catch (Exception exc)
+							{
+								_onError(exc);
+							}
+						};
+					listener.Start();
+
 					_priceListeners.Add(listener);
 				}
 			}
@@ -163,19 +163,16 @@ namespace CityIndexScreensaver
 			{
 				var listeners = new List<IStreamingListener>();
 
-				lock (_sync)
+				lock (_streamingClientSync)
 				{
 					listeners.AddRange(_priceListeners);
 					_priceListeners.Clear();
 				}
 
-				lock (_sync)
+				foreach (var listener in listeners)
 				{
-					listeners.AddRange(_priceTicksListeners);
-					_priceTicksListeners.Clear();
+					listener.Stop();
 				}
-
-				Parallel.ForEach(listeners, listener => listener.Stop());
 
 				lock (_sync)
 				{
@@ -186,8 +183,12 @@ namespace CityIndexScreensaver
 					}
 					if (_client != null)
 					{
-						_client.BeginLogOut(ar => _client.EndLogOut(ar), null);
-						_client = null;
+						_client.BeginLogOut(
+							ar =>
+							{
+								_client.EndLogOut(ar);
+								_client = null;
+							}, null);
 					}
 				}
 			}
@@ -211,10 +212,10 @@ namespace CityIndexScreensaver
 
 		readonly object _sync = new object();
 		private Client _client;
+
 		private IStreamingClient _streamingClient;
+		readonly object _streamingClientSync = new object();
 
 		private readonly List<IStreamingListener<PriceDTO>> _priceListeners = new List<IStreamingListener<PriceDTO>>();
-		private readonly List<IStreamingListener<PriceTickDTO>> _priceTicksListeners =
-			new List<IStreamingListener<PriceTickDTO>>();
 	}
 }
