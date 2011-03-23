@@ -8,8 +8,6 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-using CIAPI.DTO;
-
 namespace CityIndexScreensaver
 {
 	/// <summary>
@@ -23,7 +21,7 @@ namespace CityIndexScreensaver
 			InitTimer();
 		}
 
-		public void AddItem(PriceTickDTO item)
+		public void AddItem(Item item)
 		{
 			_items.Add(item);
 			if (_items.Count == 1) // need at least two points to make a line
@@ -47,11 +45,11 @@ namespace CityIndexScreensaver
 			double prevOffset = offset;
 			double prevVal = 0;
 
-			PriceTickDTO prevItem = null;
+			Item prevItem = null;
 			int i = 0;
 			foreach (var item in _items)
 			{
-				var val = (double)item.Price - _minValue;
+				var val = (double)item.Value - _minValue;
 
 				if (prevItem != null)
 				{
@@ -72,8 +70,8 @@ namespace CityIndexScreensaver
 
 		private void UpdateValueScale()
 		{
-			_minValue = (double)_items.Min(x => x.Price);
-			var maxValue = (double)_items.Max(x => x.Price);
+			_minValue = (double)_items.Min(x => x.Value);
+			var maxValue = (double)_items.Max(x => x.Value);
 			var diff = maxValue - _minValue;
 
 			if (diff != 0)
@@ -102,16 +100,16 @@ namespace CityIndexScreensaver
 		{
 			if (_items.Count == 0)
 				return 0;
-			var minTime = _items.First().TickDate;
-			var maxTime = _items.Last().TickDate;
+			var minTime = _items.First().Time;
+			var maxTime = _items.Last().Time;
 			var res = (maxTime - minTime).TotalSeconds;
 			Debug.Assert(res >= 0);
 			return res;
 		}
 
-		private double GetDistance(PriceTickDTO val1, PriceTickDTO val2)
+		private double GetDistance(Item val1, Item val2)
 		{
-			return (val2.TickDate - val1.TickDate).TotalSeconds * _timeScale;
+			return (val2.Time - val1.Time).TotalSeconds * _timeScale;
 		}
 
 		private Line CreateLine(double prevValue, double value, double prevOffset, double offset)
@@ -175,7 +173,7 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		readonly List<PriceTickDTO> _items = new List<PriceTickDTO>();
+		readonly List<Item> _items = new List<Item>();
 
 		private double _valueScale = 1;
 		private double _minValue;
@@ -191,5 +189,11 @@ namespace CityIndexScreensaver
 
 		readonly DispatcherTimer _timer = new DispatcherTimer();
 		private readonly TimeSpan _timerPeriod = TimeSpan.FromMilliseconds(50);
+
+		public class Item
+		{
+			public decimal Value { get; set; }
+			public DateTime Time { get; set; }
+		}
 	}
 }

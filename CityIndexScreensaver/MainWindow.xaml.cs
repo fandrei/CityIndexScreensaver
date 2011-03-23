@@ -91,7 +91,8 @@ namespace CityIndexScreensaver
 
 		private void OnChartUpdate(PriceTickDTO val)
 		{
-			DispatcherBeginInvoke(() => Chart.AddItem(val));
+			var item = new ChartControl.Item {Value = val.Price, Time = val.TickDate};
+			DispatcherBeginInvoke(() => Chart.AddItem(item));
 		}
 
 		private void SetWindowFullScreen()
