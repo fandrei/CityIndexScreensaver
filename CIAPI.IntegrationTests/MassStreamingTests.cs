@@ -11,7 +11,6 @@ using NUnit.Framework;
 using CIAPI.Rpc;
 using CIAPI.Streaming;
 using StreamingClient;
-using IStreamingClient = CIAPI.Streaming.IStreamingClient;
 
 namespace CIAPI.IntegrationTests
 {
