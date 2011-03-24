@@ -180,6 +180,7 @@ namespace CityIndexScreensaver
 							ar =>
 							{
 								_client.EndLogOut(ar);
+								_client.Dispose();
 								_client = null;
 							}, null);
 					}
@@ -189,6 +190,7 @@ namespace CityIndexScreensaver
 			{
 				Debug.WriteLine(exc.ToString());
 			}
+			Debug.WriteLine("Data.Dispose() finished successfully\r\n");
 		}
 
 		void VerifyIfDisposed()
