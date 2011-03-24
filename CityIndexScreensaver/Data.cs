@@ -176,13 +176,9 @@ namespace CityIndexScreensaver
 					}
 					if (_client != null)
 					{
-						_client.BeginLogOut(
-							ar =>
-							{
-								_client.EndLogOut(ar);
-								_client.Dispose();
-								_client = null;
-							}, null);
+						_client.LogOut();
+						_client.Dispose();
+						_client = null;
 					}
 				}
 			}
