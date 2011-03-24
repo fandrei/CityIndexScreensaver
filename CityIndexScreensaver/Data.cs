@@ -38,11 +38,8 @@ namespace CityIndexScreensaver
 		// call from background threads only
 		void EnsureConnection()
 		{
-			lock (_syncIsDisposed)
-			{
-				if (_isDisposed)
-					Thread.CurrentThread.Abort();
-			}
+			if (_disposing)
+				Thread.CurrentThread.Abort();
 
 			try
 			{
@@ -74,7 +71,7 @@ namespace CityIndexScreensaver
 
 			try
 			{
-				lock (_streamingClientSync)
+				lock (_sync)
 				{
 					var listener = _streamingClient.BuildPriceListener(topic);
 					listener.MessageReceived +=
@@ -141,34 +138,27 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		readonly object _syncIsDisposed = new object();
-		private bool _isDisposed;
+		private volatile bool _disposing;
 
 		public void Dispose()
 		{
 			Debug.WriteLine("Data.Dispose()\r\n");
-			lock (_syncIsDisposed)
-			{
-				_isDisposed = true;
-			}
+			_disposing = true;
 
 			try
 			{
 				var listeners = new List<IStreamingListener>();
 
-				lock (_streamingClientSync)
+				lock (_sync)
 				{
 					listeners.AddRange(_priceListeners);
 					_priceListeners.Clear();
-				}
 
-				foreach (var listener in listeners)
-				{
-					listener.Stop();
-				}
+					foreach (var listener in listeners)
+					{
+						listener.Stop();
+					}
 
-				lock (_sync)
-				{
 					if (_streamingClient != null)
 					{
 						_streamingClient.Disconnect();
@@ -191,11 +181,8 @@ namespace CityIndexScreensaver
 
 		void VerifyIfDisposed()
 		{
-			lock (_syncIsDisposed)
-			{
-				if (_isDisposed)
-					throw new ObjectDisposedException("Data");
-			}
+			if (_disposing)
+				throw new ObjectDisposedException("Data");
 		}
 
 		private const string USERNAME = "xx189949";
@@ -205,7 +192,6 @@ namespace CityIndexScreensaver
 		private Client _client;
 
 		private IStreamingClient _streamingClient;
-		readonly object _streamingClientSync = new object();
 
 		private readonly List<IStreamingListener<PriceDTO>> _priceListeners = new List<IStreamingListener<PriceDTO>>();
 	}
