@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 using CIAPI.DTO;
 using CIAPI.Rpc;
@@ -35,7 +34,6 @@ namespace CityIndexScreensaver
 			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
 		}
 
-		// call from background threads only
 		void EnsureConnection()
 		{
 			if (_disposing)
