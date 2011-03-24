@@ -41,38 +41,31 @@ namespace CityIndexScreensaver
 			if (_disposing)
 				Thread.CurrentThread.Abort();
 
-			try
+			lock (_sync)
 			{
-				lock (_sync)
+				if (_client == null)
 				{
-					if (_client == null)
-					{
-						_client = new Client(new Uri(ApplicationSettings.Instance.ServerUrl));
-						_client.LogIn(USERNAME, PASSWORD);
-					}
-
-					if (_streamingClient == null)
-					{
-						_streamingClient = StreamingClientFactory.CreateStreamingClient(
-							new Uri(ApplicationSettings.Instance.StreamingServerUrl), USERNAME, _client.SessionId);
-						_streamingClient.Connect();
-					}
+					_client = new Client(new Uri(ApplicationSettings.Instance.ServerUrl));
+					_client.LogIn(USERNAME, PASSWORD);
 				}
-			}
-			catch (Exception exc)
-			{
-				_onError(exc);
+
+				if (_streamingClient == null)
+				{
+					_streamingClient = StreamingClientFactory.CreateStreamingClient(
+						new Uri(ApplicationSettings.Instance.StreamingServerUrl), USERNAME, _client.SessionId);
+					_streamingClient.Connect();
+				}
 			}
 		}
 
 		void SubscribePricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
 		{
-			EnsureConnection();
-
 			try
 			{
 				lock (_sync)
 				{
+					EnsureConnection();
+
 					var listener = _streamingClient.BuildPriceListener(topic);
 					listener.MessageReceived +=
 						(s, args) =>
@@ -125,11 +118,15 @@ namespace CityIndexScreensaver
 
 		void SubscribeNewsThreadEntry(Action<NewsDTO[]> onSuccess)
 		{
-			EnsureConnection();
-
 			try
 			{
-				var resp = _client.ListNewsHeadlines("UK", 20);
+				ListNewsHeadlinesResponseDTO resp;
+				lock (_sync)
+				{
+					EnsureConnection();
+
+					resp = _client.ListNewsHeadlines("UK", 20);
+				}
 				onSuccess(resp.Headlines);
 			}
 			catch (Exception exc)
@@ -147,10 +144,9 @@ namespace CityIndexScreensaver
 
 			try
 			{
-				var listeners = new List<IStreamingListener>();
-
 				lock (_sync)
 				{
+					var listeners = new List<IStreamingListener>();
 					listeners.AddRange(_priceListeners);
 					_priceListeners.Clear();
 
@@ -176,6 +172,7 @@ namespace CityIndexScreensaver
 			{
 				Debug.WriteLine(exc.ToString());
 			}
+
 			Debug.WriteLine("Data.Dispose() finished successfully\r\n");
 		}
 
