@@ -33,7 +33,7 @@
             <GradientStop Color="DarkBlue" Offset="0.25" />
         </LinearGradientBrush>
     </UserControl.Resources>
-    <Border BorderThickness="1" BorderBrush="LightGray" Margin="5, 5, 5, 5" Width="300" Height="120">
+    <Border BorderThickness="1" BorderBrush="LightGray" Margin="5, 5, 5, 5" Width="310" Height="120">
         <Grid Background="Black">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
