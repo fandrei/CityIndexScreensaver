@@ -84,7 +84,6 @@
       <DependentUpon>ChartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Const.cs" />
-    <Compile Include="Example.FetchNews.cs" />
     <Compile Include="PriceItemControl.xaml.cs">
       <DependentUpon>PriceItemControl.xaml</DependentUpon>
     </Compile>
@@ -159,7 +158,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Logo.png" />
+    <Resource Include="Resources\Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
