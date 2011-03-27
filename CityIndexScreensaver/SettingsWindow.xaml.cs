@@ -132,6 +132,7 @@ namespace CityIndexScreensaver
 
 		private void SubscriptionsGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			e.Handled = true;
 			if (_isDragging)
 				return;
 
@@ -144,8 +145,6 @@ namespace CityIndexScreensaver
 			_isDragging = true;
 
 			SubscriptionsGrid.SelectedIndex = _subscriptions.IndexOf(_draggingItem);
-
-			e.Handled = true;
 		}
 
 		private void SubscriptionsGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
