@@ -1,7 +1,8 @@
 ﻿<Window x:Class="CityIndexScreensaver.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="City Index Screensaver Settings" Width="800" Height="600" ShowInTaskbar="False" Loaded="Window_Loaded">
+        Title="City Index Screensaver Settings" Width="800" Height="600" 
+        ShowInTaskbar="False" Loaded="Window_Loaded" ResizeMode="CanResizeWithGrip" WindowStyle="ToolWindow">
     <Grid Margin="6">
         <Grid.RowDefinitions>
             <RowDefinition />
