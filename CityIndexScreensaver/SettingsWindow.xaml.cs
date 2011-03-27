@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -36,7 +37,7 @@ namespace CityIndexScreensaver
 		{
 			AllMarketsGrid.ItemsSource = markets;
 
-			var marketNames = markets.ToDictionary(market => market.MarketId.ToString(), market => market.Name);
+			var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
 
 			_subscriptions.Clear();
 			foreach (var id in ApplicationSettings.Instance.PricesToWatch)
@@ -44,13 +45,7 @@ namespace CityIndexScreensaver
 				string marketName;
 				if (marketNames.TryGetValue(id, out marketName))
 				{
-					_subscriptions.Add(
-						new Subscription
-							{
-								MarketId = id,
-								SequenceNumber = _subscriptions.Count,
-								Name = marketName
-							});
+					_subscriptions.Add(new MarketDTO { MarketId = id, Name = marketName });
 				}
 			}
 			SubscriptionsGrid.ItemsSource = _subscriptions;
@@ -106,13 +101,7 @@ namespace CityIndexScreensaver
 			var items = AllMarketsGrid.SelectedItems;
 			foreach (MarketDTO market in items)
 			{
-				var newSubscription =
-					new Subscription
-					{
-						MarketId = market.MarketId.ToString(),
-						SequenceNumber = _subscriptions.Count,
-						Name = market.Name
-					};
+				var newSubscription = new MarketDTO { MarketId = market.MarketId, Name = market.Name };
 
 				for (var i = 0; i < _subscriptions.Count; i++)
 				{
@@ -129,20 +118,61 @@ namespace CityIndexScreensaver
 
 		private void ImageRemove_Click(object sender, MouseButtonEventArgs e)
 		{
-			var selected = SubscriptionsGrid.SelectedItems.Cast<Subscription>().ToList();
+			var selected = SubscriptionsGrid.SelectedItems.Cast<MarketDTO>().ToList();
 			foreach (var subscription in selected)
 			{
 				_subscriptions.Remove(subscription);
 			}
 		}
 
-		class Subscription
+		private readonly ObservableCollection<MarketDTO> _subscriptions = new ObservableCollection<MarketDTO>();
+
+		private bool _isDragging;
+		private MarketDTO _draggingItem;
+
+		private void SubscriptionsGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			public string MarketId { get; set; }
-			public int SequenceNumber { get; set; }
-			public string Name { get; set; }
+			if (_isDragging)
+				return;
+
+			var text = e.OriginalSource as TextBlock;
+			if (text == null)
+				return;
+
+			var source = (MarketDTO)text.DataContext;
+			_draggingItem = source;
+			_isDragging = true;
+
+			SubscriptionsGrid.SelectedIndex = _subscriptions.IndexOf(_draggingItem);
+
+			e.Handled = true;
 		}
 
-		private readonly ObservableCollection<Subscription> _subscriptions = new ObservableCollection<Subscription>();
+		private void SubscriptionsGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			_isDragging = false;
+		}
+
+		// DataGrid mouse move events are suppressed, when left mouse button is pressed
+		// so, subscribe to mouse move events of the parent control instead
+		private void SubscriptionsGrid_PreviewMouseMove(object sender, MouseEventArgs e)
+		{
+			if (!_isDragging)
+				return;
+
+			var text = e.OriginalSource as TextBlock;
+			if (text == null)
+				return;
+
+			var current = (MarketDTO)text.DataContext;
+			if (current.MarketId != _draggingItem.MarketId)
+			{
+				var curIndex = _subscriptions.IndexOf(current);
+				var sourceIndex = _subscriptions.IndexOf(_draggingItem);
+				_subscriptions.Move(sourceIndex, curIndex);
+
+				SubscriptionsGrid.SelectedIndex = curIndex;
+			}
+		}
 	}
 }

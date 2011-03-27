@@ -36,13 +36,13 @@ namespace CityIndexScreensaver
 			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
 		}
 
-		public void SubscribePrices(string id, Action<PriceDTO> onUpdate)
+		public void SubscribePrices(int id, Action<PriceDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			id = "PRICES.PRICE." + id;
+			var topic = "PRICES.PRICE." + id;
 
 			//ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(id, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(id, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(topic, onUpdate));
 		}
 
 		public void GetMarketsList(Action<MarketDTO[]> onSuccess)

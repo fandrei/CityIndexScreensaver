@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Linq;
 using System.Security;
 using System.Xml.Serialization;
 
@@ -16,7 +17,7 @@ namespace CityIndexScreensaver
 			UserName = "xx189949";
 			Password = "password";
 
-			var prices = new[] { "99500", "99502", "99504", "99506", };
+			var prices = new[] { 99500, 99502, 99504, 99506, };
 			PricesToWatchString = IdsToString(prices);
 		}
 
@@ -26,19 +27,20 @@ namespace CityIndexScreensaver
 		public string Password { get; set; }
 
 		public string PricesToWatchString { get; set; }
-		public string[] PricesToWatch
+		public int[] PricesToWatch
 		{
 			get { return StringToIds(PricesToWatchString); }
 			set { PricesToWatchString = IdsToString(value); }
 		}
 
-		static string[] StringToIds(string ids)
+		static int[] StringToIds(string ids)
 		{
-			var res = ids.Split(new[] { PricesDelimiter }, StringSplitOptions.RemoveEmptyEntries);
+			var tmp = ids.Split(new[] { PricesDelimiter }, StringSplitOptions.RemoveEmptyEntries);
+			var res = (from id in tmp select int.Parse(id)).ToArray();
 			return res;
 		}
 
-		static string IdsToString(string[] ids)
+		static string IdsToString(int[] ids)
 		{
 			var res = string.Join(PricesDelimiter, ids);
 			return res;

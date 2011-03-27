@@ -37,9 +37,9 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <DockPanel>
+                    <DockPanel PreviewMouseMove="SubscriptionsGrid_PreviewMouseMove">
                         <Label Content="Currently subscribed" DockPanel.Dock="Top"/>
-                        <DataGrid Name="SubscriptionsGrid">
+                        <DataGrid Name="SubscriptionsGrid" PreviewMouseLeftButtonDown="SubscriptionsGrid_PreviewMouseLeftButtonDown"  PreviewMouseLeftButtonUp="SubscriptionsGrid_PreviewMouseLeftButtonUp">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>

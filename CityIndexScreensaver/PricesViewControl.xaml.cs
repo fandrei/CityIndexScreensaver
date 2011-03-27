@@ -29,13 +29,13 @@ namespace CityIndexScreensaver
 			if (State.Data == null)
 				return;
 
-			var topics = ApplicationSettings.Instance.PricesToWatch;
-			foreach (var topic in topics)
+			var prices = ApplicationSettings.Instance.PricesToWatch;
+			foreach (var id in prices)
 			{
 				var control = new PriceItemControl();
-				control.CaptionLabel.Content = topic;
+				control.CaptionLabel.Content = id;
 
-				State.Data.SubscribePrices(topic, control.SetNewPrice);
+				State.Data.SubscribePrices(id, control.SetNewPrice);
 
 				PricesPanel.Children.Add(control);
 			}
