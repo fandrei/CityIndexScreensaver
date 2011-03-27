@@ -94,7 +94,6 @@ namespace CityIndexScreensaver
 		private void ShowSettingsWindow(IntPtr hParent)
 		{
 			var window = new SettingsWindow();
-			window.DataContext = ApplicationSettings.Instance;
 			var helper = new WindowInteropHelper(window) { Owner = hParent };
 			window.ShowDialog();
 		}

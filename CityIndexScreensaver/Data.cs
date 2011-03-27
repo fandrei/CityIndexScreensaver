@@ -22,16 +22,51 @@ namespace CityIndexScreensaver
 
 		private readonly Action<Exception> _onError;
 
-		public void SubscribeNews(Action<NewsDTO[]> onUpdate)
+		void ReportError(Exception exc)
 		{
-			VerifyIfDisposed();
-			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry(onUpdate));
+#if DEBUG
+			Debugger.Break();
+#endif
+			_onError(exc);
 		}
 
-		public void SubscribePrices(string topic, Action<PriceDTO> onUpdate)
+		public void SubscribeNews(Action<NewsDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
+		}
+
+		public void SubscribePrices(string id, Action<PriceDTO> onUpdate)
+		{
+			VerifyIfDisposed();
+			id = "PRICES.PRICE." + id;
+
+			//ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(id, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(id, onUpdate));
+		}
+
+		public void GetMarketsList(Action<MarketDTO[]> onSuccess)
+		{
+			try
+			{
+				// non-functional yet...
+
+				//lock (_sync)
+				//{
+				//    EnsureConnection();
+				//}
+				//var accountInfo = _client.GetClientAndTradingAccount();
+				//var resp = _client.ListCfdMarkets("", "", accountInfo.ClientAccountId, -1);
+				//onSuccess(resp.Markets);
+
+				var markets = new List<MarketDTO>(Const.Markets.Count);
+				markets.AddRange(Const.Markets.Select(pair => new MarketDTO { MarketId = pair.Key, Name = pair.Value }));
+				onSuccess(markets.ToArray());
+			}
+			catch (Exception exc)
+			{
+				ReportError(exc);
+			}
 		}
 
 		void EnsureConnection()
@@ -44,13 +79,14 @@ namespace CityIndexScreensaver
 				if (_client == null)
 				{
 					_client = new Client(new Uri(ApplicationSettings.Instance.ServerUrl));
-					_client.LogIn(USERNAME, PASSWORD);
+					_client.LogIn(ApplicationSettings.Instance.UserName, ApplicationSettings.Instance.Password);
 				}
 
 				if (_streamingClient == null)
 				{
 					_streamingClient = StreamingClientFactory.CreateStreamingClient(
-						new Uri(ApplicationSettings.Instance.StreamingServerUrl), USERNAME, _client.SessionId);
+						new Uri(ApplicationSettings.Instance.StreamingServerUrl), 
+						ApplicationSettings.Instance.UserName, _client.SessionId);
 					_streamingClient.Connect();
 				}
 			}
@@ -70,14 +106,11 @@ namespace CityIndexScreensaver
 						{
 							try
 							{
-								var val = args.Data;
-								//Debug.WriteLine("\r\n--------------------------------------\r\n");
-								//Debug.WriteLine("Price: {0} {1} {2}\r\n", val.MarketId, val.Price, val.TickDate);
-								onUpdate(val);
+								onUpdate(args.Data);
 							}
 							catch (Exception exc)
 							{
-								_onError(exc);
+								ReportError(exc);
 							}
 						};
 					listener.Start();
@@ -87,34 +120,41 @@ namespace CityIndexScreensaver
 			}
 			catch (Exception exc)
 			{
-				_onError(exc);
+				ReportError(exc);
 			}
 		}
 
-		void GenerateDummyPricesThreadEntry(Action<PriceTickDTO> onUpdate)
+		void GenerateDummyPricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
 		{
 			try
 			{
 				var random = new Random();
-				var price = Convert.ToDecimal(random.NextDouble() * 10000);
+				var price = Convert.ToDecimal(random.NextDouble() * 5000);
+				price = Math.Round(price, 2);
+				decimal min = price, max = price;
 				while (true)
 				{
-					var data = new PriceTickDTO { Price = price, TickDate = DateTime.Now };
-					var delta = Convert.ToDecimal(random.NextDouble() * 1000 - 500);
+					var data = new PriceDTO { Price = price, Low = min, High = max, Bid = price, Offer = price };
+					onUpdate(data);
+
+					var delta = Convert.ToDecimal(random.NextDouble() * 300 - 150);
 					price += delta;
 					if (price <= 0)
 						price = Math.Abs(price + delta);
-					onUpdate(data);
-					Thread.Sleep(random.Next(1000));
+					price = Math.Round(price, 2);
+					min = Math.Min(min, price);
+					max = Math.Max(max, price);
+
+					Thread.Sleep(random.Next(5000));
 				}
 			}
 			catch (Exception exc)
 			{
-				_onError(exc);
+				ReportError(exc);
 			}
 		}
 
-		void SubscribeNewsThreadEntry(Action<NewsDTO[]> onSuccess)
+		void SubscribeNewsThreadEntry(string topic, Action<NewsDTO> onUpdate)
 		{
 			try
 			{
@@ -123,13 +163,28 @@ namespace CityIndexScreensaver
 				{
 					EnsureConnection();
 
-					resp = _client.ListNewsHeadlines("UK", 20);
+					resp = _client.ListNewsHeadlines(topic, 20);
+
+					var listener = _streamingClient.BuildNewsHeadlinesListener(topic);
+					listener.MessageReceived +=
+						(s, args) =>
+						{
+							try
+							{
+								var val = args.Data;
+								onUpdate(val);
+							}
+							catch (Exception exc)
+							{
+								ReportError(exc);
+							}
+						};
+					listener.Start();
 				}
-				onSuccess(resp.Headlines);
 			}
 			catch (Exception exc)
 			{
-				_onError(exc);
+				ReportError(exc);
 			}
 		}
 
@@ -179,9 +234,6 @@ namespace CityIndexScreensaver
 			if (_disposing)
 				throw new ObjectDisposedException("Data");
 		}
-
-		private const string USERNAME = "xx189949";
-		private const string PASSWORD = "password";
 
 		readonly object _sync = new object();
 		private Client _client;

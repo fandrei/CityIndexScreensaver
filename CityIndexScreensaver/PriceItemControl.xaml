@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style TargetType="{x:Type Label}">
+        <Style TargetType="Label">
             <Setter Property="Foreground" Value="White" />
         </Style>
         <Style x:Key="BigLabelStyle" TargetType="Label">

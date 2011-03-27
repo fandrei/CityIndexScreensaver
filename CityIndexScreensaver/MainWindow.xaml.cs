@@ -32,7 +32,7 @@ namespace CityIndexScreensaver
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
-			State.Data.SubscribePrices(ApplicationSettings.Instance.PriceTicksToWatch[0], OnChartUpdate);
+			State.Data.SubscribePrices(ApplicationSettings.Instance.PricesToWatch[0], OnChartUpdate);
 
 			State.Data.SubscribeNews(
 				news => DispatcherBeginInvoke(() =>

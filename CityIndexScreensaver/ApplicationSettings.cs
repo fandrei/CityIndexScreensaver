@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Security;
@@ -13,39 +14,37 @@ namespace CityIndexScreensaver
 			ServerUrl = "https://ciapipreprod.cityindextest9.co.uk/tradingapi";
 			StreamingServerUrl = "https://pushpreprod.cityindextest9.co.uk/CITYINDEXSTREAMING";
 			UserName = "xx189949";
-			//Password = "password";
+			Password = "password";
 
 			var prices = new[] { "99500", "99502", "99504", "99506", };
-			PricesToWatchString = string.Join(",", prices);
-
-			var priceTicks = new[] { "99498" };
-			PriceTicksToWatchString = string.Join(",", priceTicks);
+			PricesToWatchString = IdsToString(prices);
 		}
 
 		public string ServerUrl { get; set; }
 		public string StreamingServerUrl { get; set; }
 		public string UserName { get; set; }
-		public SecureString Password { get; set; }
+		public string Password { get; set; }
 
 		public string PricesToWatchString { get; set; }
 		public string[] PricesToWatch
 		{
-			get { return IdStringToTopics(PricesToWatchString); }
+			get { return StringToIds(PricesToWatchString); }
+			set { PricesToWatchString = IdsToString(value); }
 		}
 
-		public string PriceTicksToWatchString { get; set; }
-		public string[] PriceTicksToWatch
+		static string[] StringToIds(string ids)
 		{
-			get { return IdStringToTopics(PriceTicksToWatchString); }
-		}
-
-		static string[] IdStringToTopics(string ids)
-		{
-			var res = ids.Split(',');
-			for (int i = 0; i < res.Length; i++)
-				res[i] = "PRICES.PRICE." + res[i];
+			var res = ids.Split(new[] { PricesDelimiter }, StringSplitOptions.RemoveEmptyEntries);
 			return res;
 		}
+
+		static string IdsToString(string[] ids)
+		{
+			var res = string.Join(PricesDelimiter, ids);
+			return res;
+		}
+
+		const string PricesDelimiter = " ";
 
 		private static ApplicationSettings _instance;
 

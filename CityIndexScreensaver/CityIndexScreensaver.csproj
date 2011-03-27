@@ -160,6 +160,12 @@
   <ItemGroup>
     <Resource Include="Resources\Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Plus.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(TargetDir)\CityIndex.scr</PostBuildEvent>
