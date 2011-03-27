@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
+using CityIndexScreensaver.Utils;
+
 using CIAPI.DTO;
 
 namespace CityIndexScreensaver
@@ -26,6 +28,8 @@ namespace CityIndexScreensaver
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			Application.Current.DispatcherUnhandledException += OnUnhandledException;
+
+			this.HideMinimizeAndMaximizeButtons();
 
 			State.Data = new Data(ReportException);
 			State.Data.GetMarketsList(markets => DispatcherBeginInvoke(() => RefreshMarketsView(markets)));

@@ -97,6 +97,7 @@
     <Compile Include="TickerControl.xaml.cs">
       <DependentUpon>TickerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\WindowExtensions.cs" />
     <Page Include="ChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
