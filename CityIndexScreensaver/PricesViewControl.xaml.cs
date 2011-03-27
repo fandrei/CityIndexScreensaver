@@ -30,16 +30,29 @@ namespace CityIndexScreensaver
 				return;
 
 			var prices = ApplicationSettings.Instance.PricesToWatch;
-			foreach (var id in prices)
-			{
-				var control = new PriceItemControl();
-				control.CaptionLabel.Content = id;
+			State.Data.GetMarketsList(
+				markets =>
+					{
+						var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
 
-				State.Data.SubscribePrices(id, control.SetNewPrice);
+						Dispatcher.BeginInvoke(
+							new Action(() =>
+								{
+									foreach (var id in prices)
+									{
+										var control = new PriceItemControl();
 
-				PricesPanel.Children.Add(control);
-			}
+										string marketName;
+										if (marketNames.TryGetValue(id, out marketName))
+										{
+											control.CaptionLabel.Content = marketName;
+											State.Data.SubscribePrices(id, control.SetNewPrice);
+											PricesPanel.Children.Add(control);
+										}
+									}
+								}));
+					});
+
 		}
-
 	}
 }
