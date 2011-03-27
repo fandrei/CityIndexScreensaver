@@ -71,7 +71,12 @@
                 </Grid>
             </TabItem>
             <TabItem Name="tabItem1" Header="Connection">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="4">
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Setter Property="Margin" Value="4,4,4,4" />
+                        </Style>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
@@ -79,11 +84,17 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="Server" />
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ServerUrl, Mode=TwoWay}" MaxLines="3" MinLines="3" TextWrapping="Wrap" />
                     <Label Grid.Row="1" Grid.Column="0" Content="Streaming Server" />
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StreamingServerUrl, Mode=TwoWay}" MaxLines="3" MinLines="3" TextWrapping="Wrap" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="User Name" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding UserName, Mode=TwoWay}" />
+                    <Label Grid.Row="3" Grid.Column="0" Content="Password" />
+                    <PasswordBox Name="PasswordEdit" Grid.Row="3" Grid.Column="1" />
                 </Grid>
             </TabItem>
         </TabControl>

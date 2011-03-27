@@ -90,6 +90,8 @@ namespace CityIndexScreensaver
 			var subscribedIds = _subscriptions.Select(subscription => subscription.MarketId).ToArray();
 			ApplicationSettings.Instance.PricesToWatch = subscribedIds;
 
+			ApplicationSettings.Instance.Password = PasswordEdit.Password;
+
 			ApplicationSettings.Instance.Save();
 			this.DialogResult = true;
 		}
