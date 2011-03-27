@@ -32,7 +32,7 @@ namespace CityIndexScreensaver
 			this.HideMinimizeAndMaximizeButtons();
 
 			State.Data = new Data(ReportException);
-			State.Data.GetMarketsList(markets => DispatcherBeginInvoke(() => RefreshMarketsView(markets)));
+			State.Data.GetMarketsList(RefreshMarketsView);
 
 			DataContext = ApplicationSettings.Instance;
 		}
@@ -59,7 +59,7 @@ namespace CityIndexScreensaver
 		{
 			try
 			{
-				ReportExceptionDirectly(args.Exception);
+				ReportException(args.Exception);
 			}
 			catch (Exception exc)
 			{
@@ -69,17 +69,7 @@ namespace CityIndexScreensaver
 			args.Handled = true;
 		}
 
-		private void ReportException(Exception exc)
-		{
-			DispatcherBeginInvoke(() => ReportExceptionDirectly(exc));
-		}
-
-		void DispatcherBeginInvoke(Action action)
-		{
-			Dispatcher.BeginInvoke(action, null);
-		}
-
-		private static void ReportExceptionDirectly(Exception exc)
+		private static void ReportException(Exception exc)
 		{
 			var msg = State.IsDebug ? exc.ToString() : exc.Message;
 			MessageBox.Show(msg);

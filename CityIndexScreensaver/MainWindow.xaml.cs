@@ -34,11 +34,7 @@ namespace CityIndexScreensaver
 
 			State.Data.SubscribePrices(ApplicationSettings.Instance.PricesToWatch[0], OnChartUpdate);
 
-			State.Data.SubscribeNews(
-				news => DispatcherBeginInvoke(() =>
-				{
-					NewsTicker.DataContext = news;
-				}));
+			State.Data.SubscribeNews(news => NewsTicker.DataContext = news);
 		}
 
 		private void App_Unloaded(object sender, ExitEventArgs e)
@@ -50,7 +46,7 @@ namespace CityIndexScreensaver
 		{
 			try
 			{
-				ReportExceptionDirectly(args.Exception);
+				ReportException(args.Exception);
 			}
 			catch (Exception exc)
 			{
@@ -91,9 +87,9 @@ namespace CityIndexScreensaver
 
 		private void OnChartUpdate(PriceDTO val)
 		{
-			var time = DateTime.Now; // NOTE this code is temporary until datetime bug is fixed
+			var time = DateTime.Now; // NOTE this code is temporary workaround until datetime bug is fixed
 			var item = new ChartControl.Item {Value = val.Price, Time = time};
-			DispatcherBeginInvoke(() => Chart.AddItem(item));
+			Chart.AddItem(item);
 		}
 
 		private void SetWindowFullScreen()
@@ -108,16 +104,6 @@ namespace CityIndexScreensaver
 		}
 
 		private void ReportException(Exception exc)
-		{
-			DispatcherBeginInvoke(() => ReportExceptionDirectly(exc));
-		}
-
-		void DispatcherBeginInvoke(Action action)
-		{
-			Dispatcher.BeginInvoke(action, null);
-		}
-
-		private void ReportExceptionDirectly(Exception exc)
 		{
 			var msg = State.IsDebug ? exc.ToString() : exc.Message;
 			MessageBox.Show(msg);

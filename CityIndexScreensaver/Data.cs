@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows;
 
 using CIAPI.DTO;
 using CIAPI.Rpc;
@@ -27,7 +28,13 @@ namespace CityIndexScreensaver
 #if DEBUG
 			Debugger.Break();
 #endif
-			_onError(exc);
+			Callback(_onError, exc);
+		}
+
+		void Callback<T>(Action<T> callback, T val)
+		{
+			Action action = () => callback(val);
+			Application.Current.Dispatcher.BeginInvoke(action);
 		}
 
 		public void SubscribeNews(Action<NewsDTO> onUpdate)
@@ -106,7 +113,7 @@ namespace CityIndexScreensaver
 						{
 							try
 							{
-								onUpdate(args.Data);
+								Callback(onUpdate, args.Data);
 							}
 							catch (Exception exc)
 							{
@@ -132,10 +139,11 @@ namespace CityIndexScreensaver
 				var price = Convert.ToDecimal(random.NextDouble() * 5000);
 				price = Math.Round(price, 2);
 				decimal min = price, max = price;
-				while (true)
+				while (!_disposing)
 				{
 					var data = new PriceDTO { Price = price, Low = min, High = max, Bid = price, Offer = price };
-					onUpdate(data);
+
+					Callback(onUpdate, data);
 
 					var delta = Convert.ToDecimal(random.NextDouble() * 300 - 150);
 					price += delta;
@@ -172,7 +180,7 @@ namespace CityIndexScreensaver
 							try
 							{
 								var val = args.Data;
-								onUpdate(val);
+								Callback(onUpdate, val);
 							}
 							catch (Exception exc)
 							{

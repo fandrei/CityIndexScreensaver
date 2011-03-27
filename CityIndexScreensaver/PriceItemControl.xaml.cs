@@ -33,23 +33,14 @@ namespace CityIndexScreensaver
 
 		public void SetNewPrice(PriceDTO val)
 		{
-			DispatcherBeginInvoke(
-				() =>
-				{
-					var prevVal = (PriceDTO)DataContext;
-					if (prevVal != null)
-					{
-						var brush = (prevVal.Price < val.Price) ? _brushIncreasing : _brushDecreasing;
-						BidPanel.Background = brush;
-						OfferPanel.Background = brush;
-					}
-					DataContext = val;
-				});
-		}
-
-		void DispatcherBeginInvoke(Action action)
-		{
-			Dispatcher.BeginInvoke(action, null);
+			var prevVal = (PriceDTO)DataContext;
+			if (prevVal != null)
+			{
+				var brush = (prevVal.Price < val.Price) ? _brushIncreasing : _brushDecreasing;
+				BidPanel.Background = brush;
+				OfferPanel.Background = brush;
+			}
+			DataContext = val;
 		}
 	}
 }
