@@ -139,7 +139,10 @@ namespace CityIndexScreensaver
 			if (cell == null)
 				return;
 
-			var source = (MarketDTO)cell.DataContext;
+			var source = cell.DataContext as MarketDTO;
+			if (source == null)
+				return;
+
 			_draggingItem = source;
 			_isDragging = true;
 
