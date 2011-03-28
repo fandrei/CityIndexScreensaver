@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -39,7 +41,8 @@ namespace CityIndexScreensaver
 
 		private void RefreshMarketsView(MarketDTO[] markets)
 		{
-			AllMarketsGrid.ItemsSource = markets;
+			_marketsView = CollectionViewSource.GetDefaultView(markets);
+			AllMarketsGrid.ItemsSource = _marketsView;
 
 			var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
 
@@ -52,6 +55,7 @@ namespace CityIndexScreensaver
 					_subscriptions.Add(new MarketDTO { MarketId = id, Name = marketName });
 				}
 			}
+
 			SubscriptionsGrid.ItemsSource = _subscriptions;
 		}
 
@@ -122,11 +126,6 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		private readonly ObservableCollection<MarketDTO> _subscriptions = new ObservableCollection<MarketDTO>();
-
-		private bool _isDragging;
-		private MarketDTO _draggingItem;
-
 		private void SubscriptionsGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			e.Handled = true;
@@ -168,6 +167,32 @@ namespace CityIndexScreensaver
 				_subscriptions.Move(sourceIndex, curIndex);
 
 				SubscriptionsGrid.SelectedIndex = curIndex;
+			}
+		}
+
+		private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			_marketsView.Filter =
+				val =>
+				{
+					var market = (MarketDTO)val;
+					var res = market.Name.ToLower().Contains(FilterTextBox.Text.ToLower());
+					return res;
+				};
+		}
+
+		private ICollectionView _marketsView;
+		private readonly ObservableCollection<MarketDTO> _subscriptions = new ObservableCollection<MarketDTO>();
+
+		private bool _isDragging;
+		private MarketDTO _draggingItem;
+
+		private void FilterTextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				FilterTextBox.Text = "";
+				e.Handled = true;
 			}
 		}
 	}

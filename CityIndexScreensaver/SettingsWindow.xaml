@@ -54,7 +54,10 @@
                         </DataGrid>
                     </DockPanel>
                     <DockPanel Grid.Row="1">
-                        <Label Content="Available sources" DockPanel.Dock="Top"/>
+                        <DockPanel DockPanel.Dock="Top">
+                            <Label Content="Available sources" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                            <TextBox Name="FilterTextBox" DockPanel.Dock="Right" Margin="6" TextChanged="FilterTextBox_TextChanged" KeyDown="FilterTextBox_KeyDown" />
+                        </DockPanel>
                         <DataGrid Name="AllMarketsGrid" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
