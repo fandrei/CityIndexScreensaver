@@ -15,9 +15,9 @@
                     <Grid.Resources>
                         <Style TargetType="DataGridCell">
                             <Style.Setters>
+                                <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="TextBlock.VerticalAlignment" Value="Center" />
-                                <Setter Property="Image.Height" Value="24" />
-                                <!--<Setter Property="Image.Width" Value="24" />-->
+                                <Setter Property="Height" Value="24" />
                                 <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
                             </Style.Setters>
                         </Style>
@@ -40,7 +40,7 @@
                     </Grid.RowDefinitions>
                     <DockPanel PreviewMouseMove="SubscriptionsGrid_PreviewMouseMove">
                         <Label Content="Currently subscribed" DockPanel.Dock="Top"/>
-                        <DataGrid Name="SubscriptionsGrid" CanUserDeleteRows="True"  PreviewMouseLeftButtonDown="SubscriptionsGrid_PreviewMouseLeftButtonDown"  PreviewMouseLeftButtonUp="SubscriptionsGrid_PreviewMouseLeftButtonUp" >
+                        <DataGrid Name="SubscriptionsGrid" CanUserDeleteRows="True" SelectionMode="Single"  PreviewMouseLeftButtonDown="SubscriptionsGrid_PreviewMouseLeftButtonDown"  PreviewMouseLeftButtonUp="SubscriptionsGrid_PreviewMouseLeftButtonUp">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>

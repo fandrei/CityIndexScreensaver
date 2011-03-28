@@ -139,10 +139,7 @@ namespace CityIndexScreensaver
 
 		private void SubscriptionsGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			e.Handled = true;
-			SubscriptionsGrid.Focus();
-
-			if (_isDragging)
+			if (_draggingItemIndex != -1)
 				return;
 
 			var cell = e.OriginalSource as FrameworkElement;
@@ -153,37 +150,38 @@ namespace CityIndexScreensaver
 			if (source == null)
 				return;
 
-			_draggingItem = source;
-			_isDragging = true;
-
-			SubscriptionsGrid.SelectedIndex = _subscriptions.IndexOf(_draggingItem);
+			_draggingItemIndex = _subscriptions.IndexOf(source);
+			//Debug.WriteLine("Start dragging: {0}", _draggingItemIndex);
 		}
 
 		private void SubscriptionsGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			SubscriptionsGrid.Focus();
-			_isDragging = false;
+			//Debug.WriteLine("Stop dragging");
+			_draggingItemIndex = -1;
 		}
 
 		// DataGrid mouse move events are suppressed, when left mouse button is pressed
 		// so, subscribe to mouse move events of the parent control instead
 		private void SubscriptionsGrid_PreviewMouseMove(object sender, MouseEventArgs e)
 		{
-			if (!_isDragging)
+			if (_draggingItemIndex == -1)
 				return;
 
-			var text = e.OriginalSource as TextBlock;
-			if (text == null)
+			var cell = e.OriginalSource as FrameworkElement;
+			if (cell == null)
 				return;
 
-			var current = (MarketDTO)text.DataContext;
-			if (current.MarketId != _draggingItem.MarketId)
+			var current = cell.DataContext as MarketDTO;
+			if (current == null)
+				return;
+
+			var curIndex = _subscriptions.IndexOf(current);
+			if (curIndex != _draggingItemIndex)
 			{
-				var curIndex = _subscriptions.IndexOf(current);
-				var sourceIndex = _subscriptions.IndexOf(_draggingItem);
-				_subscriptions.Move(sourceIndex, curIndex);
-
+				//Debug.WriteLine("{0}->{1}", _draggingItemIndex, curIndex);
+				_subscriptions.Move(_draggingItemIndex, curIndex);
 				SubscriptionsGrid.SelectedIndex = curIndex;
+				_draggingItemIndex = curIndex;
 			}
 		}
 
@@ -210,7 +208,6 @@ namespace CityIndexScreensaver
 		private ICollectionView _marketsView;
 		private readonly ObservableCollection<MarketDTO> _subscriptions = new ObservableCollection<MarketDTO>();
 
-		private bool _isDragging;
-		private MarketDTO _draggingItem;
+		private int _draggingItemIndex = -1;
 	}
 }
