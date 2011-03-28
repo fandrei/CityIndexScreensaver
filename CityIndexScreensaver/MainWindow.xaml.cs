@@ -106,7 +106,8 @@ namespace CityIndexScreensaver
 		private void ReportException(Exception exc)
 		{
 			var msg = State.IsDebug ? exc.ToString() : exc.Message;
-			MessageBox.Show(msg);
+			ErrorTextBlock.Text = msg;
+			ErrorPopup.Visibility = Visibility.Visible;
 		}
 
 		// mouse movement detection

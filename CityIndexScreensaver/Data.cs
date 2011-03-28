@@ -25,9 +25,6 @@ namespace CityIndexScreensaver
 
 		void ReportError(Exception exc)
 		{
-#if DEBUG
-			Debugger.Break();
-#endif
 			Callback(_onError, exc);
 		}
 
@@ -48,11 +45,16 @@ namespace CityIndexScreensaver
 			VerifyIfDisposed();
 			var topic = "PRICES.PRICE." + id;
 
-			//ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(id, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(topic, onUpdate));
 		}
 
 		public void GetMarketsList(Action<MarketDTO[]> onSuccess)
+		{
+			ThreadPool.QueueUserWorkItem(x => GetMarketsListThreadEntry(onSuccess));
+		}
+
+		void GetMarketsListThreadEntry(Action<MarketDTO[]> onSuccess)
 		{
 			try
 			{
@@ -64,11 +66,11 @@ namespace CityIndexScreensaver
 				//}
 				//var accountInfo = _client.GetClientAndTradingAccount();
 				//var resp = _client.ListCfdMarkets("", "", accountInfo.ClientAccountId, -1);
-				//onSuccess(resp.Markets);
+				//Callback(onSuccess, resp.Markets);
 
 				var markets = new List<MarketDTO>(Const.Markets.Count);
 				markets.AddRange(Const.Markets.Select(pair => new MarketDTO { MarketId = pair.Key, Name = pair.Value }));
-				onSuccess(markets.ToArray());
+				Callback(onSuccess, markets.ToArray());
 			}
 			catch (Exception exc)
 			{
