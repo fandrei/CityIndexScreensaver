@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -57,6 +58,15 @@ namespace CityIndexScreensaver
 			}
 
 			SubscriptionsGrid.ItemsSource = _subscriptions;
+			_subscriptions.CollectionChanged += SubscriptionsCollectionChanged;
+		}
+
+		void SubscriptionsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (e.Action == NotifyCollectionChangedAction.Remove)
+			{
+				SubscriptionsGrid.SelectedIndex = e.OldStartingIndex;
+			}
 		}
 
 		static void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
