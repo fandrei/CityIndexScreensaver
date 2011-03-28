@@ -119,24 +119,27 @@ namespace CityIndexScreensaver
 
 		private void ImageRemove_Click(object sender, MouseButtonEventArgs e)
 		{
-			var selected = SubscriptionsGrid.SelectedItems.Cast<MarketDTO>().ToList();
-			foreach (var subscription in selected)
-			{
-				_subscriptions.Remove(subscription);
-			}
+			var cell = (FrameworkElement)e.OriginalSource;
+			var item = (MarketDTO)cell.DataContext;
+
+			var i = _subscriptions.IndexOf(item);
+			_subscriptions.RemoveAt(i);
+			SubscriptionsGrid.SelectedIndex = i;
 		}
 
 		private void SubscriptionsGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			e.Handled = true;
+			SubscriptionsGrid.Focus();
+
 			if (_isDragging)
 				return;
 
-			var text = e.OriginalSource as TextBlock;
-			if (text == null)
+			var cell = e.OriginalSource as FrameworkElement;
+			if (cell == null)
 				return;
 
-			var source = (MarketDTO)text.DataContext;
+			var source = (MarketDTO)cell.DataContext;
 			_draggingItem = source;
 			_isDragging = true;
 
@@ -145,6 +148,7 @@ namespace CityIndexScreensaver
 
 		private void SubscriptionsGrid_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
+			SubscriptionsGrid.Focus();
 			_isDragging = false;
 		}
 
@@ -181,12 +185,6 @@ namespace CityIndexScreensaver
 				};
 		}
 
-		private ICollectionView _marketsView;
-		private readonly ObservableCollection<MarketDTO> _subscriptions = new ObservableCollection<MarketDTO>();
-
-		private bool _isDragging;
-		private MarketDTO _draggingItem;
-
 		private void FilterTextBox_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Escape)
@@ -195,5 +193,11 @@ namespace CityIndexScreensaver
 				e.Handled = true;
 			}
 		}
+
+		private ICollectionView _marketsView;
+		private readonly ObservableCollection<MarketDTO> _subscriptions = new ObservableCollection<MarketDTO>();
+
+		private bool _isDragging;
+		private MarketDTO _draggingItem;
 	}
 }

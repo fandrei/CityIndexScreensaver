@@ -40,7 +40,7 @@
                     </Grid.RowDefinitions>
                     <DockPanel PreviewMouseMove="SubscriptionsGrid_PreviewMouseMove">
                         <Label Content="Currently subscribed" DockPanel.Dock="Top"/>
-                        <DataGrid Name="SubscriptionsGrid" PreviewMouseLeftButtonDown="SubscriptionsGrid_PreviewMouseLeftButtonDown"  PreviewMouseLeftButtonUp="SubscriptionsGrid_PreviewMouseLeftButtonUp">
+                        <DataGrid Name="SubscriptionsGrid" CanUserDeleteRows="True"  PreviewMouseLeftButtonDown="SubscriptionsGrid_PreviewMouseLeftButtonDown"  PreviewMouseLeftButtonUp="SubscriptionsGrid_PreviewMouseLeftButtonUp" >
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
