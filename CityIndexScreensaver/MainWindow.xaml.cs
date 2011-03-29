@@ -32,7 +32,7 @@ namespace CityIndexScreensaver
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
-			State.Data.SubscribePrices(ApplicationSettings.Instance.PricesToWatch[0], OnChartUpdate);
+			State.Data.SubscribePrices(ApplicationSettings.Instance.PricesToWatch[0], OnGraphUpdate);
 
 			State.Data.SubscribeNews(news => NewsTicker.DataContext = news);
 		}
@@ -85,11 +85,11 @@ namespace CityIndexScreensaver
 			Application.Current.Shutdown();
 		}
 
-		private void OnChartUpdate(PriceDTO val)
+		private void OnGraphUpdate(PriceDTO val)
 		{
 			var time = DateTime.Now; // NOTE this code is temporary workaround until datetime bug is fixed
-			var item = new ChartControl.Item {Value = val.Price, Time = time};
-			Chart.AddItem(item);
+			var item = new GraphControl.Item {Value = val.Price, Time = time};
+			ViewPanel.AddItem(item);
 		}
 
 		private void SetWindowFullScreen()

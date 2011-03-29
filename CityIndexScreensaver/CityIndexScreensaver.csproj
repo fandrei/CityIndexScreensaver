@@ -80,8 +80,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="ChartControl.xaml.cs">
-      <DependentUpon>ChartControl.xaml</DependentUpon>
+    <Compile Include="GraphControl.xaml.cs">
+      <DependentUpon>GraphControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Const.cs" />
     <Compile Include="PriceItemControl.xaml.cs">
@@ -98,7 +98,7 @@
       <DependentUpon>TickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\WindowExtensions.cs" />
-    <Page Include="ChartControl.xaml">
+    <Page Include="GraphControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

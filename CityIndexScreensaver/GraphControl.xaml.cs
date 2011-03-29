@@ -11,11 +11,11 @@ using System.Windows.Threading;
 namespace CityIndexScreensaver
 {
 	/// <summary>
-	/// Interaction logic for ChartControl.xaml
+	/// Interaction logic for GraphControl.xaml
 	/// </summary>
-	public partial class ChartControl : UserControl
+	public partial class GraphControl : UserControl
 	{
-		public ChartControl()
+		public GraphControl()
 		{
 			InitializeComponent();
 			InitTimer();

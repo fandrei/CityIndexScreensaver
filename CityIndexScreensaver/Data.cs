@@ -25,6 +25,9 @@ namespace CityIndexScreensaver
 
 		void ReportError(Exception exc)
 		{
+#if DEBUG
+			Debugger.Break();
+#endif
 			Callback(_onError, exc);
 		}
 

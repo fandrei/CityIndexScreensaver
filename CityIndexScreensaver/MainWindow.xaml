@@ -17,7 +17,7 @@
                 </Grid>
                 <DockPanel>
                     <my:TickerControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,20,0,0" x:Name="NewsTicker" Height="200" Background="DimGray" Foreground="White"/>
-                    <my:ChartControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="100" Margin="0,20,0,0" x:Name="Chart" />
+                    <my:GraphControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="100" Margin="0,20,0,0" x:Name="ViewPanel" />
                     <my:PricesViewControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,20,0,0" x:Name="pricesViewControl1"  HorizontalContentAlignment="Center" />
                 </DockPanel>
             </Grid>
