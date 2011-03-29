@@ -180,9 +180,9 @@ namespace CityIndexScreensaver
 			{
 				//Debug.WriteLine("{0}->{1}", _draggingItemIndex, curIndex);
 				_subscriptions.Move(_draggingItemIndex, curIndex);
-				SubscriptionsGrid.SelectedIndex = curIndex;
 				_draggingItemIndex = curIndex;
 			}
+			SubscriptionsGrid.SelectedIndex = curIndex;
 		}
 
 		private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
