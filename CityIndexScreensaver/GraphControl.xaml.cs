@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -21,108 +22,98 @@ namespace CityIndexScreensaver
 			InitTimer();
 		}
 
-		public void AddItem(Item item)
+		private void GraphBackground_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			_items.Add(item);
-			if (_items.Count == 1) // need at least two points to make a line
-				_items.Add(item);
-
 			UpdateTimeScale();
 			RebuildLines();
 		}
 
-		void RebuildLines()
+		public void AddItem(string key, GraphItem item)
 		{
-			//Debug.WriteLine("RebuildLines: {0} items", _items.Count);
-
-			Graph.Children.Clear();
-			if (_items.Count == 0)
-				return;
-
-			UpdateValueScale();
-
-			double offset = _startOffset;
-			double prevOffset = offset;
-			double prevVal = 0;
-
-			Item prevItem = null;
-			int i = 0;
-			foreach (var item in _items)
+			Graph graph;
+			if (!_graphs.TryGetValue(key, out graph))
 			{
-				var val = (double)item.Value - _minValue;
+				graph = new Graph { Key = key };
+				graph.Brush = new SolidColorBrush { Color = _myColors[_graphs.Count % _myColors.Length] };
+				GraphBackground.Children.Add(graph.View);
 
-				if (prevItem != null)
-				{
-					offset += GetDistance(prevItem, item);
-
-					var line = CreateLine(prevVal, val, prevOffset, offset);
-					line.Tag = i - 1;
-					Graph.Children.Add(line);
-
-					prevOffset = offset;
-				}
-
-				prevVal = val;
-				prevItem = item;
-				i++;
+				_graphs.Add(key, graph);
 			}
+
+			var items = graph.Items;
+			items.Add(item);
+			if (items.Count == 1) // need at least two points to make a line
+				items.Add(item);
+
+			if (graph.ValueScale == 0)
+				SetInitialValueScale(graph, item);
+
+			if (graph.UpdateValueScale())
+				RebuildLines();
+			else
+				AddNewLine(graph, graph.Items.Count - 1);
+
+			graph.Validate();
 		}
 
-		private void UpdateValueScale()
+		void AddNewLine(Graph graph, int i)
 		{
-			_minValue = (double)_items.Min(x => x.Value);
-			var maxValue = (double)_items.Max(x => x.Value);
-			var diff = maxValue - _minValue;
+			Debug.Assert(graph.Items.Count >= 2 && i > 0);
 
-			if (diff != 0)
-				_valueScale = (Graph.ActualHeight - 1) / diff;
-
-			MinLabel.Content = _minValue.ToString();
-			MaxLabel.Content = maxValue.ToString();
+			var newItem = graph.Items[i];
+			var prev = graph.Items[i - 1];
+			var line = CreateLine(graph, prev, newItem);
+			graph.View.Children.Add(line);
 		}
 
-		// update time scale to show as much items as possible, but not exceeding max items limit
-		private void UpdateTimeScale()
+		Line CreateLine(Graph graph, GraphItem prev, GraphItem newItem)
 		{
-			if (_items.Count >= MaxVisibleItemsCount)
-				return;
+			var first = graph.Items.First();
 
-			var timeRange = GetTimeRange();
-			if (timeRange == 0)
-				return;
+			var val = newItem.Value - graph.MinValue;
+			var prevVal = prev.Value - graph.MinValue;
 
-			_timeScale = (Graph.ActualWidth * OffsetMinThreshold - _startOffset) / timeRange;
-			_timeScale /= ((double)MaxVisibleItemsCount / _items.Count);
-			return;
+			var offset = graph.StartOffset + GetDistance(first, newItem);
+			var prevOffset = graph.StartOffset + GetDistance(first, prev);
+
+			var line = graph.CreateLine(prevVal, val, prevOffset, offset);
+
+			return line;
 		}
 
-		private double GetTimeRange()
-		{
-			if (_items.Count == 0)
-				return 0;
-			var minTime = _items.First().Time;
-			var maxTime = _items.Last().Time;
-			var res = (maxTime - minTime).TotalSeconds;
-			Debug.Assert(res >= 0);
-			return res;
-		}
-
-		private double GetDistance(Item val1, Item val2)
+		private double GetDistance(GraphItem val1, GraphItem val2)
 		{
 			return (val2.Time - val1.Time).TotalSeconds * _timeScale;
 		}
 
-		private Line CreateLine(double prevValue, double value, double prevOffset, double offset)
+		void RebuildLines(Graph graph)
 		{
-			var res = new Line
+			graph.View.Children.Clear();
+			for (var i = 1; i < graph.Items.Count; i++)
+				AddNewLine(graph, i);
+		}
+
+		void RebuildLines()
+		{
+			foreach (var pair in _graphs)
 			{
-				X1 = prevOffset,
-				X2 = offset,
-				Y1 = Graph.ActualHeight - prevValue * _valueScale - 1,
-				Y2 = Graph.ActualHeight - value * _valueScale - 1,
-				Stroke = new SolidColorBrush { Color = Colors.LightGreen }
-			};
-			return res;
+				RebuildLines(pair.Value);
+			}
+		}
+
+		private static void SetInitialValueScale(Graph graph, GraphItem item)
+		{
+			var value = item.Value;
+			var diff = value * InitialValueRange / 2;
+			var min = value - diff;
+			var max = value + diff;
+
+			graph.SetValueScale(min, max);
+		}
+
+		private void UpdateTimeScale()
+		{
+			_timeScale = GraphBackground.ActualWidth * OffsetOptimalThreshold / VisiblePeriodSecs;
 		}
 
 		private void InitTimer()
@@ -132,68 +123,105 @@ namespace CityIndexScreensaver
 			_timer.Start();
 		}
 
-		public void TimerTick(object o, EventArgs sender)
+		void TimerTick(object o, EventArgs sender)
 		{
-			var timeRange = GetTimeRange();
-			if (timeRange == 0)
+			Shift();
+		}
+
+		void Shift()
+		{
+			var maxOffset = GetMaxOffset();
+			var correctionRatio = (maxOffset - GraphBackground.ActualWidth * OffsetMinThreshold) /
+				(GraphBackground.ActualWidth * (OffsetMaxThreshold - OffsetOptimalThreshold));
+			if (correctionRatio < 0)
 				return;
 
-			var maxOffset = Graph.Children.Cast<Line>().Last().X2;
-
-			var shiftSpeed = (Graph.ActualWidth * OffsetMaxThreshold - _startOffset) / timeRange;
-			var correctionRatio = (maxOffset - Graph.ActualWidth * OffsetMinThreshold) /
-				(Graph.ActualWidth * OffsetMaxThreshold - Graph.ActualWidth * OffsetMinThreshold);
-			if (correctionRatio < 0)
-				correctionRatio = 0;
-			shiftSpeed *= correctionRatio;
+			var shiftSpeed = _timeScale * correctionRatio;
 			Debug.Assert(shiftSpeed >= 0);
 			//Debug.WriteLine("Shift speed: {0}", shiftSpeed);
 
 			var shiftStep = shiftSpeed * _timerPeriod.TotalSeconds;
-			_startOffset -= shiftStep;
-			Debug.Assert(_startOffset <= 0);
 
-			Line lastInvisible = null;
-			foreach (Line line in Graph.Children)
+			foreach (var pair in _graphs)
 			{
-				line.X1 -= shiftStep;
-				line.X2 -= shiftStep;
-				if (line.X2 < 0)
-					lastInvisible = line;
-			}
-
-			if (lastInvisible != null)
-			{
-				_startOffset = lastInvisible.X2;
-				Debug.Assert(_startOffset <= 0);
-				var lastInvisibleIndex = (int)lastInvisible.Tag;
-				_items.RemoveRange(0, lastInvisibleIndex + 1);
-
-				RebuildLines();
+				var graph = pair.Value;
+				Shift(graph, shiftStep);
 			}
 		}
 
-		readonly List<Item> _items = new List<Item>();
+		private double GetMaxOffset()
+		{
+			double res = 0;
 
-		private double _valueScale = 1;
-		private double _minValue;
+			foreach (var pair in _graphs)
+			{
+				var graph = pair.Value;
+				if (graph.Items.Count == 0)
+					continue;
+				var lastItem = (Line)graph.View.Children[graph.View.Children.Count - 1];
+				var cur = lastItem.X2;
+				if (cur > res)
+					res = cur;
+			}
 
-		private double _timeScale = 10; // pixels per second
-		private double _startOffset;
+			return res;
+		}
 
-		// fractions of the total width
+		private void Shift(Graph graph, double shiftStep)
+		{
+			graph.Shift(-shiftStep);
+
+			var lastInvisibleIndex = -1;
+			for (var i = 0; i < graph.View.Children.Count; i++)
+			{
+				var line = (Line)graph.View.Children[i];
+				if (line.X2 < 0)
+					lastInvisibleIndex = i;
+			}
+
+			if (lastInvisibleIndex != -1)
+			{
+				var deleteCount = lastInvisibleIndex + 1;
+				graph.Items.RemoveRange(0, deleteCount);
+				graph.View.Children.RemoveRange(0, deleteCount);
+				graph.Validate();
+			}
+
+			var firstVisible = (Line) graph.View.Children[0];
+			graph.StartOffset = firstVisible.X1;
+		}
+
+		#region Visual Settings
+
+		private const int VisiblePeriodSecs = 60;
+
+		// fraction of the total width
 		private const double OffsetMaxThreshold = 0.9;
 		private const double OffsetMinThreshold = 0.8;
 
-		private const int MaxVisibleItemsCount = 30;
+		private static double OffsetOptimalThreshold
+		{
+			get { return OffsetMinThreshold + (OffsetMaxThreshold - OffsetMinThreshold) / 2; }
+		}
 
-		readonly DispatcherTimer _timer = new DispatcherTimer();
+		// fraction of the total value
+		private const double InitialValueRange = 0.1;
+
+		readonly Color[] _myColors = new[] { Colors.LightGreen, Colors.Red, Colors.Blue, Colors.Coral,
+			Colors.Cyan, Colors.Pink, Colors.SeaGreen, Colors.SteelBlue };
+
 		private readonly TimeSpan _timerPeriod = TimeSpan.FromMilliseconds(50);
 
-		public class Item
-		{
-			public decimal Value { get; set; }
-			public DateTime Time { get; set; }
-		}
+		#endregion
+
+		#region State
+
+		private double _timeScale; // pixels per second
+
+		private readonly Dictionary<string, Graph> _graphs = new Dictionary<string, Graph>();
+
+		private readonly DispatcherTimer _timer = new DispatcherTimer();
+
+		#endregion
 	}
 }

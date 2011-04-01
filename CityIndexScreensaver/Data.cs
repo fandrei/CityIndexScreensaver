@@ -40,7 +40,7 @@ namespace CityIndexScreensaver
 		public void SubscribeNews(Action<NewsDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
 		}
 
 		public void SubscribePrices(int id, Action<PriceDTO> onUpdate)
@@ -48,8 +48,8 @@ namespace CityIndexScreensaver
 			VerifyIfDisposed();
 			var topic = "PRICES.PRICE." + id;
 
-			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
-			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(id, onUpdate));
 		}
 
 		public void GetMarketsList(Action<MarketDTO[]> onSuccess)
@@ -136,21 +136,27 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		void GenerateDummyPricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
+		void GenerateDummyPricesThreadEntry(int id, Action<PriceDTO> onUpdate)
 		{
 			try
 			{
-				var random = new Random();
-				var price = Convert.ToDecimal(random.NextDouble() * 5000);
+				var random = new Random(id);
+				const int maxRefreshDelay = 5000;
+				const int maxPrice = 10000;
+
+				var price = Convert.ToDecimal(random.NextDouble() * maxPrice);
+				var startPrice = (double)price;
 				price = Math.Round(price, 2);
 				decimal min = price, max = price;
+
 				while (!_disposing)
 				{
-					var data = new PriceDTO { Price = price, Low = min, High = max, Bid = price, Offer = price };
+					var data = new PriceDTO { Price = price, Low = min, High = max, Bid = price, Offer = price,
+						MarketId = id};
 
 					Callback(onUpdate, data);
 
-					var delta = Convert.ToDecimal(random.NextDouble() * 300 - 150);
+					var delta = Convert.ToDecimal((random.NextDouble() - 0.5) * startPrice * 0.05);
 					price += delta;
 					if (price <= 0)
 						price = Math.Abs(price + delta);
@@ -158,7 +164,7 @@ namespace CityIndexScreensaver
 					min = Math.Min(min, price);
 					max = Math.Max(max, price);
 
-					Thread.Sleep(random.Next(5000));
+					Thread.Sleep(random.Next(maxRefreshDelay));
 				}
 			}
 			catch (Exception exc)

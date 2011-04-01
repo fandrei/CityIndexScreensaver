@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <Grid>
-        <Canvas HorizontalAlignment="Stretch" Name="Graph" VerticalAlignment="Stretch" Background="DimGray" ClipToBounds="True" />
+        <Grid HorizontalAlignment="Stretch" Name="GraphBackground" VerticalAlignment="Stretch" Background="DimGray" ClipToBounds="True" SizeChanged="GraphBackground_SizeChanged" />
         <Label Content="Max" Name="MaxLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="LightPink"/>
         <Label Content="Min" Name="MinLabel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="LightPink"/>
     </Grid>

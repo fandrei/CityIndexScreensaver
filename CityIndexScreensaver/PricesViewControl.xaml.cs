@@ -24,30 +24,12 @@ namespace CityIndexScreensaver
 			InitializeComponent();
 		}
 
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		public PriceItemControl AddPriceControl(string marketName)
 		{
-			if (State.Data == null)
-				return;
-
-			var prices = ApplicationSettings.Instance.PricesToWatch;
-			State.Data.GetMarketsList(
-				markets =>
-				{
-					var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
-
-					foreach (var id in prices)
-					{
-						var control = new PriceItemControl();
-
-						string marketName;
-						if (marketNames.TryGetValue(id, out marketName))
-						{
-							control.CaptionLabel.Content = marketName;
-							State.Data.SubscribePrices(id, control.SetNewPrice);
-							PricesPanel.Children.Add(control);
-						}
-					}
-				});
+			var control = new PriceItemControl();
+			control.CaptionLabel.Content = marketName;
+			PricesPanel.Children.Add(control);
+			return control;
 		}
 	}
 }

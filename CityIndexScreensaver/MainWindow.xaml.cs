@@ -32,7 +32,28 @@ namespace CityIndexScreensaver
 			if (State.IsFullScreen)
 				SetWindowFullScreen();
 
-			State.Data.SubscribePrices(ApplicationSettings.Instance.PricesToWatch[0], OnGraphUpdate);
+			var prices = ApplicationSettings.Instance.PricesToWatch;
+			State.Data.GetMarketsList(
+				markets =>
+				{
+					var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
+
+					foreach (var id in prices)
+					{
+						string marketName;
+						if (marketNames.TryGetValue(id, out marketName))
+						{
+							var control = PricesView.AddPriceControl(marketName);
+							State.Data.SubscribePrices(id,
+								price =>
+								{
+									control.SetNewPrice(price);
+									OnGraphUpdate(price);
+								});
+						}
+					}
+				});
+
 
 			State.Data.SubscribeNews(news => NewsTicker.DataContext = news);
 		}
@@ -69,7 +90,7 @@ namespace CityIndexScreensaver
 				if (_startTime != null && (DateTime.Now - _startTime.Value).TotalSeconds > IgnoreMouseSecs)
 				{
 					// avoid false-positive triggering
-					if (_prevMousePosition != null && 
+					if (_prevMousePosition != null &&
 						(Math.Abs(_prevMousePosition.Value.X - position.X) > MouseMovementThreshold ||
 						Math.Abs(_prevMousePosition.Value.Y - position.Y) > MouseMovementThreshold))
 					{
@@ -87,9 +108,9 @@ namespace CityIndexScreensaver
 
 		private void OnGraphUpdate(PriceDTO val)
 		{
-			var time = DateTime.Now; // NOTE this code is temporary workaround until datetime bug is fixed
-			var item = new GraphControl.Item {Value = val.Price, Time = time};
-			ViewPanel.AddItem(item);
+			var time = DateTime.Now; // NOTE this code is a temporary workaround until datetime bug is fixed
+			var item = new GraphItem { Value = (double)val.Price, Time = time };
+			ViewPanel.AddItem(val.MarketId.ToString(), item);
 		}
 
 		private void SetWindowFullScreen()

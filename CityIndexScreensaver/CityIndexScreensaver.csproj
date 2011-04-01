@@ -84,6 +84,8 @@
       <DependentUpon>GraphControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Const.cs" />
+    <Compile Include="Graph.cs" />
+    <Compile Include="GraphItem.cs" />
     <Compile Include="PriceItemControl.xaml.cs">
       <DependentUpon>PriceItemControl.xaml</DependentUpon>
     </Compile>
