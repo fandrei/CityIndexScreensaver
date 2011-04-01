@@ -27,11 +27,12 @@ namespace CityIndexScreensaver
 
 		public string Key;
 		public readonly List<GraphItem> Items = new List<GraphItem>();
-		public double ValueScale;
-		public double MinValue;
-		public double MaxValue;
 
-		public double StartOffset;
+		private double _valueScale;
+		private double _minValue;
+		private double _maxValue;
+
+		private double _startOffset;
 
 		public Brush Brush { get; set; }
 		public Canvas View { get; set; }
@@ -42,7 +43,7 @@ namespace CityIndexScreensaver
 			if (Items.Count == 1) // need at least two points to make a line
 				Items.Add(item);
 
-			if (ValueScale == 0)
+			if (_valueScale == 0)
 				SetInitialValueScale(item);
 
 			if (UpdateValueScale())
@@ -55,19 +56,19 @@ namespace CityIndexScreensaver
 
 		private double ValueToView(double val)
 		{
-			return View.ActualHeight - val * ValueScale;
+			return View.ActualHeight - val * _valueScale;
 		}
 
 		private void SetValueScale(double min, double max)
 		{
-			MinValue = min;
-			MaxValue = max;
+			_minValue = min;
+			_maxValue = max;
 
 			//MinLabel.Content = graph.MinValue.ToString();
 			//MaxLabel.Content = maxValue.ToString();
 
 			var range = max - min;
-			ValueScale = View.ActualHeight / range;
+			_valueScale = View.ActualHeight / range;
 		}
 
 		private Line CreateLine(double prevValue, double value, double prevOffset, double offset)
@@ -88,7 +89,7 @@ namespace CityIndexScreensaver
 			var minValue = Items.Min(x => x.Value);
 			var maxValue = Items.Max(x => x.Value);
 
-			if (minValue >= MinValue && maxValue <= MaxValue)
+			if (minValue >= _minValue && maxValue <= _maxValue)
 				return false;
 
 			SetValueScale(minValue, maxValue);
@@ -119,11 +120,11 @@ namespace CityIndexScreensaver
 		{
 			var first = Items.First();
 
-			var val = newItem.Value - MinValue;
-			var prevVal = prev.Value - MinValue;
+			var val = newItem.Value - _minValue;
+			var prevVal = prev.Value - _minValue;
 
-			var offset = StartOffset + GetDistance(first, newItem);
-			var prevOffset = StartOffset + GetDistance(first, prev);
+			var offset = _startOffset + GetDistance(first, newItem);
+			var prevOffset = _startOffset + GetDistance(first, prev);
 
 			var line = CreateLine(prevVal, val, prevOffset, offset);
 
@@ -167,7 +168,7 @@ namespace CityIndexScreensaver
 			}
 
 			var firstVisible = (Line)View.Children[0];
-			StartOffset = firstVisible.X1;
+			_startOffset = firstVisible.X1;
 		}
 
 		[Conditional("DEBUG")]
