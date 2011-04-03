@@ -109,6 +109,9 @@ namespace CityIndexScreensaver
 
 		public void Shift(double step)
 		{
+			if (View.Children.Count == 0)
+				return;
+
 			foreach (Line line in View.Children)
 			{
 				line.X1 -= step;
