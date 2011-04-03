@@ -40,7 +40,8 @@ namespace CityIndexScreensaver
 		public void SubscribeNews(Action<NewsDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			//ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
+			//return;
+			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
 		}
 
 		public void SubscribePrices(int id, Action<PriceDTO> onUpdate)

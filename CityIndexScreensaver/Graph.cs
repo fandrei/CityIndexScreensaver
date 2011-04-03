@@ -49,7 +49,7 @@ namespace CityIndexScreensaver
 		private double ValueToView(double val)
 		{
 			var valFraction = ValueToFraction(val);
-			//Trace.WriteLine(valFraction * 100);
+			//Debug.WriteLine(valFraction * 100);
 			return (View.ActualHeight - 1) * _settings.GetAdjustedValue(valFraction);
 		}
 

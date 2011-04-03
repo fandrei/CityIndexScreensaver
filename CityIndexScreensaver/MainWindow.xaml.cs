@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -56,7 +57,13 @@ namespace CityIndexScreensaver
 				});
 
 
-			State.Data.SubscribeNews(news => NewsTicker.DataContext = news);
+			var news = new ObservableCollection<NewsDTO>();
+			NewsTicker.DataContext = news;
+			State.Data.SubscribeNews(
+				newsUpdate => 
+					{
+						news.Add(newsUpdate);
+					});
 		}
 
 		private void App_Unloaded(object sender, ExitEventArgs e)

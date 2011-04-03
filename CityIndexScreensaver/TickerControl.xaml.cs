@@ -24,7 +24,7 @@ namespace CityIndexScreensaver
 
 		private void NewsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			var data = (Array)DataContext;
+			var data = (System.Collections.IList)DataContext;
 
 			if (data == null)
 				return;
@@ -32,7 +32,7 @@ namespace CityIndexScreensaver
 			NewsStoryBoard.Stop();
 			NewsGrid.SelectedItem = null;
 
-			if (data.Length == 0)
+			if (data.Count == 0)
 				return;
 
 			NewsAnimation.From = ActualHeight;

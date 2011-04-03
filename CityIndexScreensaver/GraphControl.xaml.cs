@@ -100,7 +100,7 @@ namespace CityIndexScreensaver
 				};
 				GridRulersCanvas.Children.Add(line);
 
-				var labelText = string.Format("{0}%", -cur*100);
+				var labelText = string.Format("{0}%", Math.Round(-cur*100, 2));
 				var label = new Label {Content = labelText, Foreground = Brushes.Pink};
 				GridRulersCanvas.Children.Add(label);
 				Canvas.SetBottom(label, height);
