@@ -55,6 +55,30 @@ namespace CityIndexScreensaver
 				var graph = pair.Value;
 				graph.RebuildLines();
 			}
+
+			DrawValueRulers();
+		}
+
+		void DrawValueRulers()
+		{
+			GridRulersCanvas.Children.Clear();
+
+			var valueRulerStep = _settings.ValueRulerStep;
+			for (var cur = -Math.Floor(_settings.MinValue / valueRulerStep) * valueRulerStep;
+				cur <= _settings.MaxValue; cur += valueRulerStep)
+			{
+				var height = (GraphBackground.ActualHeight - 1) * _settings.GetAdjustedValue(cur);
+				Debug.WriteLine("{0} {1} {2}", cur, GraphBackground.ActualHeight, height);
+				var line = new Line
+				{
+					X1 = 0,
+					X2 = GraphBackground.ActualWidth,
+					Y1 = height,
+					Y2 = height,
+					Stroke = Brushes.DarkGray
+				};
+				GridRulersCanvas.Children.Add(line);
+			}
 		}
 
 		private void UpdateTimeScale()

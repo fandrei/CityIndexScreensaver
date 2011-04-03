@@ -16,20 +16,21 @@ namespace CityIndexScreensaver
 		// pixels per second
 		public double TimeScale;
 
-		public double MaxValueFraction = 0.05;
-		public double MinValueFraction = 0.05;
-		private const double ValueGridStep = 0.01;
+		public double MaxValue = 0.05;
+		public double MinValue = 0.05;
+		public const double ValueIncreaseStep = 0.01;
+		public double ValueRulerStep = 0.02;
 
 		public bool UpdateValueScale(double val)
 		{
-			if (val < -MinValueFraction)
+			if (val < -MinValue)
 			{
-				MinValueFraction += ValueGridStep;
+				MinValue += ValueIncreaseStep;
 				return true;
 			}
-			if (val > MaxValueFraction)
+			if (val > MaxValue)
 			{
-				MaxValueFraction += ValueGridStep;
+				MaxValue += ValueIncreaseStep;
 				return true;
 			}
 			return false;
@@ -37,7 +38,7 @@ namespace CityIndexScreensaver
 
 		public double GetAdjustedValue(double val)
 		{
-			return ((MaxValueFraction - val) / (MinValueFraction + MaxValueFraction));
+			return ((MaxValue - val) / (MinValue + MaxValue));
 		}
 	}
 }
