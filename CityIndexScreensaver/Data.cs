@@ -156,7 +156,7 @@ namespace CityIndexScreensaver
 
 					Callback(onUpdate, data);
 
-					var delta = Convert.ToDecimal((random.NextDouble() - 0.5) * startPrice * 0.05);
+					var delta = Convert.ToDecimal((random.NextDouble() - 0.5) * startPrice * 0.01);
 					price += delta;
 					if (price <= 0)
 						price = Math.Abs(price + delta);

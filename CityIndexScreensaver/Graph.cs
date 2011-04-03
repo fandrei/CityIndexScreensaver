@@ -28,9 +28,10 @@ namespace CityIndexScreensaver
 		public string Key;
 		public readonly List<GraphItem> Items = new List<GraphItem>();
 
-		private double _valueScale;
-		private double _minValue;
-		private double _maxValue;
+		private double _baseValue;
+		private double _maxValueFraction = 0.01;
+		private double _minValueFraction = 0.01;
+		private const double ValueGridStep = 0.01;
 
 		private double _startOffset;
 
@@ -43,10 +44,7 @@ namespace CityIndexScreensaver
 			if (Items.Count == 1) // need at least two points to make a line
 				Items.Add(item);
 
-			if (_valueScale == 0)
-				SetInitialValueScale(item);
-
-			if (UpdateValueScale())
+			if (UpdateValueScale(item))
 				RebuildLines();
 			else
 				AddNewLine(Items.Count - 1);
@@ -56,19 +54,33 @@ namespace CityIndexScreensaver
 
 		private double ValueToView(double val)
 		{
-			return View.ActualHeight - val * _valueScale;
+			var valFraction = ValueToFraction(val);
+			Trace.WriteLine(valFraction * 100);
+			return (View.ActualHeight - 1) * 
+				((_maxValueFraction - valFraction) / (_minValueFraction + _maxValueFraction));
 		}
 
-		private void SetValueScale(double min, double max)
+		private double ValueToFraction(double val)
 		{
-			_minValue = min;
-			_maxValue = max;
+			if (_baseValue == 0)
+				_baseValue = val;
+			return (val - _baseValue) / _baseValue;
+		}
 
-			//MinLabel.Content = graph.MinValue.ToString();
-			//MaxLabel.Content = maxValue.ToString();
-
-			var range = max - min;
-			_valueScale = View.ActualHeight / range;
+		private bool UpdateValueScale(GraphItem item)
+		{
+			var valFraction = ValueToFraction(item.Value);
+			if (valFraction < -_minValueFraction)
+			{
+				_minValueFraction += ValueGridStep;
+				return true;
+			}
+			if (valFraction > _maxValueFraction)
+			{
+				_maxValueFraction += ValueGridStep;
+				return true;
+			}
+			return false;
 		}
 
 		private Line CreateLine(double prevValue, double value, double prevOffset, double offset)
@@ -82,28 +94,6 @@ namespace CityIndexScreensaver
 				Stroke = Brush
 			};
 			return res;
-		}
-
-		private bool UpdateValueScale()
-		{
-			var minValue = Items.Min(x => x.Value);
-			var maxValue = Items.Max(x => x.Value);
-
-			if (minValue >= _minValue && maxValue <= _maxValue)
-				return false;
-
-			SetValueScale(minValue, maxValue);
-			return true;
-		}
-
-		private void SetInitialValueScale(GraphItem item)
-		{
-			var value = item.Value;
-			var diff = value * InitialValueRange / 2;
-			var min = value - diff;
-			var max = value + diff;
-
-			SetValueScale(min, max);
 		}
 
 		void AddNewLine(int i)
@@ -120,13 +110,10 @@ namespace CityIndexScreensaver
 		{
 			var first = Items.First();
 
-			var val = newItem.Value - _minValue;
-			var prevVal = prev.Value - _minValue;
-
 			var offset = _startOffset + GetDistance(first, newItem);
 			var prevOffset = _startOffset + GetDistance(first, prev);
 
-			var line = CreateLine(prevVal, val, prevOffset, offset);
+			var line = CreateLine(prev.Value, newItem.Value, prevOffset, offset);
 
 			return line;
 		}
@@ -176,8 +163,5 @@ namespace CityIndexScreensaver
 		{
 			Debug.Assert(Items.Count == View.Children.Count + 1);
 		}
-
-		// fraction of the total value
-		private const double InitialValueRange = 0.1;
 	}
 }
