@@ -68,7 +68,7 @@ namespace CityIndexScreensaver
 				cur <= _settings.MaxValue; cur += valueRulerStep)
 			{
 				var height = (GraphBackground.ActualHeight - 1) * _settings.GetAdjustedValue(cur);
-				Debug.WriteLine("{0} {1} {2}", cur, GraphBackground.ActualHeight, height);
+
 				var line = new Line
 				{
 					X1 = 0,
@@ -78,6 +78,12 @@ namespace CityIndexScreensaver
 					Stroke = Brushes.DarkGray
 				};
 				GridRulersCanvas.Children.Add(line);
+
+				var labelText = string.Format("{0}%", -cur*100);
+				var label = new Label {Content = labelText, Foreground = Brushes.Pink};
+				GridRulersCanvas.Children.Add(label);
+				Canvas.SetBottom(label, height);
+				Canvas.SetRight(label, 0);
 			}
 		}
 

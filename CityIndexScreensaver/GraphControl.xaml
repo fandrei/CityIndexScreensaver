@@ -9,7 +9,5 @@
         <Grid Name="GraphBackground" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="DimGray" ClipToBounds="True" SizeChanged="GraphBackground_SizeChanged" >
             <Canvas Name="GridRulersCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
         </Grid>
-        <Label Content="Max" Name="MaxLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="LightPink"/>
-        <Label Content="Min" Name="MinLabel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="LightPink"/>
     </Grid>
 </UserControl>
