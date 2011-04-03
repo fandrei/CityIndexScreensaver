@@ -28,7 +28,7 @@ namespace CityIndexScreensaver
 			if (!_graphs.TryGetValue(key, out graph))
 			{
 				graph = new Graph(_settings) { Key = key };
-				var colors = _settings.MyColors;
+				var colors = _settings.GraphColors;
 				graph.Brush = new SolidColorBrush { Color = colors[_graphs.Count % colors.Length] };
 				GraphBackground.Children.Add(graph.View);
 

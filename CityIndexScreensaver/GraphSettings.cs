@@ -10,15 +10,15 @@ namespace CityIndexScreensaver
 	{
 		public int VisiblePeriodSecs = 60;
 
-		public readonly Color[] MyColors = new[] { Colors.LightGreen, Colors.Red, Colors.Blue, Colors.Coral,
+		public readonly Color[] GraphColors = new[] { Colors.LightGreen, Colors.Red, Colors.Blue, Colors.Coral,
 			Colors.Cyan, Colors.Pink, Colors.SeaGreen, Colors.SteelBlue };
 
 		// pixels per second
 		public double TimeScale;
 
-		public double MaxValueFraction = 0.01;
-		public double MinValueFraction = 0.01;
-		public const double ValueGridStep = 0.01;
+		public double MaxValueFraction = 0.05;
+		public double MinValueFraction = 0.05;
+		private const double ValueGridStep = 0.01;
 
 		public bool UpdateValueScale(double val)
 		{
