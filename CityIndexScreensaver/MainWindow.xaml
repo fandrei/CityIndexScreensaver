@@ -18,6 +18,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="20" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -26,7 +27,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <my:PricesViewControl x:Name="PricesView" Grid.Row="0"/>
-                    <my:GraphControl Height="240" x:Name="PriceGraph" Grid.Row="1"/>
+                    <my:GraphControl Height="240" x:Name="PriceGraph" Grid.Row="2"/>
                     <my:TickerControl x:Name="NewsTicker" Background="DimGray" Foreground="White" Grid.Row="0" Grid.Column="2" />
                 </Grid>
             </Grid>

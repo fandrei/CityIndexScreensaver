@@ -6,8 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <WrapPanel Orientation="Horizontal" Name="PricesPanel">
-            
-        </WrapPanel>
+        <StackPanel Name="PricesPanel" Orientation="Vertical"/>
     </Grid>
 </UserControl>

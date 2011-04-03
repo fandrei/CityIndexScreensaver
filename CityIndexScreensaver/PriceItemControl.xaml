@@ -10,9 +10,9 @@
         </Style>
         <Style x:Key="BigLabelStyle" TargetType="Label">
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="40" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="20" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
         <Style x:Key="BorderStyle" TargetType="Border">
             <Setter Property="BorderThickness" Value="1" />
@@ -33,35 +33,24 @@
             <GradientStop Color="DarkBlue" Offset="0.25" />
         </LinearGradientBrush>
     </UserControl.Resources>
-    <Border BorderThickness="1" BorderBrush="LightGray" Margin="5, 5, 5, 5" Width="310" Height="120">
-        <Grid Background="Black">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+    <Border BorderThickness="1" BorderBrush="LightGray" Margin="5, 5, 5, 5">
+        <Grid Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Caption" HorizontalAlignment="Left" Name="CaptionLabel" VerticalAlignment="Top" Grid.Row="0" />
-
-            <Border Style="{StaticResource BorderStyle}" Name="BidPanel" Grid.Row="1" Grid.Column="0" Background="{StaticResource PanelBrushDefault}">
-                <Label Content="{Binding Bid}" Name="BidLabel" Style="{StaticResource BigLabelStyle}" />
-            </Border>
-            <Border Style="{StaticResource BorderStyle}" Name="OfferPanel" Grid.Row="1" Grid.Column="1" Background="{StaticResource PanelBrushDefault}">
-                <Label Content="{Binding Offer}" Name="OfferLabel" Style="{StaticResource BigLabelStyle}" />
-            </Border>
-
-            <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Label Content="L:" />
-                <Label Content="{Binding Low}" Name="LowLabel" />
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Border Width="24" Height="24" CornerRadius="5"/>
+                <Label Content="Caption" Name="CaptionLabel" VerticalAlignment="Center" Style="{StaticResource BigLabelStyle}" />
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Label Content="H:" />
-                <Label Content="{Binding High}" Name="HighLabel" />
-            </StackPanel>
+
+            <Label Grid.Column="1" Content="{Binding Price}" Style="{StaticResource BigLabelStyle}" />
+
+            <Border Style="{StaticResource BorderStyle}" Name="ChangePanel" Grid.Column="2" Background="{StaticResource PanelBrushDefault}">
+                <Label Content="{Binding Change}" Style="{StaticResource BigLabelStyle}" />
+            </Border>
         </Grid>
     </Border>
 </UserControl>

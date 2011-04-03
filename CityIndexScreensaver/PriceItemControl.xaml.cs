@@ -37,8 +37,7 @@ namespace CityIndexScreensaver
 			if (prevVal != null)
 			{
 				var brush = (prevVal.Price < val.Price) ? _brushIncreasing : _brushDecreasing;
-				BidPanel.Background = brush;
-				OfferPanel.Background = brush;
+				ChangePanel.Background = brush;
 			}
 			DataContext = val;
 		}

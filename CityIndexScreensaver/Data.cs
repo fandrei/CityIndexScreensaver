@@ -147,16 +147,17 @@ namespace CityIndexScreensaver
 				var price = Convert.ToDecimal(random.NextDouble() * maxPrice);
 				var startPrice = (double)price;
 				price = Math.Round(price, 2);
+				decimal delta = 0;
 				decimal min = price, max = price;
 
 				while (!_disposing)
 				{
 					var data = new PriceDTO { Price = price, Low = min, High = max, Bid = price, Offer = price,
-						MarketId = id};
+						MarketId = id, Change = Math.Round(delta, 2)};
 
 					Callback(onUpdate, data);
 
-					var delta = Convert.ToDecimal((random.NextDouble() - 0.5) * startPrice * 0.01);
+					delta = Convert.ToDecimal((random.NextDouble() - 0.5) * startPrice * 0.01);
 					price += delta;
 					if (price <= 0)
 						price = Math.Abs(price + delta);
