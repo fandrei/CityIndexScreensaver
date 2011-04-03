@@ -35,6 +35,10 @@ namespace CityIndexScreensaver
 				_graphs.Add(key, graph);
 			}
 
+			var valFraction = graph.ValueToFraction(item.Value);
+			if (_settings.UpdateValueScale(valFraction))
+				RebuildLines();
+
 			graph.Add(item);
 		}
 

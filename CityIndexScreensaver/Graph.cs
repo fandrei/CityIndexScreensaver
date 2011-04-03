@@ -29,9 +29,6 @@ namespace CityIndexScreensaver
 		public readonly List<GraphItem> Items = new List<GraphItem>();
 
 		private double _baseValue;
-		private double _maxValueFraction = 0.01;
-		private double _minValueFraction = 0.01;
-		private const double ValueGridStep = 0.01;
 
 		private double _startOffset;
 
@@ -44,10 +41,7 @@ namespace CityIndexScreensaver
 			if (Items.Count == 1) // need at least two points to make a line
 				Items.Add(item);
 
-			if (UpdateValueScale(item))
-				RebuildLines();
-			else
-				AddNewLine(Items.Count - 1);
+			AddNewLine(Items.Count - 1);
 
 			Validate();
 		}
@@ -55,32 +49,15 @@ namespace CityIndexScreensaver
 		private double ValueToView(double val)
 		{
 			var valFraction = ValueToFraction(val);
-			Trace.WriteLine(valFraction * 100);
-			return (View.ActualHeight - 1) * 
-				((_maxValueFraction - valFraction) / (_minValueFraction + _maxValueFraction));
+			//Trace.WriteLine(valFraction * 100);
+			return (View.ActualHeight - 1) * _settings.GetAdjustedValue(valFraction);
 		}
 
-		private double ValueToFraction(double val)
+		public double ValueToFraction(double val)
 		{
 			if (_baseValue == 0)
 				_baseValue = val;
 			return (val - _baseValue) / _baseValue;
-		}
-
-		private bool UpdateValueScale(GraphItem item)
-		{
-			var valFraction = ValueToFraction(item.Value);
-			if (valFraction < -_minValueFraction)
-			{
-				_minValueFraction += ValueGridStep;
-				return true;
-			}
-			if (valFraction > _maxValueFraction)
-			{
-				_maxValueFraction += ValueGridStep;
-				return true;
-			}
-			return false;
 		}
 
 		private Line CreateLine(double prevValue, double value, double prevOffset, double offset)
