@@ -15,11 +15,20 @@
                 <Grid Name="ErrorPopup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="1000" Background="DimGray" Visibility="Hidden">
                     <TextBlock Name="ErrorTextBlock" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
                 </Grid>
-                <DockPanel>
-                    <my:TickerControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,20,0,0" x:Name="NewsTicker" Height="200" Background="DimGray" Foreground="White"/>
-                    <my:GraphControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="240" Margin="0,20,0,0" x:Name="ViewPanel" />
-                    <my:PricesViewControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0,20,0,0" x:Name="PricesView"  HorizontalContentAlignment="Center" />
-                </DockPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <my:PricesViewControl x:Name="PricesView" Grid.Row="0"/>
+                    <my:GraphControl Height="240" x:Name="PriceGraph" Grid.Row="1"/>
+                    <my:TickerControl x:Name="NewsTicker" Background="DimGray" Foreground="White" Grid.Row="0" Grid.Column="2" />
+                </Grid>
             </Grid>
         </DockPanel>
     </Grid>

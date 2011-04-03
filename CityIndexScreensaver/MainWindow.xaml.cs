@@ -110,7 +110,7 @@ namespace CityIndexScreensaver
 		{
 			var time = DateTime.Now; // NOTE this code is a temporary workaround until datetime bug is fixed
 			var item = new GraphItem { Value = (double)val.Price, Time = time };
-			ViewPanel.AddItem(val.MarketId.ToString(), item);
+			PriceGraph.AddItem(val.MarketId.ToString(), item);
 		}
 
 		private void SetWindowFullScreen()
