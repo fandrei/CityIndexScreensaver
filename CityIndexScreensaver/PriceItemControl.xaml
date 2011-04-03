@@ -42,8 +42,8 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <Border Width="24" Height="24" CornerRadius="5"/>
-                <Label Content="Caption" Name="CaptionLabel" VerticalAlignment="Center" Style="{StaticResource BigLabelStyle}" />
+                <Border Name="ColorMark" Width="16" Height="16" CornerRadius="5" Margin="10" VerticalAlignment="Center" />
+                <Label Content="Caption" Name="CaptionLabel" Style="{StaticResource BigLabelStyle}" />
             </StackPanel>
 
             <Label Grid.Column="1" Content="{Binding Price}" Style="{StaticResource BigLabelStyle}" />

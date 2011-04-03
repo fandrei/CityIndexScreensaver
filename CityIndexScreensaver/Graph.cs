@@ -32,7 +32,7 @@ namespace CityIndexScreensaver
 
 		private double _startOffset;
 
-		public Brush Brush { get; set; }
+		public SolidColorBrush Brush { get; set; }
 		public Canvas View { get; set; }
 
 		public void Add(GraphItem item)

@@ -31,6 +31,17 @@ namespace CityIndexScreensaver
 		private readonly Brush _brushIncreasing;
 		private readonly Brush _brushDecreasing;
 
+		private Color _color;
+		public Color Color
+		{
+			get { return _color; }
+			set
+			{
+				_color = value;
+				ColorMark.Background = new SolidColorBrush(_color);
+			}
+		}
+
 		public void SetNewPrice(PriceDTO val)
 		{
 			var prevVal = (PriceDTO)DataContext;

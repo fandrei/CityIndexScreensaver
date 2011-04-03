@@ -44,6 +44,7 @@ namespace CityIndexScreensaver
 						if (marketNames.TryGetValue(id, out marketName))
 						{
 							var control = PricesView.AddPriceControl(marketName);
+							control.Color = PriceGraph.GetGraphColor(marketName);
 							State.Data.SubscribePrices(id,
 								price =>
 								{

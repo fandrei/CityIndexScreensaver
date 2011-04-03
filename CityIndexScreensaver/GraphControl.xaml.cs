@@ -33,6 +33,23 @@ namespace CityIndexScreensaver
 
 		public void AddItem(string key, GraphItem item)
 		{
+			var graph = GetGraph(key);
+
+			var valFraction = graph.ValueToFraction(item.Value);
+			if (_settings.UpdateValueScale(valFraction))
+				RebuildLines();
+
+			graph.Add(item);
+		}
+
+		public Color GetGraphColor(string key)
+		{
+			var graph = GetGraph(key);
+			return graph.Brush.Color;
+		}
+
+		Graph GetGraph(string key)
+		{
 			Graph graph;
 			if (!_graphs.TryGetValue(key, out graph))
 			{
@@ -43,12 +60,7 @@ namespace CityIndexScreensaver
 
 				_graphs.Add(key, graph);
 			}
-
-			var valFraction = graph.ValueToFraction(item.Value);
-			if (_settings.UpdateValueScale(valFraction))
-				RebuildLines();
-
-			graph.Add(item);
+			return graph;
 		}
 
 		private void GraphBackground_SizeChanged(object sender, SizeChangedEventArgs e)
