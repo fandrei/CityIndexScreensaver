@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,15 @@ namespace CityIndexScreensaver
 		public GraphControl()
 		{
 			InitializeComponent();
-			InitTimer();
+			Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
+			if (!DesignerProperties.GetIsInDesignMode(this))
+				InitTimer();
+		}
+
+		void Dispatcher_ShutdownStarted(object sender, EventArgs e)
+		{
+			if (_timer != null)
+				_timer.Stop();
 		}
 
 		public void AddItem(string key, GraphItem item)

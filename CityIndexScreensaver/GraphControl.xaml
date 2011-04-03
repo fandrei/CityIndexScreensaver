@@ -6,8 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <Grid>
-        <Grid Name="GraphBackground" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="DimGray" ClipToBounds="True" SizeChanged="GraphBackground_SizeChanged" >
-            <Canvas Name="GridRulersCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
-        </Grid>
+        <Border BorderThickness="1" BorderBrush="LightGray" CornerRadius="5" Background="DimGray" ClipToBounds="True">
+            <Grid Name="GraphBackground" Background="Transparent" SizeChanged="GraphBackground_SizeChanged" >
+                <Canvas Name="GridRulersCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
