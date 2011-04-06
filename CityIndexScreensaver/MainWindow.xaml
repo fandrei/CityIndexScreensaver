@@ -3,15 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:CityIndexScreensaver" 
         Title="CityIndex Screensaver" 
-        Height="761" Width="1100" WindowStyle="None" Background="Black" 
+        Height="850" Width="1100" WindowStyle="None" Background="Black" 
         KeyDown="Grid_KeyDown" MouseMove="Grid_MouseMove" 
         Loaded="Window_Loaded"
         SnapsToDevicePixels="True" 
         WindowStartupLocation="Manual" Left="0" Top="0">
-    <Grid>
+    <Grid Background="#FF171717">
         <DockPanel Margin="20,20,20,20">
             <Image Name="Logo" Stretch="None" DockPanel.Dock="Top" HorizontalAlignment="Left" Source="Resources/Logo.png" />
-            <Grid>
+            <Grid Margin="0,20,0,0">
                 <Grid Name="ErrorPopup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="1000" Background="DimGray" Visibility="Hidden">
                     <TextBlock Name="ErrorTextBlock" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
                 </Grid>
@@ -27,8 +27,8 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <my:PricesViewControl x:Name="PricesView" Grid.Row="0"/>
-                    <my:GraphControl Height="240" x:Name="PriceGraph" Grid.Row="2"/>
-                    <my:TickerControl x:Name="NewsTicker" Background="DimGray" Foreground="White" Grid.Row="0" Grid.Column="2" />
+                    <my:GraphControl Height="360" x:Name="PriceGraph" Grid.Row="2" Grid.ColumnSpan="3"/>
+                    <my:TickerControl x:Name="NewsTicker" Background="White" Foreground="White" Grid.Row="0" Grid.Column="2" />
                 </Grid>
             </Grid>
         </DockPanel>

@@ -5,7 +5,74 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <StackPanel Name="PricesPanel" Orientation="Vertical"/>
-    </Grid>
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="PanelBrushDefault" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="LightGray" Offset="0.0" />
+            <GradientStop Color="DimGray" Offset="0.25" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="PanelBrushIncreasing" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="Red" Offset="0.0" />
+            <GradientStop Color="DarkRed" Offset="0.25" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="PanelBrushDecreasing" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="Blue" Offset="0.0" />
+            <GradientStop Color="DarkBlue" Offset="0.25" />
+        </LinearGradientBrush>
+        <Style x:Key="ChangeIndicator" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Margin" Value="2, 2, 2, 2" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ChangeSign}" Value="0">
+                    <Setter Property="Background" Value="{StaticResource PanelBrushDefault}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=ChangeSign}" Value="1">
+                    <Setter Property="Background" Value="{StaticResource PanelBrushIncreasing}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=ChangeSign}" Value="-1">
+                    <Setter Property="Background" Value="{StaticResource PanelBrushDecreasing}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Border BorderThickness="1" BorderBrush="DimGray" CornerRadius="5" Background="White" ClipToBounds="True">
+        <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" Background="Transparent" RowBackground="Transparent" HeadersVisibility="None" GridLinesVisibility="None" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" BorderThickness="0">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Name="ColorMark" Width="16" Height="16" CornerRadius="5" Margin="10" VerticalAlignment="Center" Background="{Binding Color}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTextColumn Binding="{Binding MarketName}" Width="2*" />
+
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                                <Label Content="{Binding Price}" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Name="ChangePanel" Style="{StaticResource ChangeIndicator}" Width="Auto" >
+                                <Label Content="{Binding Change}" Foreground="White" HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Border>
 </UserControl>

@@ -87,9 +87,7 @@
     <Compile Include="Graph.cs" />
     <Compile Include="GraphItem.cs" />
     <Compile Include="GraphSettings.cs" />
-    <Compile Include="PriceItemControl.xaml.cs">
-      <DependentUpon>PriceItemControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="PriceInfo.cs" />
     <Compile Include="PricesViewControl.xaml.cs">
       <DependentUpon>PricesViewControl.xaml</DependentUpon>
     </Compile>
@@ -118,10 +116,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PriceItemControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="PricesViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

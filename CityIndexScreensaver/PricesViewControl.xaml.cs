@@ -22,14 +22,12 @@ namespace CityIndexScreensaver
 		public PricesViewControl()
 		{
 			InitializeComponent();
+
+			_brushIncreasing = (Brush)FindResource("PanelBrushIncreasing");
+			_brushDecreasing = (Brush)FindResource("PanelBrushDecreasing");
 		}
 
-		public PriceItemControl AddPriceControl(string marketName)
-		{
-			var control = new PriceItemControl();
-			control.CaptionLabel.Content = marketName;
-			PricesPanel.Children.Add(control);
-			return control;
-		}
+		private readonly Brush _brushIncreasing;
+		private readonly Brush _brushDecreasing;
 	}
 }

@@ -43,27 +43,5 @@ namespace CityIndexScreensaver
 			NewsStoryBoard.Begin();
 		}
 
-		private void NewsGrid_MouseEnter(object sender, MouseEventArgs e)
-		{
-			//NewsStoryBoard.Pause();
-		}
-
-		private void NewsGrid_MouseLeave(object sender, MouseEventArgs e)
-		{
-			NewsStoryBoard.Resume();
-		}
-
-		public class ClickArgs : EventArgs
-		{
-			public int Index;
-		}
-
-		public event EventHandler<ClickArgs> ItemClicked;
-
-		private void NewsGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			if (ItemClicked != null)
-				ItemClicked(this, new ClickArgs { Index = NewsGrid.SelectedIndex });
-		}
 	}
 }

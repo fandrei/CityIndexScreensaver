@@ -101,8 +101,13 @@ namespace CityIndexScreensaver
 				GridRulersCanvas.Children.Add(line);
 
 				var labelText = string.Format("{0}%", Math.Round(-cur*100, 2));
-				var label = new Label {Content = labelText, Foreground = Brushes.Pink};
+				var label = new Label {Content = labelText, Foreground = Brushes.Black};
 				GridRulersCanvas.Children.Add(label);
+
+				label.UpdateLayout();
+				if (height > GraphBackground.ActualHeight - label.ActualHeight)
+					height -= label.ActualHeight;
+
 				Canvas.SetBottom(label, height);
 				Canvas.SetRight(label, 0);
 			}
@@ -153,7 +158,7 @@ namespace CityIndexScreensaver
 			foreach (var pair in _graphs)
 			{
 				var graph = pair.Value;
-				if (graph.Items.Count == 0)
+				if (graph.View.Children.Count == 0)
 					continue;
 				var lastItem = (Line)graph.View.Children[graph.View.Children.Count - 1];
 				var cur = lastItem.X2;

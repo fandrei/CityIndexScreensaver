@@ -8,7 +8,7 @@
 
     <Grid Name="LayoutRoot" ClipToBounds="True" Background="Transparent">
         <StackPanel Orientation="Vertical">
-            <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="NewsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SelectionMode="Single" SizeChanged="NewsGrid_SizeChanged" MouseEnter="NewsGrid_MouseEnter" MouseLeave="NewsGrid_MouseLeave" GridLinesVisibility="None" BorderThickness="0" MouseLeftButtonUp="NewsGrid_MouseLeftButtonUp" Loaded="NewsGrid_Loaded" TextOptions.TextHintingMode="Animated" Background="Transparent" RowBackground="Transparent" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}">
+            <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Name="NewsGrid" ItemsSource="{Binding}" IsReadOnly="True" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" SelectionMode="Single" SizeChanged="NewsGrid_SizeChanged" GridLinesVisibility="None" BorderThickness="0" Loaded="NewsGrid_Loaded" TextOptions.TextHintingMode="Animated" Background="Transparent" RowBackground="Transparent" Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Control}}}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Published" Binding="{Binding PublishDate}"/>
                     <DataGridTemplateColumn Header="Headline" Width="*">

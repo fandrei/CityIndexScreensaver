@@ -34,47 +34,43 @@ namespace CityIndexScreensaver
 		void Callback<T>(Action<T> callback, T val)
 		{
 			Action action = () => callback(val);
-			Application.Current.Dispatcher.BeginInvoke(action);
+			Application.Current.Dispatcher.Invoke(action);
 		}
 
 		public void SubscribeNews(Action<NewsDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			//return;
+			return;
 			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
 		}
 
-		public void SubscribePrices(int id, Action<PriceDTO> onUpdate)
-		{
-			VerifyIfDisposed();
-			var topic = "PRICES.PRICE." + id;
-
-			//ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
-			ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(id, onUpdate));
-		}
-
-		public void GetMarketsList(Action<MarketDTO[]> onSuccess)
-		{
-			ThreadPool.QueueUserWorkItem(x => GetMarketsListThreadEntry(onSuccess));
-		}
-
-		void GetMarketsListThreadEntry(Action<MarketDTO[]> onSuccess)
+		void SubscribeNewsThreadEntry(string topic, Action<NewsDTO> onUpdate)
 		{
 			try
 			{
-				// non-functional yet...
+				ListNewsHeadlinesResponseDTO resp;
+				lock (_sync)
+				{
+					EnsureConnection();
 
-				//lock (_sync)
-				//{
-				//    EnsureConnection();
-				//}
-				//var accountInfo = _client.GetClientAndTradingAccount();
-				//var resp = _client.ListCfdMarkets("", "", accountInfo.ClientAccountId, -1);
-				//Callback(onSuccess, resp.Markets);
+					resp = _client.ListNewsHeadlines(topic, 20);
 
-				var markets = new List<MarketDTO>(Const.Markets.Count);
-				markets.AddRange(Const.Markets.Select(pair => new MarketDTO { MarketId = pair.Key, Name = pair.Value }));
-				Callback(onSuccess, markets.ToArray());
+					var listener = _streamingClient.BuildNewsHeadlinesListener(topic);
+					listener.MessageReceived +=
+						(s, args) =>
+						{
+							try
+							{
+								var val = args.Data;
+								Callback(onUpdate, val);
+							}
+							catch (Exception exc)
+							{
+								ReportError(exc);
+							}
+						};
+					listener.Start();
+				}
 			}
 			catch (Exception exc)
 			{
@@ -82,28 +78,15 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		void EnsureConnection()
+		public void SubscribePrices(int id, Action<PriceDTO> onUpdate)
 		{
-			if (_disposing)
-				Thread.CurrentThread.Abort();
+			VerifyIfDisposed();
+			var topic = "PRICES.PRICE." + id;
 
-			lock (_sync)
-			{
-				if (_client == null)
-				{
-					_client = new Client(new Uri(ApplicationSettings.Instance.ServerUrl));
-					_client.LogIn(ApplicationSettings.Instance.UserName, ApplicationSettings.Instance.Password);
-				}
-
-				if (_streamingClient == null)
-				{
-					_streamingClient = StreamingClientFactory.CreateStreamingClient(
-						new Uri(ApplicationSettings.Instance.StreamingServerUrl), 
-						ApplicationSettings.Instance.UserName, _client.SessionId);
-					_streamingClient.Connect();
-				}
-			}
+			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
+			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(id, onUpdate));
 		}
+
 
 		void SubscribePricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
 		{
@@ -153,8 +136,16 @@ namespace CityIndexScreensaver
 
 				while (!_disposing)
 				{
-					var data = new PriceDTO { Price = price, Low = min, High = max, Bid = price, Offer = price,
-						MarketId = id, Change = Math.Round(delta, 2)};
+					var data = new PriceDTO
+					{
+						Price = price,
+						Low = min,
+						High = max,
+						Bid = price,
+						Offer = price,
+						MarketId = id,
+						Change = Math.Round(delta, 2)
+					};
 
 					Callback(onUpdate, data);
 
@@ -175,37 +166,59 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		void SubscribeNewsThreadEntry(string topic, Action<NewsDTO> onUpdate)
+		public void GetMarketsList(Action<MarketDTO[]> onSuccess)
+		{
+			ThreadPool.QueueUserWorkItem(x => GetMarketsListThreadEntry(onSuccess));
+		}
+
+		void GetMarketsListThreadEntry(Action<MarketDTO[]> onSuccess)
 		{
 			try
 			{
-				ListNewsHeadlinesResponseDTO resp;
-				lock (_sync)
-				{
-					EnsureConnection();
+				// non-functional yet...
 
-					resp = _client.ListNewsHeadlines(topic, 20);
+				//EnsureConnection();
+				//var accountInfo = _client.GetClientAndTradingAccount();
+				//var resp = _client.ListSpreadMarkets("", "", accountInfo.ClientAccountId, -1);
+				//Callback(onSuccess, resp.Markets);
 
-					var listener = _streamingClient.BuildNewsHeadlinesListener(topic);
-					listener.MessageReceived +=
-						(s, args) =>
-						{
-							try
-							{
-								var val = args.Data;
-								Callback(onUpdate, val);
-							}
-							catch (Exception exc)
-							{
-								ReportError(exc);
-							}
-						};
-					listener.Start();
-				}
+				var markets = new List<MarketDTO>(Const.Markets.Count);
+				markets.AddRange(Const.Markets.Select(pair => new MarketDTO { MarketId = pair.Key, Name = pair.Value }));
+				Callback(onSuccess, markets.ToArray());
 			}
 			catch (Exception exc)
 			{
 				ReportError(exc);
+			}
+		}
+
+		public PriceBarDTO[] GetPriceBar(int marketId)
+		{
+			EnsureConnection();
+			var resp = _client.GetPriceBars(marketId.ToString(), "DAY", 1, 10.ToString());
+			return resp.PriceBars;
+		}
+
+		void EnsureConnection()
+		{
+			if (_disposing)
+				Thread.CurrentThread.Abort();
+
+			lock (_sync)
+			{
+				if (_client == null)
+				{
+					_client = new Client(new Uri(ApplicationSettings.Instance.ServerUrl));
+					_client.LogIn(ApplicationSettings.Instance.UserName, ApplicationSettings.Instance.Password);
+				}
+
+				if (_streamingClient == null)
+				{
+					_streamingClient = StreamingClientFactory.CreateStreamingClient(
+						new Uri(ApplicationSettings.Instance.StreamingServerUrl),
+						ApplicationSettings.Instance.UserName, _client.SessionId);
+					_streamingClient.Connect();
+				}
 			}
 		}
 

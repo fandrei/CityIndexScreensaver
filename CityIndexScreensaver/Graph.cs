@@ -117,6 +117,7 @@ namespace CityIndexScreensaver
 				line.X1 -= step;
 				line.X2 -= step;
 			}
+			_startOffset -= step;
 
 			var lastInvisibleIndex = -1;
 			for (var i = 0; i < View.Children.Count; i++)
@@ -128,19 +129,22 @@ namespace CityIndexScreensaver
 
 			if (lastInvisibleIndex != -1)
 			{
+				var lastInvisible = (Line)View.Children[lastInvisibleIndex];
+				_startOffset = lastInvisible.X2;
+
 				var deleteCount = lastInvisibleIndex + 1;
 				Items.RemoveRange(0, deleteCount);
 				View.Children.RemoveRange(0, deleteCount);
-				Validate();
-			}
 
-			var firstVisible = (Line)View.Children[0];
-			_startOffset = firstVisible.X1;
+				Validate();
+				Debug.Assert(View.Children.Count > 0);
+			}
 		}
 
 		[Conditional("DEBUG")]
 		public void Validate()
 		{
+			Debug.Assert(Items.Count >= 2);
 			Debug.Assert(Items.Count == View.Children.Count + 1);
 		}
 	}
