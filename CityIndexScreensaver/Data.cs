@@ -25,6 +25,8 @@ namespace CityIndexScreensaver
 
 		void ReportError(Exception exc)
 		{
+			if (exc is ThreadAbortException)
+				return;
 #if DEBUG
 			Debugger.Break();
 #endif

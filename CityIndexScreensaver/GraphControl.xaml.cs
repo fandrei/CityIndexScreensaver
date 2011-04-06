@@ -100,7 +100,7 @@ namespace CityIndexScreensaver
 				};
 				GridRulersCanvas.Children.Add(line);
 
-				var labelText = string.Format("{0}%", Math.Round(-cur*100, 2));
+				var labelText = string.Format("{0}%", Math.Round(cur*100, 2));
 				var label = new Label {Content = labelText, Foreground = Brushes.Black};
 				GridRulersCanvas.Children.Add(label);
 
@@ -108,7 +108,7 @@ namespace CityIndexScreensaver
 				if (height > GraphBackground.ActualHeight - label.ActualHeight)
 					height -= label.ActualHeight;
 
-				Canvas.SetBottom(label, height);
+				Canvas.SetTop(label, height);
 				Canvas.SetRight(label, 0);
 			}
 		}
