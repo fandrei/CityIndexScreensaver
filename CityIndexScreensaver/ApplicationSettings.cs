@@ -19,12 +19,18 @@ namespace CityIndexScreensaver
 
 			var prices = new[] { 99500, 99502, 99504, 99506, };
 			PricesToWatchString = IdsToString(prices);
+			MaxNewsCount = 20;
+			GraphPeriodSecs = 300;
 		}
 
 		public string ServerUrl { get; set; }
 		public string StreamingServerUrl { get; set; }
 		public string UserName { get; set; }
 		public string Password { get; set; }
+
+		public int MaxNewsCount { get; set; }
+
+		public int GraphPeriodSecs { get; set; }
 
 		public string PricesToWatchString { get; set; }
 		public int[] PricesToWatch

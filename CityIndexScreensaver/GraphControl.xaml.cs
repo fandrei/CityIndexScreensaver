@@ -115,7 +115,8 @@ namespace CityIndexScreensaver
 
 		private void UpdateTimeScale()
 		{
-			_settings.TimeScale = GraphBackground.ActualWidth * OffsetOptimalThreshold / _settings.VisiblePeriodSecs;
+			_settings.TimeScale = GraphBackground.ActualWidth * OffsetOptimalThreshold / 
+				ApplicationSettings.Instance.GraphPeriodSecs;
 		}
 
 		private void InitTimer()

@@ -4,13 +4,21 @@
         Title="City Index Screensaver Settings" Width="800" Height="600" 
         ShowInTaskbar="False" Loaded="Window_Loaded">
     <Grid Margin="6">
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Margin" Value="4,4,4,4" />
+            </Style>
+            <Style TargetType="{x:Type PasswordBox}">
+                <Setter Property="Margin" Value="4,4,4,4" />
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TabItem Name="tabItem2" Header="Subscriptions">
+            <TabItem Header="Subscriptions">
                 <Grid>
                     <Grid.Resources>
                         <Style TargetType="DataGridCell">
@@ -73,13 +81,8 @@
                     </DockPanel>
                 </Grid>
             </TabItem>
-            <TabItem Name="tabItem1" Header="Connection">
+            <TabItem Header="Connection">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="4">
-                    <Grid.Resources>
-                        <Style TargetType="{x:Type TextBox}">
-                            <Setter Property="Margin" Value="4,4,4,4" />
-                        </Style>
-                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
@@ -98,6 +101,19 @@
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding UserName, Mode=TwoWay}" />
                     <Label Grid.Row="3" Grid.Column="0" Content="Password" />
                     <PasswordBox Name="PasswordEdit" Grid.Row="3" Grid.Column="1" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Visual Settings">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Graph Period (secs)" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding GraphPeriodSecs, Mode=TwoWay}" />
                 </Grid>
             </TabItem>
         </TabControl>

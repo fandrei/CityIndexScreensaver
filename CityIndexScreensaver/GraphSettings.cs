@@ -8,8 +8,6 @@ namespace CityIndexScreensaver
 {
 	class GraphSettings
 	{
-		public int VisiblePeriodSecs = 60;
-
 		public readonly Color[] GraphColors = new[] { Colors.Green, Colors.Red, Colors.Blue, Colors.Yellow,
 			Colors.Purple, Colors.Black, Colors.SteelBlue, Colors.DarkRed,  Colors.SlateGray, Colors.Orange, };
 
