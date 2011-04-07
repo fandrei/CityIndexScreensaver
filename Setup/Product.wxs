@@ -2,7 +2,8 @@
 
 <?include "Variables.wxi"?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 
   <Product Id="*" UpgradeCode="$(var.UpgradeCode)" Name="$(var.ProductLongName)" Language="1033"
          Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)">
@@ -11,6 +12,7 @@
 
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
+    <!-- Installation Parts -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="MANUFACTURERDIR" Name="$(var.Manufacturer)">
@@ -24,12 +26,18 @@
       </Directory>
     </Directory>
 
-    <Feature Id="ProductFeature" Title="Setup" Level="1">
+    <Feature Id="ProductFeature" Title="$(var.ProductShortName)" Level="1">
       <ComponentRef Id="ProductComponent" />
-
       <!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
       <ComponentGroupRef Id="Product.Generated" />
     </Feature>
+
+    <!-- Prerequisites -->
+    <PropertyRef Id="NETFRAMEWORK40CLIENT"/>
+
+    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40CLIENT]]>
+    </Condition>
 
   </Product>
 </Wix>
