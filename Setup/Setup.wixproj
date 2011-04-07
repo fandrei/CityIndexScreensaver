@@ -26,6 +26,7 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="notes.txt" />
     <Content Include="Variables.wxi" />
   </ItemGroup>
   <ItemGroup>

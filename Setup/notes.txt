@@ -1,0 +1,2 @@
+﻿The only feasible solution to install srceensaver is to copy it to the Windows system folder. 
+Installing to another folder will require to call "Install" action on it, which makes only temporary installation. 
