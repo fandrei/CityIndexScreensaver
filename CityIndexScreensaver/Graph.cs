@@ -133,11 +133,14 @@ namespace CityIndexScreensaver
 				_startOffset = lastInvisible.X2;
 
 				var deleteCount = lastInvisibleIndex + 1;
-				Items.RemoveRange(0, deleteCount);
-				View.Children.RemoveRange(0, deleteCount);
+				if (Items.Count - deleteCount >= 2) // leave at least 2 points to make a line
+				{
+					Items.RemoveRange(0, deleteCount);
+					View.Children.RemoveRange(0, deleteCount);
 
-				Validate();
-				Debug.Assert(View.Children.Count > 0);
+					Validate();
+					Debug.Assert(View.Children.Count > 0);
+				}
 			}
 		}
 

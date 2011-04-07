@@ -10,8 +10,8 @@ namespace CityIndexScreensaver
 	{
 		public int VisiblePeriodSecs = 60;
 
-		public readonly Color[] GraphColors = new[] { Colors.Green, Colors.Red, Colors.Blue, Colors.Coral,
-			Colors.DarkRed, Colors.SeaGreen, Colors.SteelBlue };
+		public readonly Color[] GraphColors = new[] { Colors.Green, Colors.Red, Colors.Blue, Colors.Yellow,
+			Colors.Purple, Colors.Black, Colors.SteelBlue, Colors.DarkRed,  Colors.SlateGray, Colors.Orange, };
 
 		// pixels per second
 		public double TimeScale;
