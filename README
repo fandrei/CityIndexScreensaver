@@ -1,3 +1,4 @@
 Windows screensaver capable to show current market prices. Demonstrates usage of City Index API.
 
-Installation: go to the binary output folder, right click "CityIndex.scr" file, choose "Install" command.
+Screensaver preview: go to the binary output folder, right click "CityIndex.scr" file, choose "Install" or "Test" command.
+To build the setup project, WiX 3.5 is required.
