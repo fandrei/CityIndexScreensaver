@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include "Variables.wxi"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <Product Id="*" UpgradeCode="$(var.UpgradeCode)" Name="$(var.ProductLongName)" Language="1033"
+         Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)">
+
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="MANUFACTURERDIR" Name="$(var.Manufacturer)">
+          <Directory Id="INSTALLLOCATION" Name="$(var.ProductShortName)">
+            <Component Id="ProductComponent" Guid="b3250107-4859-4d5f-857c-1756af65ec32">
+              <File Id='CityIndex.scr' Name='CityIndex.scr'
+                    Source='..\CityIndexScreensaver\Bin\Release\CityIndex.scr' Vital='yes' />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="ProductFeature" Title="Setup" Level="1">
+      <ComponentRef Id="ProductComponent" />
+
+      <!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
+      <ComponentGroupRef Id="Product.Generated" />
+    </Feature>
+
+  </Product>
+</Wix>

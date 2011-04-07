@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Include>
+  <!-- GUIDs for the components -->
+  <?define CurrentPluginRegistrationComponent_Guid={3678DAEA-49F3-4010-B6AE-BF5FAB8E46D4}?>
+
+  <?define Manufacturer = "City Index" ?>
+  <?define ProductShortName = "Info Screensaver" ?>
+  <?define ProductVersion = "0.5" ?>
+  <?define ProductVersionSuffix = "" ?>
+  <?define ProductMidName = "$(var.ProductShortName) $(var.ProductVersion) $(var.ProductVersionSuffix)" ?>
+  <?define ProductLongName = "$(var.Manufacturer) $(var.ProductMidName)" ?>
+
+  <?define HomepageUrl = "http://github.com/fandrei/CityIndexScreensaver" ?>
+  <?define SupportUrl = "http://github.com/fandrei/CityIndexScreensaver" ?>
+  <?define UpgradeCode = "{E550DE7B-34EB-4dd7-90DD-13B5D2A65B56}" ?>
+  
+</Include>
