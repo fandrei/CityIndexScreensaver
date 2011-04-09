@@ -11,7 +11,7 @@
     <Grid Background="#FF171717">
         <DockPanel Margin="20,20,20,20">
             <Image Name="Logo" Stretch="None" DockPanel.Dock="Top" HorizontalAlignment="Left" Source="Resources/Logo.png" />
-            <Grid Margin="0,20,0,0">
+            <Grid Margin="0,20,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                 <Grid Name="ErrorPopup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="1000" Background="DimGray" Visibility="Hidden">
                     <TextBlock Name="ErrorTextBlock" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
                 </Grid>
@@ -28,7 +28,7 @@
                     </Grid.ColumnDefinitions>
                     <my:PricesViewControl x:Name="PricesView" Grid.Row="0"/>
                     <my:GraphControl Height="360" x:Name="PriceGraph" Grid.Row="2" Grid.ColumnSpan="3"/>
-                    <my:TickerControl x:Name="NewsTicker" Background="White" Foreground="White" Grid.Row="0" Grid.Column="2" />
+                    <my:TickerControl x:Name="NewsTicker" Grid.Row="0" Grid.Column="2" />
                 </Grid>
             </Grid>
         </DockPanel>
