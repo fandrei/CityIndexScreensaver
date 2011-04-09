@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Include>
-  <!-- GUIDs for the components -->
-  <?define CurrentPluginRegistrationComponent_Guid={3678DAEA-49F3-4010-B6AE-BF5FAB8E46D4}?>
-
+  
   <?define Manufacturer = "City Index" ?>
   <?define ProductShortName = "Info Screensaver" ?>
   <?define ProductVersion = "0.5" ?>

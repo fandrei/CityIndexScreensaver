@@ -15,9 +15,21 @@
     <!-- Installation Parts -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="WindowsFolder">
-        <Component Id="ProductComponent" Guid="b3250107-4859-4d5f-857c-1756af65ec32">
+        <Component Id="ProductComponent" Guid="{6A22850B-12D5-44BD-8647-74D4F7581FA2}">
           <File Id='CityIndex.scr' Name='CityIndex.scr'
                 Source='..\CityIndexScreensaver\Bin\Release\CityIndex.scr' Vital='yes' />
+          <File Id='CIAPI.dll' Name='CIAPI.dll'
+                Source='..\CityIndexScreensaver\Bin\Release\CIAPI.dll' Vital='yes' />
+          <File Id='CityIndex.JsonClient.dll' Name='CityIndex.JsonClient.dll'
+                Source='..\CityIndexScreensaver\Bin\Release\CityIndex.JsonClient.dll' Vital='yes' />
+          <File Id='Common.Logging.dll' Name='Common.Logging.dll'
+                Source='..\CityIndexScreensaver\Bin\Release\Common.Logging.dll' Vital='yes' />
+          <File Id='Newtonsoft.Json.dll' Name='Newtonsoft.Json.dll'
+                Source='..\CityIndexScreensaver\Bin\Release\Newtonsoft.Json.dll' Vital='yes' />
+          <File Id='StreamingClient.dll' Name='StreamingClient.dll'
+                Source='..\CityIndexScreensaver\Bin\Release\StreamingClient.dll' Vital='yes' />
+          <File Id='StreamingClient.Lightstreamer.dll' Name='StreamingClient.Lightstreamer.dll'
+                Source='..\CityIndexScreensaver\Bin\Release\StreamingClient.Lightstreamer.dll' Vital='yes' />
         </Component>
       </Directory>
     </Directory>
