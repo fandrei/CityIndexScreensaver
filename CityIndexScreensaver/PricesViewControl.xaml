@@ -63,10 +63,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto" MinWidth="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Border Name="ChangePanel" Style="{StaticResource ChangeIndicator}" Width="Auto" >
+                            <Border Name="ChangePanel" Style="{StaticResource ChangeIndicator}">
                                 <Label Content="{Binding Change}" Foreground="White" HorizontalAlignment="Center" />
                             </Border>
                         </DataTemplate>
