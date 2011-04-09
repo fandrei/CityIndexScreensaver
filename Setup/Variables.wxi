@@ -7,7 +7,7 @@
   <?define ProductShortName = "Info Screensaver" ?>
   <?define ProductVersion = "0.5" ?>
   <?define ProductVersionSuffix = "" ?>
-  <?define ProductMidName = "$(var.ProductShortName) $(var.ProductVersion) $(var.ProductVersionSuffix)" ?>
+  <?define ProductMidName = "$(var.ProductShortName) v$(var.ProductVersion) $(var.ProductVersionSuffix)" ?>
   <?define ProductLongName = "$(var.Manufacturer) $(var.ProductMidName)" ?>
 
   <?define HomepageUrl = "http://github.com/fandrei/CityIndexScreensaver" ?>
