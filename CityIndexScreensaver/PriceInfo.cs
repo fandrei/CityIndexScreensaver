@@ -9,8 +9,18 @@ namespace CityIndexScreensaver
 {
 	class PriceInfo : DependencyObject
 	{
-		public string MarketName { get; set; }
+		public int Id { get; set; }
 		public SolidColorBrush Color { get; set; }
+
+		public static readonly DependencyProperty MarketNameProperty =
+			DependencyProperty.Register("MarketName", typeof(string),
+			typeof(PriceInfo), new FrameworkPropertyMetadata(""));
+
+		public string MarketName
+		{
+			get { return (string)GetValue(MarketNameProperty); }
+			set { SetValue(MarketNameProperty, value); }
+		}
 
 		public static readonly DependencyProperty ChangeProperty =
 			DependencyProperty.Register("Change", typeof(decimal),

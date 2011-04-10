@@ -109,33 +109,36 @@ namespace CityIndexScreensaver
 			var prices = ApplicationSettings.Instance.PricesToWatch;
 			var priceInfoList = new ObservableCollection<PriceInfo>();
 
+			foreach (var id in prices)
+			{
+				var priceInfo = new PriceInfo { Id = id, MarketName = id.ToString() };
+				priceInfo.Color = new SolidColorBrush(PriceGraph.GetGraphColor(id.ToString()));
+				priceInfoList.Add(priceInfo);
+
+				State.Data.SubscribePrices(id,
+					price =>
+					{
+						priceInfo.Price = price.Price;
+						priceInfo.Change = price.Change;
+						OnGraphUpdate(price);
+
+						// NOTE this is a workaround to enforce DataGrid adjust column widths
+						PricesView.DataContext = null;
+						PricesView.DataContext = priceInfoList;
+					});
+			}
+
 			State.Data.GetMarketsList(
 				markets =>
 				{
 					var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
 
-					foreach (var id in prices)
+					foreach (var priceInfo in priceInfoList)
 					{
-						//var bar = State.Data.GetPriceBar(id);
-
 						string marketName;
-						if (marketNames.TryGetValue(id, out marketName))
+						if (marketNames.TryGetValue(priceInfo.Id, out marketName))
 						{
-							var priceInfo = new PriceInfo { MarketName = marketName };
-							priceInfo.Color = new SolidColorBrush(PriceGraph.GetGraphColor(id.ToString()));
-							priceInfoList.Add(priceInfo);
-
-							State.Data.SubscribePrices(id,
-								price =>
-								{
-									priceInfo.Price = price.Price;
-									priceInfo.Change = price.Change;
-									OnGraphUpdate(price);
-
-									// NOTE this is a workaround to enforce DataGrid adjust column widths
-									PricesView.DataContext = null;
-									PricesView.DataContext = priceInfoList;
-								});
+							priceInfo.MarketName = marketName;
 						}
 					}
 				});
@@ -149,13 +152,13 @@ namespace CityIndexScreensaver
 			NewsTicker.DataContext = news;
 			State.Data.SubscribeNews(
 				val =>
+				{
+					news.Add(val);
+					while (news.Count > ApplicationSettings.Instance.NewsMaxCount)
 					{
-						news.Add(val);
-						while (news.Count > ApplicationSettings.Instance.NewsMaxCount)
-						{
-							news.RemoveAt(0);
-						}
-					});
+						news.RemoveAt(0);
+					}
+				});
 		}
 
 		private void OnGraphUpdate(PriceDTO val)
