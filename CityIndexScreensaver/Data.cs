@@ -42,11 +42,10 @@ namespace CityIndexScreensaver
 		public void SubscribeNews(Action<NewsDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			return;
-			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry("NEWS.MOCKHEADLINES.UK", onUpdate));
+			ThreadPool.QueueUserWorkItem(x => SubscribeNewsThreadEntry(onUpdate));
 		}
 
-		void SubscribeNewsThreadEntry(string topic, Action<NewsDTO> onUpdate)
+		void SubscribeNewsThreadEntry(Action<NewsDTO> onUpdate)
 		{
 			try
 			{
@@ -55,9 +54,7 @@ namespace CityIndexScreensaver
 				{
 					EnsureConnection();
 
-					resp = _client.ListNewsHeadlines(topic, 20);
-
-					var listener = _streamingClient.BuildNewsHeadlinesListener(topic);
+					var listener = _streamingClient.BuildNewsHeadlinesListener(ApplicationSettings.Instance.NewsCategory);
 					listener.MessageReceived +=
 						(s, args) =>
 						{
@@ -72,6 +69,13 @@ namespace CityIndexScreensaver
 							}
 						};
 					listener.Start();
+
+					resp = _client.ListNewsHeadlines(ApplicationSettings.Instance.NewsCategory,
+						ApplicationSettings.Instance.NewsMaxCount);
+					foreach (var val in resp.Headlines)
+					{
+						Callback(onUpdate, val);
+					}
 				}
 			}
 			catch (Exception exc)

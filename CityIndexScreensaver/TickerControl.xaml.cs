@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace CityIndexScreensaver
 {
@@ -13,35 +15,45 @@ namespace CityIndexScreensaver
 			InitializeComponent();
 		}
 
-		private Storyboard NewsStoryBoard;
-		private DoubleAnimation NewsAnimation;
+		private DispatcherTimer _timer;
 
 		private void NewsGrid_Loaded(object sender, RoutedEventArgs e)
 		{
-			NewsStoryBoard = (Storyboard)NewsGrid.FindResource("NewsStoryBoard");
-			NewsAnimation = (DoubleAnimation)NewsStoryBoard.Children[0];
+			NewsGrid.SelectedItem = null;
 		}
+
+		private void InitTimer()
+		{
+			_timer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(20)};
+			_timer.Tick += TimerTick;
+			_timer.Start();
+		}
+
+		private void TimerTick(object sender, EventArgs e)
+		{
+			GridTranslateTransform.Y -= 1;
+			if (GridTranslateTransform.Y + NewsGrid.ActualHeight < 0)
+				GridTranslateTransform.Y = ControlRoot.ActualHeight;
+		}
+
+		private bool _animationStarted;
 
 		private void NewsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			var data = (System.Collections.IList)DataContext;
-
-			if (data == null)
+			if (DataContext == null)
 				return;
 
-			NewsStoryBoard.Stop();
-			NewsGrid.SelectedItem = null;
-
-			if (data.Count == 0)
+			if (NewsGrid.ActualHeight < ControlRoot.ActualHeight)
 				return;
 
-			NewsAnimation.From = ActualHeight;
-			NewsAnimation.To = -NewsGrid.ActualHeight;
-			var secs = (NewsAnimation.From.Value - NewsAnimation.To.Value) / 50;
-			NewsAnimation.Duration = new Duration(TimeSpan.FromSeconds(secs));
+			if (_animationStarted)
+				return;
 
-			NewsStoryBoard.Begin();
+			if (!_animationStarted)
+			{
+				InitTimer();
+				_animationStarted = true;
+			}
 		}
-
 	}
 }

@@ -148,7 +148,14 @@ namespace CityIndexScreensaver
 			var news = new ObservableCollection<NewsDTO>();
 			NewsTicker.DataContext = news;
 			State.Data.SubscribeNews(
-				val => news.Add(val));
+				val =>
+					{
+						news.Add(val);
+						while (news.Count > ApplicationSettings.Instance.NewsMaxCount)
+						{
+							news.RemoveAt(0);
+						}
+					});
 		}
 
 		private void OnGraphUpdate(PriceDTO val)
