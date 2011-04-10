@@ -1,0 +1,1 @@
+msiexec /i "CityIndexScreensaverSetup.msi" /lvx "install.log"

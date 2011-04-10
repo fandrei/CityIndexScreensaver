@@ -1,0 +1,1 @@
+msiexec /uninstall "CityIndexScreensaverSetup.msi" /lvx "uninstall.log" /passive
