@@ -10,7 +10,7 @@
 
     <Package InstallerVersion="200" Compressed="yes" />
 
-    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="high"/>
 
     <!-- Installation Parts -->
     <Directory Id="TARGETDIR" Name="SourceDir">
