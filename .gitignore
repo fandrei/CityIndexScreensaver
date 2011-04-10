@@ -1,6 +1,6 @@
 bin/
 obj/
-_setup/
+_result/
 *.suo
 
 *.Resharper.user
