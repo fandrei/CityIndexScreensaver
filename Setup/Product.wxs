@@ -32,6 +32,7 @@
                 Source='..\CityIndexScreensaver\Bin\Release\StreamingClient.Lightstreamer.dll' Vital='yes' />
         </Component>
       </Directory>
+      <Directory Id="SystemFolder" />
     </Directory>
 
     <Feature Id="ProductFeature" Title="$(var.ProductShortName)" Level="1">
@@ -47,6 +48,10 @@
       <![CDATA[Installed OR NETFRAMEWORK40CLIENT]]>
     </Condition>
 
+    <!-- Custom Actions -->
+    <CustomAction Id="RunDialog" Directory="SystemFolder" ExeCommand="control.exe desk.cpl,,@screensaver"
+                  Return="asyncNoWait"/>
+
     <UIRef Id="WixUI_Common" />
     <!--<WixVariable Id="WixUIBannerBmp"  Value="$(sys.SOURCEFILEDIR)\..\Common\LogoLabs.bmp" />-->
 
@@ -58,7 +63,8 @@
 
       <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
       <Property Id="WixUI_Mode" Value="Minimal" />
-      <Property Id="ARPNOMODIFY" Value="1" /> <!-- No "change features" button -->
+      <!-- No "change features" button -->
+      <Property Id="ARPNOMODIFY" Value="1" />
 
       <DialogRef Id="ErrorDlg" />
       <DialogRef Id="FatalError" />
@@ -78,6 +84,8 @@
 
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
 
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction"
+               Value="RunDialog" Order="1">NOT Installed</Publish>
       <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
     </UI>
   </Product>
