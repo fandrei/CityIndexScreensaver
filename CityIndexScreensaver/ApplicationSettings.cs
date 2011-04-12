@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
-using System.Security;
+using System.Security.Cryptography;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace CityIndexScreensaver
@@ -21,39 +22,41 @@ namespace CityIndexScreensaver
 			NewsCategory = "NEWS.MOCKHEADLINES.UK";
 
 			GraphPeriodSecs = 300;
+
+			PricesToWatch = new int[0];
 		}
 
 		public string ServerUrl { get; set; }
 		public string StreamingServerUrl { get; set; }
 		public string UserName { get; set; }
-		public string Password { get; set; }
+
+		public string PasswordEncrypted { get; set; }
+		static readonly byte[] AditionalEntropy = { 0x55, 0x7F, 0xFA, 0x1A, 0x09 };
+
+		[XmlIgnore]
+		public string Password
+		{
+			get
+			{
+				var encrypted = Convert.FromBase64String(PasswordEncrypted);
+				var data = ProtectedData.Unprotect(encrypted, AditionalEntropy, DataProtectionScope.CurrentUser);
+				var res = Encoding.UTF8.GetString(data);
+				return res;
+			}
+			set
+			{
+				var data = Encoding.UTF8.GetBytes(value);
+				var encrypted = ProtectedData.Protect(data, AditionalEntropy, DataProtectionScope.CurrentUser);
+				PasswordEncrypted = Convert.ToBase64String(encrypted);
+			}
+		}
 
 		public int NewsMaxCount { get; set; }
 		public string NewsCategory { get; set; }
 
 		public int GraphPeriodSecs { get; set; }
 
-		public string PricesToWatchString { get; set; }
-		public int[] PricesToWatch
-		{
-			get { return StringToIds(PricesToWatchString); }
-			set { PricesToWatchString = IdsToString(value); }
-		}
-
-		static int[] StringToIds(string ids)
-		{
-			var tmp = ids.Split(new[] { PricesDelimiter }, StringSplitOptions.RemoveEmptyEntries);
-			var res = (from id in tmp select int.Parse(id)).ToArray();
-			return res;
-		}
-
-		static string IdsToString(int[] ids)
-		{
-			var res = string.Join(PricesDelimiter, ids);
-			return res;
-		}
-
-		const string PricesDelimiter = " ";
+		public int[] PricesToWatch { get; set; }
 
 		private static ApplicationSettings _instance;
 
