@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace CityIndexScreensaver
 {
@@ -22,12 +23,26 @@ namespace CityIndexScreensaver
 		public PricesViewControl()
 		{
 			InitializeComponent();
-
-			_brushIncreasing = (Brush)FindResource("PanelBrushIncreasing");
-			_brushDecreasing = (Brush)FindResource("PanelBrushDecreasing");
 		}
 
-		private readonly Brush _brushIncreasing;
-		private readonly Brush _brushDecreasing;
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			InitTimer();
+		}
+
+		private void InitTimer()
+		{
+			_timer.Interval = TimeSpan.FromSeconds(3);
+			_timer.Tick += TimerTick;
+			_timer.Start();
+		}
+
+		private void TimerTick(object sender, EventArgs e)
+		{
+			var i = (PricesGrid.SelectedIndex + 1) % PricesGrid.Items.Count;
+			PricesGrid.SelectedIndex = i;
+		}
+
+		private readonly DispatcherTimer _timer = new DispatcherTimer();
 	}
 }

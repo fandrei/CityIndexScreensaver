@@ -70,12 +70,12 @@ namespace CityIndexScreensaver
 			ErrorPopup.Visibility = Visibility.Visible;
 		}
 
-		private void Grid_KeyDown(object sender, KeyEventArgs e)
+		private void Window_KeyDown(object sender, KeyEventArgs e)
 		{
 			CloseApp();
 		}
 
-		private void Grid_MouseMove(object sender, MouseEventArgs e)
+		private void Window_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (!State.IsDebug)
 			{
@@ -118,10 +118,6 @@ namespace CityIndexScreensaver
 						priceInfo.Price = price.Price;
 						priceInfo.Change = price.Change;
 						OnGraphUpdate(price);
-
-						// NOTE this is a workaround to enforce DataGrid adjust column widths
-						PricesView.DataContext = null;
-						PricesView.DataContext = priceInfoList;
 					});
 			}
 

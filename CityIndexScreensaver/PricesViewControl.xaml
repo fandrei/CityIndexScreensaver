@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="PanelBrushDefault" StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop Color="LightGray" Offset="0.0" />
@@ -37,13 +37,19 @@
         </Style>
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="DimGray" CornerRadius="5" Background="White" ClipToBounds="True">
-        <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" Background="Transparent" RowBackground="Transparent" HeadersVisibility="None" GridLinesVisibility="None" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" BorderThickness="0">
-            <DataGrid.Resources>
+        <DataGrid Name="PricesGrid" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" Background="Transparent" RowBackground="White" AlternatingRowBackground="LightGray" HeadersVisibility="None" GridLinesVisibility="None" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" BorderThickness="0">
+            <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="FontSize" Value="20" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Yellow" />
+                            <Setter Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
-            </DataGrid.Resources>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -53,7 +59,13 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTextColumn Binding="{Binding MarketName}" Width="2*" />
+                <DataGridTemplateColumn Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding MarketName}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
