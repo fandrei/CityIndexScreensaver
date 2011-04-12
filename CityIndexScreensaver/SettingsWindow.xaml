@@ -116,6 +116,22 @@
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding GraphPeriodSecs, Mode=TwoWay}" />
                 </Grid>
             </TabItem>
+            <TabItem Header="News">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="News Category" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewsCategory, Mode=TwoWay}" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Max News Count" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NewsMaxCount, Mode=TwoWay}" />
+                </Grid>
+            </TabItem>
         </TabControl>
         <Button x:Name="OKButton" Content="OK" Click="OKButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="1" />
         <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" IsCancel="True" IsDefault="True" Grid.Row="1" />
