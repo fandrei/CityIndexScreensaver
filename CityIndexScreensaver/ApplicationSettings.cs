@@ -17,9 +17,6 @@ namespace CityIndexScreensaver
 			UserName = "xx189949";
 			Password = "password";
 
-			var prices = new[] { 99500, 99502, 99504, 99506, };
-			PricesToWatchString = IdsToString(prices);
-
 			NewsMaxCount = 30;
 			NewsCategory = "NEWS.MOCKHEADLINES.UK";
 

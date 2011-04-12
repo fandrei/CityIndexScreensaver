@@ -8,7 +8,7 @@ namespace CityIndexScreensaver
 {
 	class GraphSettings
 	{
-		public readonly Color[] GraphColors = new[] { Colors.Green, Colors.Red, Colors.Blue, Colors.Yellow,
+		public readonly Color[] GraphColors = new[] { Colors.Green, Colors.Red, Colors.Blue, Colors.Orange,
 			Colors.Purple, Colors.Black, Colors.SteelBlue, Colors.DarkRed,  Colors.SlateGray, Colors.Orange, };
 
 		// pixels per second
