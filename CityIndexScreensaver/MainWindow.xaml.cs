@@ -59,13 +59,8 @@ namespace CityIndexScreensaver
 
 		private void SetWindowFullScreen()
 		{
-			Topmost = true;
-			ResizeMode = ResizeMode.NoResize;
-
-			Left = 0;
-			Top = 0;
-			Width = SystemParameters.PrimaryScreenWidth;
-			Height = SystemParameters.PrimaryScreenHeight;
+			WindowStyle = WindowStyle.None;
+			WindowState = WindowState.Maximized;
 		}
 
 		private void ReportException(Exception exc)
@@ -118,6 +113,8 @@ namespace CityIndexScreensaver
 				State.Data.SubscribePrices(id,
 					price =>
 					{
+						//var priceBar = State.Data.GetPriceBar(price.MarketId);
+
 						priceInfo.Price = price.Price;
 						priceInfo.Change = price.Change;
 						OnGraphUpdate(price);
