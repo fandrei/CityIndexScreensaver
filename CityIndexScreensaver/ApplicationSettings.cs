@@ -23,7 +23,7 @@ namespace CityIndexScreensaver
 
 			GraphPeriodSecs = 300;
 
-			PricesToWatch = new int[0];
+			PricesToWatch = new[] { 99498, 99500, 99502, 99504, 99506, 99508};
 		}
 
 		public string ServerUrl { get; set; }
