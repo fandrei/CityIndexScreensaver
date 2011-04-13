@@ -36,14 +36,18 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border BorderThickness="1" BorderBrush="DimGray" CornerRadius="5" Background="White" ClipToBounds="True">
-        <Grid>
-            <Grid.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=Mask}"/>
-            </Grid.OpacityMask>
-            <Border Name="Mask" Background="White" CornerRadius="5" />
 
-            <DataGrid Name="PricesGrid" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" Background="Transparent" RowBackground="White" AlternatingRowBackground="LightGray" HeadersVisibility="None" GridLinesVisibility="None" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" BorderThickness="0">
+    <Grid>
+        <Border Name="Mask" Background="White" CornerRadius="5" />
+        <Border BorderThickness="1" BorderBrush="DimGray" CornerRadius="5" Background="White">
+            <Border.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=Mask}"/>
+            </Border.OpacityMask>
+
+            <DataGrid Name="PricesGrid" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False"
+                      Background="Transparent" RowBackground="White" AlternatingRowBackground="LightGray"
+                      HeadersVisibility="None" GridLinesVisibility="None" BorderThickness="0"
+                      VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
                         <Setter Property="FontSize" Value="20" />
@@ -92,6 +96,6 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
-    </Border>
+        </Border>
+    </Grid>
 </UserControl>
