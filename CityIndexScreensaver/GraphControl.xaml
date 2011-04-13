@@ -7,6 +7,11 @@
              d:DesignHeight="100" d:DesignWidth="300">
     <Border BorderThickness="1" BorderBrush="DimGray" CornerRadius="5" Background="White" ClipToBounds="True">
         <Grid Name="GraphBackground" Background="Transparent" SizeChanged="GraphBackground_SizeChanged">
+            <Grid.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=Mask}"/>
+            </Grid.OpacityMask>
+            <Border Name="Mask" Background="White" CornerRadius="5" />
+            
             <Canvas Name="GridRulersCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" />
         </Grid>
     </Border>
