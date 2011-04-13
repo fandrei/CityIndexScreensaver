@@ -41,8 +41,24 @@ namespace CityIndexScreensaver
 		{
 			var i = (PricesGrid.SelectedIndex + 1) % PricesGrid.Items.Count;
 			PricesGrid.SelectedIndex = i;
+
+			var price = (PriceInfo)PricesGrid.SelectedItem;
+			RaiseSelectedChanged(price);
+		}
+
+		public event EventHandler<SelectedPriceChangedArgs> SelectedChanged;
+
+		void RaiseSelectedChanged(PriceInfo val)
+		{
+			if (SelectedChanged != null)
+				SelectedChanged(this, new SelectedPriceChangedArgs { Val = val });
 		}
 
 		private readonly DispatcherTimer _timer = new DispatcherTimer();
+	}
+
+	public class SelectedPriceChangedArgs : EventArgs
+	{
+		public PriceInfo Val { get; set; }
 	}
 }

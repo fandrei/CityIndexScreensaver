@@ -26,7 +26,7 @@
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <my:PricesViewControl x:Name="PricesView" Grid.Row="0"/>
+                    <my:PricesViewControl x:Name="PricesView" Grid.Row="0" SelectedChanged="PricesView_SelectedChanged"/>
                     <my:GraphControl Height="360" x:Name="PriceGraph" Grid.Row="2"/>
                     <my:TickerControl x:Name="NewsTicker" Grid.Row="0" Grid.Column="2" />
                     <my:GraphControl Height="360" x:Name="PriceGraphSingle" Grid.Row="2" Grid.Column="2"/>

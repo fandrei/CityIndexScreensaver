@@ -42,10 +42,29 @@ namespace CityIndexScreensaver
 			graph.Add(item);
 		}
 
+		public void SetCurrentVisible(string key)
+		{
+			var graph = GetGraph(key);
+			graph.Visible = true;
+
+			foreach (var pair in _graphs)
+			{
+				var cur = pair.Value;
+				if (!ReferenceEquals(graph, cur))
+					cur.Visible = false;
+			}
+		}
+
 		public Color GetGraphColor(string key)
 		{
 			var graph = GetGraph(key);
 			return graph.Brush.Color;
+		}
+
+		public void SetGraphBrush(string key, SolidColorBrush brush)
+		{
+			var graph = GetGraph(key);
+			graph.Brush = brush;
 		}
 
 		Graph GetGraph(string key)

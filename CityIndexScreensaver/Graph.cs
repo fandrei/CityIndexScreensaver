@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -17,16 +18,26 @@ namespace CityIndexScreensaver
 
 			View = new Canvas
 			{
-				HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
-				VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
+				HorizontalAlignment = HorizontalAlignment.Stretch,
+				VerticalAlignment = VerticalAlignment.Stretch,
 				Background = Brushes.Transparent
 			};
 		}
 
-		private readonly GraphSettings _settings;
-
 		public string Key;
 		public readonly List<GraphItem> Items = new List<GraphItem>();
+		public bool Visible
+		{
+			get { return View.IsVisible; }
+			set
+			{
+				if (Visible == value)
+					return;
+				View.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+			}
+		}
+
+		private readonly GraphSettings _settings;
 
 		private double _baseValue;
 

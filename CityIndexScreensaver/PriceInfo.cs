@@ -7,9 +7,9 @@ using System.Windows.Media;
 
 namespace CityIndexScreensaver
 {
-	class PriceInfo : DependencyObject
+	public class PriceInfo : DependencyObject
 	{
-		public int Id { get; set; }
+		public int MarketId { get; set; }
 		public SolidColorBrush Color { get; set; }
 
 		public static readonly DependencyProperty MarketNameProperty =

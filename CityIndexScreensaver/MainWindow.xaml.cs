@@ -106,9 +106,11 @@ namespace CityIndexScreensaver
 
 			foreach (var id in prices)
 			{
-				var priceInfo = new PriceInfo { Id = id, MarketName = id.ToString() };
+				var priceInfo = new PriceInfo { MarketId = id, MarketName = id.ToString() };
 				priceInfo.Color = new SolidColorBrush(PriceGraph.GetGraphColor(id.ToString()));
 				priceInfoList.Add(priceInfo);
+
+				PriceGraphSingle.SetGraphBrush(priceInfo.MarketId.ToString(), priceInfo.Color);
 
 				State.Data.SubscribePrices(id,
 					price =>
@@ -129,7 +131,7 @@ namespace CityIndexScreensaver
 					foreach (var priceInfo in priceInfoList)
 					{
 						string marketName;
-						if (marketNames.TryGetValue(priceInfo.Id, out marketName))
+						if (marketNames.TryGetValue(priceInfo.MarketId, out marketName))
 						{
 							priceInfo.MarketName = marketName;
 						}
@@ -158,7 +160,15 @@ namespace CityIndexScreensaver
 		{
 			var time = DateTime.Now; // NOTE this code is a temporary workaround until datetime bug is fixed
 			var item = new GraphItem { Value = (double)val.Price, Time = time };
-			PriceGraph.AddItem(val.MarketId.ToString(), item);
+			var key = val.MarketId.ToString();
+
+			PriceGraph.AddItem(key, item);
+			PriceGraphSingle.AddItem(key, item);
+		}
+
+		private void PricesView_SelectedChanged(object sender, SelectedPriceChangedArgs e)
+		{
+			PriceGraphSingle.SetCurrentVisible(e.Val.MarketId.ToString());
 		}
 
 		// mouse movement detection
