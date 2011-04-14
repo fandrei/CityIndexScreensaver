@@ -39,6 +39,9 @@ namespace CityIndexScreensaver
 
 		private void TimerTick(object sender, EventArgs e)
 		{
+			if (PricesGrid.Items.Count == 0)
+				return;
+
 			var i = (PricesGrid.SelectedIndex + 1) % PricesGrid.Items.Count;
 			PricesGrid.SelectedIndex = i;
 
