@@ -33,6 +33,11 @@ namespace CityIndexScreensaver
 			Callback(_onError, exc);
 		}
 
+		void Callback(Action callback)
+		{
+			Application.Current.Dispatcher.Invoke(callback);
+		}
+
 		void Callback<T>(Action<T> callback, T val)
 		{
 			Action action = () => callback(val);
@@ -92,7 +97,6 @@ namespace CityIndexScreensaver
 			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
 			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(id, onUpdate));
 		}
-
 
 		void SubscribePricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
 		{
@@ -201,8 +205,27 @@ namespace CityIndexScreensaver
 		public PriceBarDTO[] GetPriceBar(int marketId)
 		{
 			EnsureConnectionSync();
-			var resp = _client.GetPriceBars(marketId.ToString(), "DAY", 1, 10.ToString());
+			var resp = _client.GetPriceBars(marketId.ToString(), "DAY", 1, 1.ToString());
 			return resp.PriceBars;
+		}
+
+		public void EnsureConnection(Action onSuccess, Action onError)
+		{
+			VerifyIfDisposed();
+			ThreadPool.QueueUserWorkItem(
+				x =>
+				{
+					try
+					{
+						EnsureConnectionSync();
+						Callback(onSuccess);
+					}
+					catch (Exception exc)
+					{
+						Callback(onError);
+						ReportError(exc);
+					}
+				});
 		}
 
 		void EnsureConnectionSync()
@@ -228,6 +251,52 @@ namespace CityIndexScreensaver
 			}
 		}
 
+		public void Logout(Action onSuccess)
+		{
+			VerifyIfDisposed();
+			ThreadPool.QueueUserWorkItem(
+				x =>
+				{
+					try
+					{
+						LogoutSync();
+						Callback(onSuccess);
+					}
+					catch (Exception exc)
+					{
+						ReportError(exc);
+					}
+				});
+		}
+
+		void LogoutSync()
+		{
+			lock (_sync)
+			{
+				var listeners = new List<IStreamingListener>();
+				listeners.AddRange(_priceListeners);
+				_priceListeners.Clear();
+
+				foreach (var listener in listeners)
+				{
+					listener.Stop();
+				}
+
+				if (_streamingClient != null)
+				{
+					_streamingClient.Disconnect();
+					_streamingClient = null;
+				}
+
+				if (_client != null)
+				{
+					_client.LogOut();
+					_client.Dispose();
+					_client = null;
+				}
+			}
+		}
+
 		private volatile bool _disposing;
 
 		public void Dispose()
@@ -237,36 +306,13 @@ namespace CityIndexScreensaver
 
 			try
 			{
-				lock (_sync)
-				{
-					var listeners = new List<IStreamingListener>();
-					listeners.AddRange(_priceListeners);
-					_priceListeners.Clear();
-
-					foreach (var listener in listeners)
-					{
-						listener.Stop();
-					}
-
-					if (_streamingClient != null)
-					{
-						_streamingClient.Disconnect();
-						_streamingClient = null;
-					}
-					if (_client != null)
-					{
-						_client.LogOut();
-						_client.Dispose();
-						_client = null;
-					}
-				}
+				LogoutSync();
+				Debug.WriteLine("Data.Dispose() finished successfully\r\n");
 			}
 			catch (Exception exc)
 			{
-				Debug.WriteLine(exc.ToString());
+				Debug.WriteLine("Data.Dispose() error:\r\n{0}", exc.ToString());
 			}
-
-			Debug.WriteLine("Data.Dispose() finished successfully\r\n");
 		}
 
 		void VerifyIfDisposed()

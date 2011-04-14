@@ -31,6 +31,7 @@ namespace CityIndexScreensaver
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			Application.Current.DispatcherUnhandledException += OnUnhandledException;
+			Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
 
 			this.HideMinimizeAndMaximizeButtons();
 
@@ -38,6 +39,11 @@ namespace CityIndexScreensaver
 			State.Data.GetMarketsList(RefreshMarketsView);
 
 			DataContext = ApplicationSettings.Instance;
+		}
+
+		private void Dispatcher_ShutdownStarted(object sender, EventArgs e)
+		{
+			State.Data.Dispose();
 		}
 
 		private void RefreshMarketsView(MarketDTO[] markets)
@@ -196,6 +202,24 @@ namespace CityIndexScreensaver
 				FilterTextBox.Text = "";
 				e.Handled = true;
 			}
+		}
+
+		private void TestLogin_Click(object sender, RoutedEventArgs e)
+		{
+			TestLogin.IsEnabled = false;
+			ApplicationSettings.Instance.Password = PasswordEdit.Password;
+
+			State.Data.Logout(
+				() => State.Data.EnsureConnection(
+					() =>
+					{
+						MessageBox.Show(this, "Connected successfully");
+						TestLogin.IsEnabled = true;
+					},
+					() =>
+					{
+						TestLogin.IsEnabled = true;
+					}));
 		}
 
 		private ICollectionView _marketsView;
