@@ -17,9 +17,9 @@
                 </Grid>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition MinHeight="200" />
                         <RowDefinition Height="20" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="360" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
@@ -27,9 +27,9 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <my:PricesViewControl x:Name="PricesView" Grid.Row="0" SelectedChanged="PricesView_SelectedChanged"/>
-                    <my:GraphControl Height="360" x:Name="PriceGraph" Grid.Row="2"/>
+                    <my:GraphControl x:Name="PriceGraph" Grid.Row="2"/>
                     <my:TickerControl x:Name="NewsTicker" Grid.Row="0" Grid.Column="2" />
-                    <my:GraphControl Height="360" x:Name="PriceGraphSingle" Grid.Row="2" Grid.Column="2"/>
+                    <my:GraphControl x:Name="PriceGraphSingle" Grid.Row="2" Grid.Column="2"/>
                 </Grid>
             </Grid>
         </DockPanel>
