@@ -52,7 +52,7 @@ namespace CityIndexScreensaver
 				ListNewsHeadlinesResponseDTO resp;
 				lock (_sync)
 				{
-					EnsureConnection();
+					EnsureConnectionSync();
 
 					var listener = _streamingClient.BuildNewsHeadlinesListener(ApplicationSettings.Instance.NewsCategory);
 					listener.MessageReceived +=
@@ -100,7 +100,7 @@ namespace CityIndexScreensaver
 			{
 				lock (_sync)
 				{
-					EnsureConnection();
+					EnsureConnectionSync();
 
 					var listener = _streamingClient.BuildPriceListener(topic);
 					listener.MessageReceived +=
@@ -183,7 +183,7 @@ namespace CityIndexScreensaver
 			{
 				// non-functional yet...
 
-				//EnsureConnection();
+				//EnsureConnectionSync();
 				//var accountInfo = _client.GetClientAndTradingAccount();
 				//var resp = _client.ListSpreadMarkets("", "", accountInfo.ClientAccountId, -1);
 				//Callback(onSuccess, resp.Markets);
@@ -200,12 +200,12 @@ namespace CityIndexScreensaver
 
 		public PriceBarDTO[] GetPriceBar(int marketId)
 		{
-			EnsureConnection();
+			EnsureConnectionSync();
 			var resp = _client.GetPriceBars(marketId.ToString(), "DAY", 1, 10.ToString());
 			return resp.PriceBars;
 		}
 
-		void EnsureConnection()
+		void EnsureConnectionSync()
 		{
 			if (_disposing)
 				Thread.CurrentThread.Abort();
