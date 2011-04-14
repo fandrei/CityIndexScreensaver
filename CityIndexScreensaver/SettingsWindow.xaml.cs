@@ -69,7 +69,7 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		static void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
+		void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
 		{
 			try
 			{
@@ -83,10 +83,10 @@ namespace CityIndexScreensaver
 			args.Handled = true;
 		}
 
-		private static void ReportException(Exception exc)
+		private void ReportException(Exception exc)
 		{
 			var msg = State.IsDebug ? exc.ToString() : exc.Message;
-			MessageBox.Show(msg);
+			MessageBox.Show(this, msg, Const.AppName);
 		}
 
 		private void OKButton_Click(object sender, RoutedEventArgs e)
@@ -213,8 +213,8 @@ namespace CityIndexScreensaver
 				() => State.Data.EnsureConnection(
 					() =>
 					{
-						MessageBox.Show(this, "Connected successfully");
 						TestLogin.IsEnabled = true;
+						MessageBox.Show(this, "Connected successfully", Const.AppName);
 					},
 					() =>
 					{
