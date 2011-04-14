@@ -104,9 +104,10 @@ namespace CityIndexScreensaver
 			var prices = ApplicationSettings.Instance.PricesToWatch;
 			var priceInfoList = new ObservableCollection<PriceInfo>();
 
-			foreach (var id in prices)
+			foreach (var market in prices)
 			{
-				var priceInfo = new PriceInfo { MarketId = id, MarketName = id.ToString() };
+				var id = market.MarketId;
+				var priceInfo = new PriceInfo { MarketId = id, MarketName = market.Name };
 				priceInfo.Color = new SolidColorBrush(PriceGraph.GetGraphColor(id.ToString()));
 				priceInfoList.Add(priceInfo);
 
@@ -122,21 +123,6 @@ namespace CityIndexScreensaver
 						OnGraphUpdate(price);
 					});
 			}
-
-			State.Data.GetMarketsList(
-				markets =>
-				{
-					var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
-
-					foreach (var priceInfo in priceInfoList)
-					{
-						string marketName;
-						if (marketNames.TryGetValue(priceInfo.MarketId, out marketName))
-						{
-							priceInfo.MarketName = marketName;
-						}
-					}
-				});
 
 			PricesView.DataContext = priceInfoList;
 		}

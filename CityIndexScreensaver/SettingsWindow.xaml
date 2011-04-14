@@ -95,9 +95,9 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="Server" />
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ServerUrl, Mode=TwoWay}" MaxLines="3" MinLines="3" TextWrapping="Wrap" />
-                    <Label Grid.Row="1" Grid.Column="0" Content="Streaming Server" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Streaming server" />
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StreamingServerUrl, Mode=TwoWay}" MaxLines="3" MinLines="3" TextWrapping="Wrap" />
-                    <Label Grid.Row="2" Grid.Column="0" Content="User Name" />
+                    <Label Grid.Row="2" Grid.Column="0" Content="User name" />
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding UserName, Mode=TwoWay}" />
                     <Label Grid.Row="3" Grid.Column="0" Content="Password" />
                     <PasswordBox Name="PasswordEdit" Grid.Row="3" Grid.Column="1" />
@@ -112,7 +112,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Graph Period (secs)" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="Graph period (secs)" />
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding GraphPeriodSecs, Mode=TwoWay}" />
                 </Grid>
             </TabItem>
@@ -126,9 +126,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="News Category" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="News category" />
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NewsCategory, Mode=TwoWay}" />
-                    <Label Grid.Row="1" Grid.Column="0" Content="Max News Count" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="Max news count" />
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NewsMaxCount, Mode=TwoWay}" />
                 </Grid>
             </TabItem>

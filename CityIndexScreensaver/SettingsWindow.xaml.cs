@@ -45,16 +45,10 @@ namespace CityIndexScreensaver
 			_marketsView = CollectionViewSource.GetDefaultView(markets);
 			AllMarketsGrid.ItemsSource = _marketsView;
 
-			var marketNames = markets.ToDictionary(market => market.MarketId, market => market.Name);
-
 			_subscriptions.Clear();
-			foreach (var id in ApplicationSettings.Instance.PricesToWatch)
+			foreach (var market in ApplicationSettings.Instance.PricesToWatch)
 			{
-				string marketName;
-				if (marketNames.TryGetValue(id, out marketName))
-				{
-					_subscriptions.Add(new MarketDTO { MarketId = id, Name = marketName });
-				}
+				_subscriptions.Add(market);
 			}
 
 			SubscriptionsGrid.ItemsSource = _subscriptions;
@@ -91,8 +85,7 @@ namespace CityIndexScreensaver
 
 		private void OKButton_Click(object sender, RoutedEventArgs e)
 		{
-			var subscribedIds = _subscriptions.Select(subscription => subscription.MarketId).ToArray();
-			ApplicationSettings.Instance.PricesToWatch = subscribedIds;
+			ApplicationSettings.Instance.PricesToWatch = _subscriptions.ToArray();
 
 			if (!string.IsNullOrEmpty(PasswordEdit.Password))
 				ApplicationSettings.Instance.Password = PasswordEdit.Password;

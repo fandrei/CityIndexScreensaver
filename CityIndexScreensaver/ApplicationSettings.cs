@@ -7,6 +7,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
 
+using CIAPI.DTO;
+
 namespace CityIndexScreensaver
 {
 	public class ApplicationSettings
@@ -23,7 +25,7 @@ namespace CityIndexScreensaver
 
 			GraphPeriodSecs = 300;
 
-			PricesToWatch = new[] { 99498, 99500, 99502, 99504, 99506, 99508};
+			PricesToWatch = new MarketDTO[0];
 		}
 
 		public string ServerUrl { get; set; }
@@ -31,7 +33,7 @@ namespace CityIndexScreensaver
 		public string UserName { get; set; }
 
 		public string PasswordEncrypted { get; set; }
-		static readonly byte[] AditionalEntropy = { 0x55, 0x7F, 0xFA, 0x1A, 0x09 };
+		static readonly byte[] AdditionalEntropy = { 0x55, 0x7F, 0xFA, 0x1A, 0x09 };
 
 		[XmlIgnore]
 		public string Password
@@ -39,14 +41,14 @@ namespace CityIndexScreensaver
 			get
 			{
 				var encrypted = Convert.FromBase64String(PasswordEncrypted);
-				var data = ProtectedData.Unprotect(encrypted, AditionalEntropy, DataProtectionScope.CurrentUser);
+				var data = ProtectedData.Unprotect(encrypted, AdditionalEntropy, DataProtectionScope.CurrentUser);
 				var res = Encoding.UTF8.GetString(data);
 				return res;
 			}
 			set
 			{
 				var data = Encoding.UTF8.GetBytes(value);
-				var encrypted = ProtectedData.Protect(data, AditionalEntropy, DataProtectionScope.CurrentUser);
+				var encrypted = ProtectedData.Protect(data, AdditionalEntropy, DataProtectionScope.CurrentUser);
 				PasswordEncrypted = Convert.ToBase64String(encrypted);
 			}
 		}
@@ -56,7 +58,7 @@ namespace CityIndexScreensaver
 
 		public int GraphPeriodSecs { get; set; }
 
-		public int[] PricesToWatch { get; set; }
+		public MarketDTO[] PricesToWatch { get; set; }
 
 		private static ApplicationSettings _instance;
 
