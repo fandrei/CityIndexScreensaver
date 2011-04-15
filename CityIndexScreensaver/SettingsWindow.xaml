@@ -46,14 +46,6 @@
             <TabItem Header="Subscriptions">
                 <Grid>
                     <Grid.Resources>
-                        <Style TargetType="DataGridCell">
-                            <Style.Setters>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="TextBlock.VerticalAlignment" Value="Center" />
-                                <Setter Property="Height" Value="24" />
-                                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                            </Style.Setters>
-                        </Style>
                         <Style TargetType="DataGrid">
                             <Style.Setters>
                                 <Setter Property="AutoGenerateColumns" Value="False" />
@@ -66,6 +58,14 @@
                                 <Setter Property="VerticalAlignment" Value="Stretch" />
                             </Style.Setters>
                         </Style>
+                        <Style TargetType="DataGridCell">
+                            <Style.Setters>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                            </Style.Setters>
+                        </Style>
+                        <BitmapImage x:Key="MinusImage" UriSource="Resources/Minus.png" DecodePixelWidth="22"/>
+                        <BitmapImage x:Key="PlusImage" UriSource="Resources/Plus.png" DecodePixelWidth="22"/>
                     </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -78,7 +78,8 @@
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Image Source="Resources/Minus.png"  MouseLeftButtonUp="ImageRemove_Click"/>
+                                            <Image Source="{StaticResource MinusImage}"
+                                                   MouseLeftButtonUp="ImageRemove_Click"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -96,7 +97,8 @@
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Image Source="Resources/Plus.png" MouseLeftButtonUp="ImageAdd_Click" />
+                                            <Image Source="{StaticResource PlusImage}"
+                                                   MouseLeftButtonUp="ImageAdd_Click" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
