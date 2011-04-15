@@ -144,7 +144,10 @@ namespace CityIndexScreensaver
 
 		private void OnGraphUpdate(PriceDTO val)
 		{
-			var time = DateTime.Now; // NOTE this code is a temporary workaround until datetime bug is fixed
+			// NOTE this code is a temporary workaround until datetime bug is fixed
+			var ticksString = val.TickDate.Substring(7, val.TickDate.Length - 10);
+			var time = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddMilliseconds(Int64.Parse(ticksString));
+			
 			var item = new GraphItem { Value = (double)val.Price, Time = time };
 			var key = val.MarketId.ToString();
 
