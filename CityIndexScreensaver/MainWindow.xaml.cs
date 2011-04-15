@@ -66,7 +66,9 @@ namespace CityIndexScreensaver
 		private void ReportException(Exception exc)
 		{
 			var msg = State.IsDebug ? exc.ToString() : exc.Message;
-			ErrorTextBlock.Text = msg;
+			if (!string.IsNullOrEmpty(ErrorTextBlock.Text))
+				ErrorTextBlock.Text += "\r\n-----------------------------------------------\r\n";
+			ErrorTextBlock.Text += msg;
 			ErrorPopup.Visibility = Visibility.Visible;
 		}
 
@@ -116,8 +118,6 @@ namespace CityIndexScreensaver
 				State.Data.SubscribePrices(id,
 					price =>
 					{
-						//var priceBar = State.Data.GetPriceBar(price.MarketId);
-
 						priceInfo.Price = price.Price;
 						priceInfo.Change = price.Change;
 						OnGraphUpdate(price);

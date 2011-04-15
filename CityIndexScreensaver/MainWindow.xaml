@@ -13,7 +13,9 @@
             <Image Name="Logo" Stretch="None" DockPanel.Dock="Top" HorizontalAlignment="Left" Source="Resources/Logo.png" />
             <Grid Margin="0,20,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                 <Grid Name="ErrorPopup" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="1000" Background="DimGray" Visibility="Hidden">
-                    <TextBlock Name="ErrorTextBlock" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBox Name="ErrorTextBlock" TextWrapping="Wrap" Background="Transparent" Foreground="LightGray"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto"
+                             BorderThickness="0"/>
                 </Grid>
                 <Grid>
                     <Grid.RowDefinitions>

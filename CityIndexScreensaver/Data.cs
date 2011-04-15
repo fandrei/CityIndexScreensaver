@@ -28,7 +28,7 @@ namespace CityIndexScreensaver
 			if (exc is ThreadAbortException)
 				return;
 #if DEBUG
-			Debugger.Break();
+			//Debugger.Break();
 #endif
 			Callback(_onError, exc);
 		}
