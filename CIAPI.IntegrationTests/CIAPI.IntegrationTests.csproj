@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Const.cs" />
-    <Compile Include="Example.FetchNews.cs" />
     <Compile Include="MassStreamingTests.cs" />
     <Compile Include="StreamingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

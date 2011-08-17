@@ -1,0 +1,924 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="livetemplates.csharp.usevar">True</setting>
+      <setting name="SolutionAnalysisEnabled">True</setting>
+    </boolean>
+  </SettingsComponent>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:App.config" caret="545" fromTop="17" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Const.cs" caret="0" fromTop="0" />
+      <File id="BF38AD34-EED2-4CB7-AAE2-E2D9753C9A66/f:notes.txt" caret="211" fromTop="1" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:App.xaml.cs" caret="1610" fromTop="27" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:TickerControl.xaml" caret="1382" fromTop="16" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:TickerControl.xaml.cs" caret="1263" fromTop="30" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/d:Utils/f:WindowExtensions.cs" caret="0" fromTop="0" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphSettings.cs" caret="441" fromTop="14" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:SettingsWindow.xaml" caret="8006" fromTop="4" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="0" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphControl.xaml" caret="892" fromTop="13" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml" caret="827" fromTop="12" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Graph.cs" caret="758" fromTop="8" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PriceInfo.cs" caret="638" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml.cs" caret="1208" fromTop="20" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphControl.xaml.cs" caret="1495" fromTop="35" />
+      <File id="E533F2E0-5E17-41D0-80D6-2D5330702BDB/f:README/l:D!?projects?CIAPI?CityIndexScreensaver?README" caret="0" fromTop="0" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:State.cs" caret="290" fromTop="13" />
+      <File id="BF38AD34-EED2-4CB7-AAE2-E2D9753C9A66/f:Variables.wxi" caret="651" fromTop="15" />
+      <File id="BF38AD34-EED2-4CB7-AAE2-E2D9753C9A66/f:Product.wxs" caret="2046" fromTop="34" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml" caret="0" fromTop="0" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:SettingsWindow.xaml.cs" caret="1177" fromTop="20" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:ApplicationSettings.cs" caret="1648" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="3645" fromTop="20" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="1955" fromTop="15" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphControl.xaml.cs" caret="1266" fromTop="33" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphControl.xaml.cs" caret="1133" fromTop="30" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml.cs" caret="1361" fromTop="36" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml" caret="1852" fromTop="28" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="4403" fromTop="20" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="4039" fromTop="14" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml.cs" caret="1250" fromTop="12" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml.cs" caret="1472" fromTop="30" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="4194" fromTop="35" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PriceInfo.cs" caret="240" fromTop="11" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Graph.cs" caret="727" fromTop="24" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="3956" fromTop="31" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml.cs" caret="1095" fromTop="16" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphControl.xaml.cs" caret="1411" fromTop="30" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="3648" fromTop="18" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="3648" fromTop="17" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="3042" fromTop="12" />
+      <File id="BF38AD34-EED2-4CB7-AAE2-E2D9753C9A66/f:Variables.wxi" caret="629" fromTop="12" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:SettingsWindow.xaml.cs" caret="6199" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:ApplicationSettings.cs" caret="1648" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="4814" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="1672" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="5823" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="3645" fromTop="20" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="2450" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="2266" fromTop="13" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="2120" fromTop="20" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir>C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0\</NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="Application`0" priority="4" />
+      <Item value="void" priority="11" />
+      <Item value="CloseApp`0" priority="0" />
+      <Item value="var" priority="80" />
+      <Item value="e" priority="11" />
+      <Item value="if" priority="50" />
+      <Item value="args" priority="6" />
+      <Item value="Length" priority="3" />
+      <Item value="return" priority="29" />
+      <Item value="this" priority="4" />
+      <Item value="Left" priority="0" />
+      <Item value="Top" priority="0" />
+      <Item value="Width" priority="0" />
+      <Item value="size" priority="1" />
+      <Item value="Height" priority="0" />
+      <Item value="SystemParameters`0" priority="0" />
+      <Item value="public" priority="18" />
+      <Item value="_data" priority="2" />
+      <Item value="IDisposable`0" priority="0" />
+      <Item value="MessageBox`0" priority="1" />
+      <Item value="ReportException`0" priority="2" />
+      <Item value="new" priority="40" />
+      <Item value="Delegate`0" priority="0" />
+      <Item value="Action`0" priority="3" />
+      <Item value="static" priority="0" />
+      <Item value="bool" priority="6" />
+      <Item value="State`0" priority="8" />
+      <Item value="true" priority="9" />
+      <Item value="GetDataThreadEntry`0" priority="0" />
+      <Item value="onSuccess" priority="2" />
+      <Item value="onError" priority="0" />
+      <Item value="_client" priority="7" />
+      <Item value="Thread`0" priority="1" />
+      <Item value="PriceBarDTO`0" priority="1" />
+      <Item value="priceBarListener" priority="0" />
+      <Item value="PriceTickDTO`0" priority="4" />
+      <Item value="while" priority="3" />
+      <Item value="priceTicksListener_MessageRecieved`0" priority="0" />
+      <Item value="null" priority="4" />
+      <Item value="MessageEventArgs&lt;PriceTickDTO&gt;" priority="0" />
+      <Item value="topic" priority="2" />
+      <Item value="const" priority="4" />
+      <Item value="string" priority="16" />
+      <Item value="Price" priority="0" />
+      <Item value="Decimal`0" priority="0" />
+      <Item value="Math`0" priority="5" />
+      <Item value="Random`0" priority="0" />
+      <Item value="random" priority="2" />
+      <Item value="price" priority="16" />
+      <Item value="TickDate" priority="0" />
+      <Item value="DateTime`0" priority="7" />
+      <Item value="val" priority="8" />
+      <Item value="delta" priority="0" />
+      <Item value="None" priority="0" />
+      <Item value="DarkSlateBlue" priority="0" />
+      <Item value="DarkSlateGray" priority="0" />
+      <Item value="onUpdate" priority="0" />
+      <Item value="double" priority="17" />
+      <Item value="PriceTickerCanvas" priority="6" />
+      <Item value="Line`0" priority="1" />
+      <Item value="X1" priority="1" />
+      <Item value="_offset" priority="2" />
+      <Item value="Y1" priority="1" />
+      <Item value="decimal" priority="5" />
+      <Item value="action" priority="0" />
+      <Item value="line" priority="7" />
+      <Item value="Color" priority="0" />
+      <Item value="Color`0" priority="0" />
+      <Item value="height" priority="5" />
+      <Item value="_scaleHeight" priority="1" />
+      <Item value="heightUnscaled" priority="0" />
+      <Item value="_heightScale" priority="4" />
+      <Item value="_prevPrice" priority="4" />
+      <Item value="_prevOffset" priority="1" />
+      <Item value="List`0" priority="5" />
+      <Item value="List&lt;PriceTickDTO&gt;" priority="0" />
+      <Item value="foreach" priority="19" />
+      <Item value="DrawItems`0" priority="0" />
+      <Item value="ThreadStaticAttribute`0" priority="0" />
+      <Item value="_items" priority="11" />
+      <Item value="x" priority="4" />
+      <Item value="maxPrice" priority="1" />
+      <Item value="prevPrice" priority="1" />
+      <Item value="offset" priority="11" />
+      <Item value="prevOffset" priority="2" />
+      <Item value="initialScale" priority="0" />
+      <Item value="false" priority="4" />
+      <Item value="_startOffset" priority="6" />
+      <Item value="previtem" priority="2" />
+      <Item value="item" priority="1" />
+      <Item value="_timeScale" priority="1" />
+      <Item value="maxTimeDistance" priority="1" />
+      <Item value="distance" priority="0" />
+      <Item value="GetDistance`0" priority="1" />
+      <Item value="prevItem" priority="2" />
+      <Item value="offsetExceeded" priority="2" />
+      <Item value="i" priority="7" />
+      <Item value="Chart" priority="3" />
+      <Item value="int" priority="16" />
+      <Item value="_startTime" priority="1" />
+      <Item value="IgnoreMouseDelaySecs" priority="0" />
+      <Item value="DispatcherTimer" priority="1" />
+      <Item value="child" priority="2" />
+      <Item value="UIElement`0" priority="2" />
+      <Item value="InitTimer`0" priority="2" />
+      <Item value="_shiftSize" priority="2" />
+      <Item value="private" priority="0" />
+      <Item value="_timeGap" priority="0" />
+      <Item value="averageSpeed" priority="0" />
+      <Item value="_shiftSpeed" priority="0" />
+      <Item value="TimerPeriodMsecs" priority="0" />
+      <Item value="maxOffset" priority="2" />
+      <Item value="minPrice" priority="1" />
+      <Item value="MinLabel" priority="1" />
+      <Item value="LightPink" priority="0" />
+      <Item value="DarkGray" priority="0" />
+      <Item value="diffPrice" priority="1" />
+      <Item value="lastInvisible" priority="8" />
+      <Item value="NewsTicker" priority="0" />
+      <Item value="NewsStoryBoard" priority="5" />
+      <Item value="Storyboard" priority="0" />
+      <Item value="RepeatBehavior`0" priority="0" />
+      <Item value="NewsAnimation" priority="6" />
+      <Item value="DoubleAnimation" priority="0" />
+      <Item value="TranslateTransform" priority="1" />
+      <Item value="NewsGrid" priority="4" />
+      <Item value="_newsAnimation" priority="0" />
+      <Item value="dummyList" priority="0" />
+      <Item value="_newsStoryBoard" priority="0" />
+      <Item value="Storyboard`0" priority="1" />
+      <Item value="DoubleAnimation`0" priority="0" />
+      <Item value="Animatable`0" priority="0" />
+      <Item value="FindName`0" priority="0" />
+      <Item value="ItemsControl`0" priority="0" />
+      <Item value="lastInvisibleIndex" priority="2" />
+      <Item value="FindValueAt`0" priority="0" />
+      <Item value="firstVisible" priority="0" />
+      <Item value="res" priority="3" />
+      <Item value="Brush`0" priority="0" />
+      <Item value="BidPanel" priority="0" />
+      <Item value="defaultBrush" priority="0" />
+      <Item value="FindResource`0" priority="0" />
+      <Item value="_brushIncreasing" priority="1" />
+      <Item value="_brushDecreasing" priority="0" />
+      <Item value="PanelBrushDefault" priority="0" />
+      <Item value="priceTicks" priority="0" />
+      <Item value="PricesToWatchString" priority="1" />
+      <Item value="SettingsWindow`0" priority="1" />
+      <Item value="window" priority="2" />
+      <Item value="ApplicationSettings`0" priority="8" />
+      <Item value="catch" priority="0" />
+      <Item value="Exception`0" priority="1" />
+      <Item value="exc" priority="1" />
+      <Item value="firstArg" priority="3" />
+      <Item value="parts" priority="2" />
+      <Item value="secondArg" priority="4" />
+      <Item value="Shutdown`0" priority="1" />
+      <Item value="HwndSourceParameters" priority="0" />
+      <Item value="ParentWindow" priority="0" />
+      <Item value="IntPtr`0" priority="2" />
+      <Item value="hwndSource" priority="0" />
+      <Item value="Const`0" priority="2" />
+      <Item value="StreamingServerUrl" priority="0" />
+      <Item value="Username" priority="0" />
+      <Item value="Password" priority="0" />
+      <Item value="SecureString" priority="0" />
+      <Item value="Uri" priority="0" />
+      <Item value="EnvironmentVariableTarget`0" priority="2" />
+      <Item value="marketId" priority="2" />
+      <Item value="listener" priority="3" />
+      <Item value="listener_MessageReceived`0" priority="0" />
+      <Item value="_logger" priority="0" />
+      <Item value="ParallelEnumerable`0" priority="0" />
+      <Item value="ParallelOptions`0" priority="0" />
+      <Item value="MaxDegreeOfParallelism" priority="0" />
+      <Item value="object" priority="3" />
+      <Item value="lock" priority="4" />
+      <Item value="client" priority="0" />
+      <Item value="LockCookie`0" priority="0" />
+      <Item value="_streamingClientSync" priority="0" />
+      <Item value="List" priority="0" />
+      <Item value="struct" priority="0" />
+      <Item value="ChartControl`0" priority="0" />
+      <Item value="Value" priority="0" />
+      <Item value="Time" priority="0" />
+      <Item value="long" priority="0" />
+      <Item value="ticksString" priority="4" />
+      <Item value="_streamingClient" priority="0" />
+      <Item value="Debugger`0" priority="2" />
+      <Item value="_onError" priority="0" />
+      <Item value="resp" priority="2" />
+      <Item value="Client`0" priority="0" />
+      <Item value="Low" priority="0" />
+      <Item value="min" priority="1" />
+      <Item value="High" priority="0" />
+      <Item value="Bid" priority="0" />
+      <Item value="Offer" priority="0" />
+      <Item value="accountInfo" priority="0" />
+      <Item value="MarketDTO`0" priority="5" />
+      <Item value="Dictionary" priority="2" />
+      <Item value="tmp1" priority="0" />
+      <Item value="Dictionary&lt;int,string&gt;" priority="0" />
+      <Item value="_markets" priority="1" />
+      <Item value="markets" priority="5" />
+      <Item value="MarketDTO" priority="0" />
+      <Item value="MarketId" priority="2" />
+      <Item value="market" priority="9" />
+      <Item value="Name" priority="2" />
+      <Item value="List&lt;bool,MarketDTO&gt;" priority="0" />
+      <Item value="_subscriptions" priority="20" />
+      <Item value="Tuple&lt;bool,MarketDTO&gt;" priority="0" />
+      <Item value="Item1" priority="0" />
+      <Item value="Item2" priority="0" />
+      <Item value="SubscriptionsGrid" priority="8" />
+      <Item value="AppDomain`0" priority="0" />
+      <Item value="class" priority="1" />
+      <Item value="Subscription`0" priority="11" />
+      <Item value="name" priority="0" />
+      <Item value="DataGridTemplateColumn`0" priority="0" />
+      <Item value="List&lt;Subscription&gt;" priority="0" />
+      <Item value="TextBlock`0" priority="1" />
+      <Item value="sender" priority="0" />
+      <Item value="AddSubscriptionsGrid" priority="0" />
+      <Item value="Subscription" priority="0" />
+      <Item value="SequenceNumber" priority="0" />
+      <Item value="Disabled" priority="0" />
+      <Item value="CanUserReorderColumns" priority="0" />
+      <Item value="subscription" priority="3" />
+      <Item value="HashSet" priority="0" />
+      <Item value="selectedItem" priority="1" />
+      <Item value="subscribedIds" priority="0" />
+      <Item value="char" priority="0" />
+      <Item value="throw" priority="0" />
+      <Item value="NotImplementedException" priority="0" />
+      <Item value="id" priority="2" />
+      <Item value="IdsToString`0" priority="1" />
+      <Item value="prices" priority="0" />
+      <Item value="readonly" priority="0" />
+      <Item value="out" priority="1" />
+      <Item value="marketName" priority="4" />
+      <Item value="Select`2" priority="0" />
+      <Item value="KeyValuePair" priority="0" />
+      <Item value="marketNames" priority="1" />
+      <Item value="newItem" priority="0" />
+      <Item value="cur" priority="1" />
+      <Item value="break" priority="0" />
+      <Item value="Auto" priority="0" />
+      <Item value="UiHelper`0" priority="0" />
+      <Item value="as" priority="3" />
+      <Item value="text" priority="2" />
+      <Item value="source" priority="3" />
+      <Item value="_isDragging" priority="4" />
+      <Item value="current" priority="0" />
+      <Item value="_draggingItem" priority="3" />
+      <Item value="Debug`0" priority="7" />
+      <Item value="Pressed" priority="0" />
+      <Item value="tmp" priority="1" />
+      <Item value="select" priority="0" />
+      <Item value="sourceIndex" priority="0" />
+      <Item value="curIndex" priority="9" />
+      <Item value="Mouse`0" priority="0" />
+      <Item value="Cursors`0" priority="0" />
+      <Item value="Style`0" priority="0" />
+      <Item value="SelectedStyle" priority="1" />
+      <Item value="PasswordEdit" priority="0" />
+      <Item value="GetMarketsList`0" priority="0" />
+      <Item value="Dispatcher" priority="0" />
+      <Item value="T`0" priority="0" />
+      <Item value="callback" priority="0" />
+      <Item value="CallbackSync`1" priority="2" />
+      <Item value="Exception" priority="1" />
+      <Item value="ErrorPopup" priority="0" />
+      <Item value="ErrorTextBlock" priority="0" />
+      <Item value="msg" priority="0" />
+      <Item value="Callback`1" priority="0" />
+      <Item value="GetMarketsListThreadEntry`0" priority="0" />
+      <Item value="Visibility`0" priority="2" />
+      <Item value="nguid" priority="0" />
+      <Item value="ICollection" priority="0" />
+      <Item value="_subscriptionsView" priority="1" />
+      <Item value="FilterTextBox" priority="1" />
+      <Item value="Escape" priority="0" />
+      <Item value="FrameworkElement`0" priority="0" />
+      <Item value="cell" priority="0" />
+      <Item value="Remove" priority="0" />
+      <Item value="Single" priority="0" />
+      <Item value="_draggingItemIndex" priority="5" />
+      <Item value="LineBreakCondition`0" priority="0" />
+      <Item value="PriceInfo`0" priority="5" />
+      <Item value="MarketName" priority="1" />
+      <Item value="ObservableCollection" priority="0" />
+      <Item value="PricesViewControl`0" priority="0" />
+      <Item value="control" priority="0" />
+      <Item value="priceInfo" priority="3" />
+      <Item value="DependencyObject`0" priority="0" />
+      <Item value="SolidColorBrush`0" priority="0" />
+      <Item value="SolidColorBrush" priority="0" />
+      <Item value="ChangeSign" priority="0" />
+      <Item value="Items" priority="1" />
+      <Item value="labelText" priority="0" />
+      <Item value="GraphBackground" priority="0" />
+      <Item value="label" priority="0" />
+      <Item value="View" priority="4" />
+      <Item value="is" priority="0" />
+      <Item value="ThreadAbortException`0" priority="0" />
+      <Item value="_animationStarted" priority="0" />
+      <Item value="LayoutRoot" priority="0" />
+      <Item value="news" priority="2" />
+      <Item value="deleteCount" priority="0" />
+      <Item value="MaxNewsCount" priority="0" />
+      <Item value="NewsCategory" priority="0" />
+      <Item value="headline" priority="0" />
+      <Item value="ActualHeight" priority="0" />
+      <Item value="Canvas`0" priority="0" />
+      <Item value="Duration`0" priority="0" />
+      <Item value="TimeSpan`0" priority="2" />
+      <Item value="FillBehavior`0" priority="1" />
+      <Item value="Duration" priority="0" />
+      <Item value="HoldEnd" priority="0" />
+      <Item value="_timerPeriod" priority="0" />
+      <Item value="GridTranslateTransform" priority="0" />
+      <Item value="Id" priority="0" />
+      <Item value="value" priority="1" />
+      <Item value="Base64FormattingOptions`0" priority="0" />
+      <Item value="Convert`0" priority="1" />
+      <Item value="PasswordEncrypted" priority="0" />
+      <Item value="encrypted" priority="0" />
+      <Item value="Encoding`0" priority="0" />
+      <Item value="NonSerialized" priority="0" />
+      <Item value="XmlIgnore" priority="0" />
+      <Item value="ids" priority="1" />
+      <Item value="PricesToWatch" priority="0" />
+      <Item value="IsSelected" priority="0" />
+      <Item value="PricesGrid" priority="3" />
+      <Item value="LightGray" priority="0" />
+      <Item value="BooleanToVisibilityConverter`0" priority="0" />
+      <Item value="graph" priority="2" />
+      <Item value="ReferenceEquals`0" priority="0" />
+      <Item value="pair" priority="0" />
+      <Item value="EventHandler`0" priority="0" />
+      <Item value="SelectedChanged" priority="1" />
+      <Item value="SelectedIndexArgs" priority="0" />
+      <Item value="Index" priority="0" />
+      <Item value="RaiseSelectedChanged`0" priority="0" />
+      <Item value="PriceGraphSingle" priority="0" />
+      <Item value="Int64`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Application">
+      <Item value="Current" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Application">
+      <Item value="Exit" priority="0" />
+      <Item value="Shutdown`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.StartupEventArgs">
+      <Item value="Args" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.String">
+      <Item value="ToLower`0" priority="2" />
+      <Item value="Split`0" priority="0" />
+      <Item value="Substring`0" priority="2" />
+      <Item value="Length" priority="1" />
+      <Item value="Contains`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Rect">
+      <Item value="Width" priority="0" />
+      <Item value="Height" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.SystemParameters">
+      <Item value="PrimaryScreenHeight" priority="0" />
+      <Item value="PrimaryScreenWidth" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.Data">
+      <Item value="GetData`0" priority="0" />
+      <Item value="Dispose`0" priority="0" />
+      <Item value="GetNewsDummy`0" priority="0" />
+      <Item value="ListMarkets`0" priority="0" />
+      <Item value="GetMarketsList`0" priority="0" />
+      <Item value="GetPriceBar`0" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Threading.DispatcherPriority">
+      <Item value="Normal" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.MessageBox">
+      <Item value="Show`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@CityIndexScreensaver.State">
+      <Item value="IsFullScreen" priority="1" />
+      <Item value="IsDebug" priority="1" />
+      <Item value="Data" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Threading.ThreadPool">
+      <Item value="QueueUserWorkItem`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.ResizeMode">
+      <Item value="NoResize" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.Rpc.Client">
+      <Item value="GetPriceTicks`0" priority="0" />
+      <Item value="ListCfdMarkets`0" priority="1" />
+      <Item value="GetPriceBars`0" priority="1" />
+      <Item value="LogOut`0" priority="1" />
+      <Item value="ListNewsHeadlines`0" priority="0" />
+      <Item value="GetClientAndTradingAccount`0" priority="0" />
+      <Item value="ListSpreadMarkets`0" priority="0" />
+      <Item value="Session" priority="0" />
+      <Item value="PriceHistory" priority="0" />
+      <Item value="News" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:StreamingClient.MessageEventArgs`1">
+      <Item value="Topic" priority="0" />
+      <Item value="ToString`0" priority="0" />
+      <Item value="Data" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Globalization.CultureInfo">
+      <Item value="InvariantCulture" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.PriceDTO">
+      <Item value="Price" priority="1" />
+      <Item value="TickDate" priority="5" />
+      <Item value="Change" priority="0" />
+      <Item value="MarketId" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Threading.Thread">
+      <Item value="Sleep`0" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:StreamingClient.IStreamingListener`1">
+      <Item value="MessageRecieved" priority="0" />
+      <Item value="Start`0" priority="1" />
+      <Item value="MessageReceived" priority="0" />
+      <Item value="Stop`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.PriceBarDTO">
+      <Item value="BarDate" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.PriceTickDTO">
+      <Item value="TickDate" priority="5" />
+      <Item value="Price" priority="3" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Random">
+      <Item value="NextDouble`0" priority="1" />
+      <Item value="Next`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Convert">
+      <Item value="ToDecimal`0" priority="0" />
+      <Item value="FromBase64String`0" priority="0" />
+      <Item value="ToBase64String`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.DateTime">
+      <Item value="Now" priority="3" />
+      <Item value="MinValue" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Math">
+      <Item value="Abs`0" priority="0" />
+      <Item value="Max`0" priority="1" />
+      <Item value="Min`0" priority="0" />
+      <Item value="Round`0" priority="0" />
+      <Item value="Sign`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.Canvas">
+      <Item value="Children" priority="6" />
+      <Item value="HasAnimatedProperties" priority="0" />
+      <Item value="Height" priority="0" />
+      <Item value="ActualHeight" priority="1" />
+      <Item value="InvalidateVisual`0" priority="0" />
+      <Item value="ActualWidth" priority="2" />
+      <Item value="Visibility" priority="2" />
+      <Item value="IsVisible" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.UIElementCollection">
+      <Item value="Add`0" priority="0" />
+      <Item value="Clear`0" priority="0" />
+      <Item value="Count" priority="2" />
+      <Item value="RemoveRange`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Shapes.Line">
+      <Item value="Stroke" priority="0" />
+      <Item value="X1" priority="2" />
+      <Item value="X2" priority="6" />
+      <Item value="Y1" priority="1" />
+      <Item value="Y2" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Media.Colors">
+      <Item value="Red" priority="0" />
+      <Item value="Gray" priority="0" />
+      <Item value="LightGreen" priority="0" />
+      <Item value="Black" priority="0" />
+      <Item value="SlateGray" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="Add`0" priority="4" />
+      <Item value="Max`2" priority="0" />
+      <Item value="RemoveAt`0" priority="0" />
+      <Item value="Count" priority="2" />
+      <Item value="RemoveRange`0" priority="2" />
+      <Item value="Average`1" priority="0" />
+      <Item value="Find`0" priority="0" />
+      <Item value="First`1" priority="1" />
+      <Item value="Last`1" priority="0" />
+      <Item value="ToArray`0" priority="1" />
+      <Item value="Clear`0" priority="0" />
+      <Item value="AsReadOnly`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.TimeSpan">
+      <Item value="TotalSeconds" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.ChartControl">
+      <Item value="AddItem`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.TimeSpan">
+      <Item value="FromMilliseconds`0" priority="1" />
+      <Item value="FromSeconds`0" priority="2" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.Label">
+      <Item value="Content" priority="0" />
+      <Item value="ActualHeight" priority="0" />
+      <Item value="UpdateLayout`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Double">
+      <Item value="ToString`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexNewsWidget.TickerControl">
+      <Item value="DataContext" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.Animation.Storyboard">
+      <Item value="RepeatBehavior" priority="0" />
+      <Item value="Children" priority="1" />
+      <Item value="Pause`0" priority="0" />
+      <Item value="Resume`0" priority="0" />
+      <Item value="GetIsPaused`0" priority="0" />
+      <Item value="Stop`0" priority="0" />
+      <Item value="Begin`0" priority="0" />
+      <Item value="Changed" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Media.Animation.RepeatBehavior">
+      <Item value="Forever" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.Animation.TimelineCollection">
+      <Item value="Add`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Media.Animation.Storyboard">
+      <Item value="SetTarget`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.DataGrid">
+      <Item value="FindResource`0" priority="0" />
+      <Item value="DataContext" priority="0" />
+      <Item value="ItemsSource" priority="1" />
+      <Item value="SelectedItems" priority="1" />
+      <Item value="SelectedCells" priority="0" />
+      <Item value="RemoveHandler`0" priority="0" />
+      <Item value="SelectedIndex" priority="4" />
+      <Item value="CanUserDeleteRows" priority="0" />
+      <Item value="Focus`0" priority="0" />
+      <Item value="IsFocused" priority="0" />
+      <Item value="VerticalScrollBarVisibility" priority="0" />
+      <Item value="Height" priority="0" />
+      <Item value="ActualHeight" priority="0" />
+      <Item value="Items" priority="0" />
+      <Item value="SelectionChanged" priority="0" />
+      <Item value="SelectedItem" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Diagnostics.Debug">
+      <Item value="WriteLine`0" priority="8" />
+      <Item value="Assert`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.Border">
+      <Item value="Background" priority="0" />
+      <Item value="Height" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.Brush">
+      <Item value="Clone`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@CityIndexScreensaver.ApplicationSettings">
+      <Item value="Instance" priority="10" />
+      <Item value="Reload`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.ApplicationSettings">
+      <Item value="PriceTicksToWatch" priority="0" />
+      <Item value="ServerUrl" priority="0" />
+      <Item value="StreamingServerUrl" priority="0" />
+      <Item value="UserName" priority="0" />
+      <Item value="Password" priority="1" />
+      <Item value="PricesToWatch" priority="1" />
+      <Item value="MaxNewsCount" priority="1" />
+      <Item value="GraphPeriodSecs" priority="0" />
+      <Item value="NewsCategory" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.SettingsWindow">
+      <Item value="ShowDialog`0" priority="0" />
+      <Item value="DataContext" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Exception">
+      <Item value="Message" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Diagnostics.Debugger">
+      <Item value="Break`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Int32">
+      <Item value="Parse`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Interop.HwndSource">
+      <Item value="RootVisual" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@CityIndexScreensaver.Const">
+      <Item value="AppName" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.String">
+      <Item value="IsNullOrEmpty`0" priority="1" />
+      <Item value="Format`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IntPtr">
+      <Item value="Zero" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Common.Logging.ILog">
+      <Item value="Debug`0" priority="0" />
+      <Item value="DebugFormat`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Threading.Tasks.Parallel">
+      <Item value="ForEach`2" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@CIAPI.IntegrationTests.Const">
+      <Item value="MarketIds" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:StreamingClient.IStreamingListener">
+      <Item value="Stop`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.ChartControl+Point">
+      <Item value="Value" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@CityIndexScreensaver.ChartControl">
+      <Item value="Item`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Int64">
+      <Item value="Parse`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Decimal">
+      <Item value="MaxValue" priority="0" />
+      <Item value="MinValue" priority="0" />
+      <Item value="Zero" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.AccountInformationResponseDTO">
+      <Item value="ClientAccountId" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.Dictionary`2">
+      <Item value="Count" priority="0" />
+      <Item value="TryGetValue`0" priority="1" />
+      <Item value="Add`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.KeyValuePair`2">
+      <Item value="Key" priority="0" />
+      <Item value="Value" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.AppDomain">
+      <Item value="CurrentDomain" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.AppDomain">
+      <Item value="UnhandledException" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.UnhandledExceptionEventArgs">
+      <Item value="ExceptionObject" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.MarketDTO">
+      <Item value="MarketId" priority="3" />
+      <Item value="Name" priority="4" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Controls.TextBlock">
+      <Item value="VerticalAlignment" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Controls.Image">
+      <Item value="Height" priority="0" />
+      <Item value="Width" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.ObjectModel.ObservableCollection`1">
+      <Item value="Add`0" priority="1" />
+      <Item value="Count" priority="1" />
+      <Item value="Remove`0" priority="1" />
+      <Item value="Select`2" priority="0" />
+      <Item value="Clear`0" priority="0" />
+      <Item value="RemoveAt`0" priority="3" />
+      <Item value="Cast`1" priority="0" />
+      <Item value="IndexOf`0" priority="2" />
+      <Item value="Insert`0" priority="0" />
+      <Item value="Move`0" priority="0" />
+      <Item value="CollectionChanged" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.IList">
+      <Item value="Cast`1" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.IEnumerable`1">
+      <Item value="Select`2" priority="0" />
+      <Item value="ToList`1" priority="0" />
+      <Item value="ToArray`1" priority="1" />
+      <Item value="ToDictionary`3" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.SettingsWindow+Subscription">
+      <Item value="MarketId" priority="5" />
+      <Item value="Name" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.StringSplitOptions">
+      <Item value="RemoveEmptyEntries" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Int32">
+      <Item value="ToString`0" priority="7" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.ListCfdMarketsResponseDTO">
+      <Item value="Markets" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@CityIndexScreensaver.UiHelper">
+      <Item value="TryFindFromPoint`1" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Input.MouseButtonEventArgs">
+      <Item value="Source" priority="0" />
+      <Item value="Handled" priority="0" />
+      <Item value="OriginalSource" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.TextBlock">
+      <Item value="DataContext" priority="1" />
+      <Item value="Parent" priority="0" />
+      <Item value="Text" priority="0" />
+      <Item value="HorizontalAlignment" priority="1" />
+      <Item value="VerticalAlignment" priority="1" />
+      <Item value="TextAlignment" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Input.MouseEventArgs">
+      <Item value="OriginalSource" priority="0" />
+      <Item value="LeftButton" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Input.Mouse">
+      <Item value="SetCursor`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Input.Cursors">
+      <Item value="Hand" priority="0" />
+      <Item value="Arrow" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.FrameworkElement">
+      <Item value="Style" priority="0" />
+      <Item value="DataContext" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.PasswordBox">
+      <Item value="Password" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Threading.Dispatcher">
+      <Item value="BeginInvoke`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.DockPanel">
+      <Item value="HorizontalAlignment" priority="0" />
+      <Item value="VerticalAlignment" priority="0" />
+      <Item value="Visibility" priority="0" />
+      <Item value="SetDock`0" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.Primitives.Popup">
+      <Item value="IsOpen" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Visibility">
+      <Item value="Visible" priority="1" />
+      <Item value="Hidden" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.Image">
+      <Item value="HorizontalAlignment" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.Grid">
+      <Item value="Visibility" priority="0" />
+      <Item value="ActualHeight" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.ComponentModel.ICollectionView">
+      <Item value="Filter" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.TextBox">
+      <Item value="Text" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Input.KeyEventArgs">
+      <Item value="Key" priority="0" />
+      <Item value="Handled" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Specialized.NotifyCollectionChangedEventArgs">
+      <Item value="Action" priority="0" />
+      <Item value="OldStartingIndex" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.PricesViewControl">
+      <Item value="DataContext" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.PriceInfo">
+      <Item value="Change" priority="0" />
+      <Item value="Price" priority="0" />
+      <Item value="Id" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.GetPriceBarResponseDTO">
+      <Item value="PriceBars" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Double">
+      <Item value="IsNaN`0" priority="1" />
+      <Item value="NaN" priority="0" />
+      <Item value="PositiveInfinity" priority="0" />
+      <Item value="NegativeInfinity" priority="0" />
+      <Item value="MaxValue" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.DTO.ListNewsHeadlinesResponseDTO">
+      <Item value="Headlines" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.SizeChangedEventArgs">
+      <Item value="NewSize" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Size">
+      <Item value="Height" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Controls.Canvas">
+      <Item value="GetTop`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.Animation.DoubleAnimation">
+      <Item value="Duration" priority="0" />
+      <Item value="FillBehavior" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Media.Animation.FillBehavior">
+      <Item value="HoldEnd" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Windows.Duration">
+      <Item value="Forever" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Media.TranslateTransform">
+      <Item value="Y" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Text.Encoding">
+      <Item value="UTF8" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Text.Encoding">
+      <Item value="GetBytes`0" priority="0" />
+      <Item value="GetString`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Windows.Controls.ItemCollection">
+      <Item value="Count" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.Graph">
+      <Item value="Visible" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.GraphControl">
+      <Item value="SetCurrentVisible`0" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CityIndexScreensaver.SelectedPriceChangedArgs">
+      <Item value="Val" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:CIAPI.Streaming.IStreamingClient">
+      <Item value="BuildPricesListener`0" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
+</Configuration>

@@ -8,8 +8,8 @@
   <?define ProductMidName = "$(var.ProductShortName) v$(var.ProductVersion) $(var.ProductVersionSuffix)" ?>
   <?define ProductLongName = "$(var.Manufacturer) $(var.ProductMidName)" ?>
 
-  <?define HomepageUrl = "http://github.com/fandrei/CityIndexScreensaver" ?>
-  <?define SupportUrl = "http://github.com/fandrei/CityIndexScreensaver" ?>
-  <?define UpgradeCode = "{E550DE7B-34EB-4dd7-90DD-13B5D2A65B56}" ?>
+  <?define HomepageUrl = "http://github.com/cityindex/CIAPI.CS.Excel" ?>
+  <?define SupportUrl = "http://github.com/cityindex/CIAPI.CS.Excel" ?>
+  <?define UpgradeCode = "{F9ED6B4F-2ED6-42EA-A578-DF5DCF2D3E32}" ?>
   
 </Include>

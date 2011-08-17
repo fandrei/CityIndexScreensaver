@@ -23,28 +23,6 @@ namespace CIAPI.IntegrationTests
 
 
         [Test]
-        public void CannotSubscribeToIncorrectTopics()
-        {
-            var streamingClient = BuildStreamingClient();
-            streamingClient.Connect();
-
-            try
-            {
-                streamingClient.BuildPriceListener("NEWS.HEADLINES.UK");
-                Assert.Fail("An exception should have been thrown because you cannot listen for prices on the NEWS topic");
-            }
-            catch (InvalidTopicException ex)
-            {
-                _logger.Error(ex);
-
-            }
-            finally
-            {
-                streamingClient.Disconnect();
-            }
-        }
-
-        [Test]
         public void DoesNotListenForMessagesOfWrongTypeOnTopic()
         {
             const int MARKET = 71442;
@@ -53,9 +31,9 @@ namespace CIAPI.IntegrationTests
             var streamingClient = BuildStreamingClient();
             streamingClient.Connect();
 
-            var priceListener = streamingClient.BuildPriceListener("PRICES.PRICE." + MARKET);
-            var priceBarListener = streamingClient.BuildPriceListener("PRICES.PRICE." + MARKET); //PriceBars are not sent over this topic
-            var priceTickListener = streamingClient.BuildPriceListener("PRICES.PRICE." + MARKET); //PriceTicks are not sent over this topic
+            var priceListener = streamingClient.BuildPricesListener(new[] {MARKET});
+			var priceBarListener = streamingClient.BuildPricesListener(new[] { MARKET }); //PriceBars are not sent over this topic
+			var priceTickListener = streamingClient.BuildPricesListener(new[] { MARKET }); //PriceTicks are not sent over this topic
             var prices = new List<PriceDTO>();
             var prices1 = new List<PriceDTO>();
             var prices2 = new List<PriceDTO>();
@@ -94,7 +72,7 @@ namespace CIAPI.IntegrationTests
             var authenticatedClient = new Client(RPC_URI);
             authenticatedClient.LogIn(userName, password);
 
-            return StreamingClientFactory.CreateStreamingClient(STREAMING_URI, userName, authenticatedClient.SessionId);
+            return StreamingClientFactory.CreateStreamingClient(STREAMING_URI, userName, authenticatedClient.Session);
         }
 
         private void LogMessagesRecieved<T>(string title, IEnumerable<T> messages)
@@ -191,7 +169,7 @@ namespace CIAPI.IntegrationTests
                 var prices = new List<PriceDTO>();
                 collectedPrices.Add(market, prices);
 
-                var priceListener = streamingClient.BuildPriceListener("PRICES.PRICE." + market);
+				var priceListener = streamingClient.BuildPricesListener(new[] { market });
                 priceListener.MessageReceived += (s, e) =>
                                                      {
                                                          prices.Add(e.Data);

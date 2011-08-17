@@ -75,7 +75,7 @@ namespace CityIndexScreensaver
 						};
 					listener.Start();
 
-					resp = _client.ListNewsHeadlines(ApplicationSettings.Instance.NewsCategory,
+					resp = _client.News.ListNewsHeadlines(ApplicationSettings.Instance.NewsCategory,
 						ApplicationSettings.Instance.NewsMaxCount);
 					foreach (var val in resp.Headlines)
 					{
@@ -92,13 +92,12 @@ namespace CityIndexScreensaver
 		public void SubscribePrices(int id, Action<PriceDTO> onUpdate)
 		{
 			VerifyIfDisposed();
-			var topic = "PRICES.PRICE." + id;
 
-			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(topic, onUpdate));
+			ThreadPool.QueueUserWorkItem(x => SubscribePricesThreadEntry(id, onUpdate));
 			//ThreadPool.QueueUserWorkItem(x => GenerateDummyPricesThreadEntry(id, onUpdate));
 		}
 
-		void SubscribePricesThreadEntry(string topic, Action<PriceDTO> onUpdate)
+		void SubscribePricesThreadEntry(int topic, Action<PriceDTO> onUpdate)
 		{
 			try
 			{
@@ -106,7 +105,7 @@ namespace CityIndexScreensaver
 				{
 					EnsureConnectionSync();
 
-					var listener = _streamingClient.BuildPriceListener(topic);
+					var listener = _streamingClient.BuildPricesListener(new[] { topic });
 					listener.MessageReceived +=
 						(s, args) =>
 						{
@@ -176,12 +175,12 @@ namespace CityIndexScreensaver
 			}
 		}
 
-		public void GetMarketsList(Action<MarketDTO[]> onSuccess)
+		public void GetMarketsList(Action<ApiMarketDTO[]> onSuccess)
 		{
 			ThreadPool.QueueUserWorkItem(x => GetMarketsListThreadEntry(onSuccess));
 		}
 
-		void GetMarketsListThreadEntry(Action<MarketDTO[]> onSuccess)
+		void GetMarketsListThreadEntry(Action<ApiMarketDTO[]> onSuccess)
 		{
 			try
 			{
@@ -192,8 +191,8 @@ namespace CityIndexScreensaver
 				//var resp = _client.ListSpreadMarkets("", "", accountInfo.ClientAccountId, -1);
 				//Callback(onSuccess, resp.Markets);
 
-				var markets = new List<MarketDTO>(Const.Markets.Count);
-				markets.AddRange(Const.Markets.Select(pair => new MarketDTO { MarketId = pair.Key, Name = pair.Value }));
+				var markets = new List<ApiMarketDTO>(Const.Markets.Count);
+				markets.AddRange(Const.Markets.Select(pair => new ApiMarketDTO { MarketId = pair.Key, Name = pair.Value }));
 				Callback(onSuccess, markets.ToArray());
 			}
 			catch (Exception exc)
@@ -205,7 +204,7 @@ namespace CityIndexScreensaver
 		public PriceBarDTO[] GetPriceBar(int marketId)
 		{
 			EnsureConnectionSync();
-			var resp = _client.GetPriceBars(marketId.ToString(), "DAY", 1, 1.ToString());
+			var resp = _client.PriceHistory.GetPriceBars(marketId.ToString(), "DAY", 1, 1.ToString());
 			return resp.PriceBars;
 		}
 
@@ -245,7 +244,7 @@ namespace CityIndexScreensaver
 				{
 					_streamingClient = StreamingClientFactory.CreateStreamingClient(
 						new Uri(ApplicationSettings.Instance.StreamingServerUrl),
-						ApplicationSettings.Instance.UserName, _client.SessionId);
+						ApplicationSettings.Instance.UserName, _client.Session);
 					_streamingClient.Connect();
 				}
 			}

@@ -25,7 +25,7 @@ namespace CityIndexScreensaver
 
 			GraphPeriodSecs = 300;
 
-			PricesToWatch = new MarketDTO[0];
+			PricesToWatch = new ApiMarketDTO[0];
 		}
 
 		public string ServerUrl { get; set; }
@@ -58,7 +58,7 @@ namespace CityIndexScreensaver
 
 		public int GraphPeriodSecs { get; set; }
 
-		public MarketDTO[] PricesToWatch { get; set; }
+		public ApiMarketDTO[] PricesToWatch { get; set; }
 
 		private static ApplicationSettings _instance;
 

@@ -46,7 +46,7 @@ namespace CityIndexScreensaver
 			State.Data.Dispose();
 		}
 
-		private void RefreshMarketsView(MarketDTO[] markets)
+		private void RefreshMarketsView(ApiMarketDTO[] markets)
 		{
 			_marketsView = CollectionViewSource.GetDefaultView(markets);
 			AllMarketsGrid.ItemsSource = _marketsView;
@@ -109,9 +109,9 @@ namespace CityIndexScreensaver
 		private void ImageAdd_Click(object sender, MouseButtonEventArgs e)
 		{
 			var items = AllMarketsGrid.SelectedItems;
-			foreach (MarketDTO market in items)
+			foreach (ApiMarketDTO market in items)
 			{
-				var newSubscription = new MarketDTO { MarketId = market.MarketId, Name = market.Name };
+				var newSubscription = new ApiMarketDTO { MarketId = market.MarketId, Name = market.Name };
 
 				for (var i = 0; i < _subscriptions.Count; i++)
 				{
@@ -129,7 +129,7 @@ namespace CityIndexScreensaver
 		private void ImageRemove_Click(object sender, MouseButtonEventArgs e)
 		{
 			var cell = (FrameworkElement)e.OriginalSource;
-			var item = (MarketDTO)cell.DataContext;
+			var item = (ApiMarketDTO)cell.DataContext;
 
 			var i = _subscriptions.IndexOf(item);
 			_subscriptions.RemoveAt(i);
@@ -145,7 +145,7 @@ namespace CityIndexScreensaver
 			if (cell == null)
 				return;
 
-			var source = cell.DataContext as MarketDTO;
+			var source = cell.DataContext as ApiMarketDTO;
 			if (source == null)
 				return;
 
@@ -170,7 +170,7 @@ namespace CityIndexScreensaver
 			if (cell == null)
 				return;
 
-			var current = cell.DataContext as MarketDTO;
+			var current = cell.DataContext as ApiMarketDTO;
 			if (current == null)
 				return;
 
@@ -189,7 +189,7 @@ namespace CityIndexScreensaver
 			_marketsView.Filter =
 				val =>
 				{
-					var market = (MarketDTO)val;
+					var market = (ApiMarketDTO)val;
 					var res = market.Name.ToLower().Contains(FilterTextBox.Text.ToLower());
 					return res;
 				};
@@ -223,7 +223,7 @@ namespace CityIndexScreensaver
 		}
 
 		private ICollectionView _marketsView;
-		private readonly ObservableCollection<MarketDTO> _subscriptions = new ObservableCollection<MarketDTO>();
+		private readonly ObservableCollection<ApiMarketDTO> _subscriptions = new ObservableCollection<ApiMarketDTO>();
 
 		private int _draggingItemIndex = -1;
 	}

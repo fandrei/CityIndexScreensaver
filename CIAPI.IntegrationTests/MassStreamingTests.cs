@@ -27,7 +27,7 @@ namespace CIAPI.IntegrationTests
 			client.LogIn(userName, password);
 
 			var streamingClient = StreamingClientFactory.CreateStreamingClient(
-				STREAMING_URI, userName, client.SessionId);
+				STREAMING_URI, userName, client.Session);
 
 			streamingClient.Connect();
 
@@ -40,10 +40,9 @@ namespace CIAPI.IntegrationTests
 				Parallel.ForEach(Const.MarketIds, options,
 					marketId =>
 					{
-						var topic = string.Format("PRICES.PRICE.{0}", marketId);
 						lock (sync)
 						{
-							var listener = streamingClient.BuildPriceListener(topic);
+							var listener = streamingClient.BuildPricesListener(new[] { marketId });
 							listeners.Add(listener);
 							listener.MessageReceived += listener_MessageReceived;
 							listener.Start();
