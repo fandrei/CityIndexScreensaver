@@ -33,13 +33,14 @@
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:SettingsWindow.xaml.cs" caret="1177" fromTop="20" />
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:ApplicationSettings.cs" caret="1648" fromTop="21" />
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="3645" fromTop="20" />
-      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="1955" fromTop="15" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:Const.cs" caret="938" fromTop="20" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:MassStreamingTests.cs" caret="1100" fromTop="21" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:StreamingTests.cs" caret="7323" fromTop="21" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:packages.config" caret="0" fromTop="0" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:packages.config" caret="0" fromTop="0" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="1437" fromTop="16" />
     </RecentFiles>
     <RecentEdits>
-      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphControl.xaml.cs" caret="1266" fromTop="33" />
-      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:GraphControl.xaml.cs" caret="1133" fromTop="30" />
-      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml.cs" caret="1361" fromTop="36" />
-      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml" caret="1852" fromTop="28" />
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="4403" fromTop="20" />
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:MainWindow.xaml.cs" caret="4039" fromTop="14" />
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:PricesViewControl.xaml.cs" caret="1250" fromTop="12" />
@@ -63,6 +64,13 @@
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="2450" fromTop="21" />
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="2266" fromTop="13" />
       <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="2120" fromTop="20" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:StreamingTests.cs" caret="780" fromTop="13" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:StreamingTests.cs" caret="1361" fromTop="24" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:StreamingTests.cs" caret="7323" fromTop="21" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:MassStreamingTests.cs" caret="1011" fromTop="18" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:Const.cs" caret="173" fromTop="9" />
+      <File id="5FE60B19-E575-4AEE-BEC8-6965C7F43CA3/f:Const.cs" caret="931" fromTop="18" />
+      <File id="2799307E-2352-4617-8D82-6F72F22CC557/f:Data.cs" caret="1331" fromTop="13" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>
@@ -919,6 +927,7 @@
     </ItemStatistics>
     <ItemStatistics item="Qualified:CIAPI.Streaming.IStreamingClient">
       <Item value="BuildPricesListener`0" priority="0" />
+      <Item value="BuildNewsHeadlinesListener`0" priority="0" />
     </ItemStatistics>
   </CompletionStatisticsManager>
 </Configuration>
